@@ -13,7 +13,13 @@ export function verifyWebGLSupport() {
     alert("Your browser does not support webGL");
     console.log("our browser does not support webGL...");
   } else {
-    console.log("webgl-context set OK!!!");
+    console.log("🚀 webgl-context set OK!!!");
+    // Check if the context is WebGL 2.0
+    if (gl instanceof WebGL2RenderingContext) {
+        console.log("✅ Sckorpio Engine Status: Running on PURE WebGL 2.0!");
+    } else {
+        console.warn("⚠️ Warning: Engine falling back to WebGL 1.0. Instancing might break!");
+    }
   }
 }
 
