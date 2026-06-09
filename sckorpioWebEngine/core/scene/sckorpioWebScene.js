@@ -169,6 +169,9 @@ class SckorpioWebScene {
     load(){
         // load systems with entities according to components
         this.addEntitiesToRenderer();
+
+        console.log("DefaultEntities:",this.defaultEntitiesList);
+        console.log("customEntities:",this.entitiesList);
     }
 
     addEntitiesToRenderer(){
