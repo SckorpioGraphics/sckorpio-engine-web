@@ -29,7 +29,7 @@ class BufferElement {
       this.layoutType = layoutType; // Buffer Type (vertex/instance)
       this.stride = 0;              // Buffer Stride
       this.elements = [];           // Buffer elements
-      this.divisor = 0;               // Buffer divisor(vertex: 0 | instance: 1)
+      this.divisor = 0;             // Buffer divisor(vertex: 0 | instance: 1)
 
       if(layoutType === 'instance'){
         this.divisor = 1;
@@ -65,7 +65,7 @@ class BufferElement {
     }
 
     // push elements(4x4 matrix) in layout
-    pushMatix4Float(baseAttribLocation) {
+    pushMat4f(baseAttribLocation) {
       if(baseAttribLocation == -1)
         return;
 

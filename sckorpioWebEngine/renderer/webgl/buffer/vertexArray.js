@@ -16,6 +16,8 @@ class VertexArray {
 
     // Adds a vertex buffer and its layout to the vertex array
     addBuffer(buffer, layout) {
+        // bind this Vertex Array
+        this.bind();
         // Bind the vertex buffer
         buffer.bind();
 

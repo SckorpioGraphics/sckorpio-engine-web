@@ -177,7 +177,7 @@ class Shader {
   getUniformLocation(name) {
     const location = gl.getUniformLocation(this.shaderProgram, name);
     if (location === null) {
-      console.error(`${name} - not exist`);
+      console.error(`${name} - not exist : found as ${location}`);
     }
     return location;
   }
