@@ -49,6 +49,9 @@ class Renderer {
         // Clear the canvas and enable WebGL states
         this.init();
 
+        // reset logger data
+        logger.resetFrameCounters();
+
         // Render each mesh from the mesh list
         this.entityList.forEach(async (entity) => {
             
@@ -90,6 +93,9 @@ class Renderer {
                         );
                     }
 
+                    // logger data (instanced)
+                    logger.drawCalls += 1;
+                    logger.totalTriangles += (renderComponent.count / 3) * renderComponent.instanceCount;
                 } else {
                     // if just source mesh
 
@@ -121,6 +127,9 @@ class Renderer {
                         );
                     }
 
+                    // logger data (sourceMesh)
+                    logger.drawCalls += 1;
+                    logger.totalTriangles += (renderComponent.count / 3);
                 }
 
                 // Unbind VAO after draw call

@@ -9,6 +9,10 @@ class Logger {
     this.prevTimeStamp = 0;
     this.frameTime = 0;
     this.fps = 0;
+
+    this.drawCalls = 0;
+    this.totalTriangles = 0;
+
     this.isEnabled = false;
 
     this.setEventlisteners();
@@ -22,6 +26,11 @@ class Logger {
       //display logs
       this.displayLogs();
     }
+  }
+
+  resetFrameCounters() {
+    this.drawCalls = 0;
+    this.totalTriangles = 0;
   }
 
   calculateFPS() {
@@ -49,7 +58,7 @@ class Logger {
     const canvas = getLoggerCanvas();
     const context2D = getLoggerContext();
     context2D.clearRect(0, 0, canvas.width, canvas.height);
-    context2D.font = '30px Arial';
+    context2D.font = '22px Arial';
     context2D.textAlign = 'left';
     context2D.textBaseline = 'top';
 
@@ -75,8 +84,17 @@ class Logger {
     context2D.shadowBlur = 70;
     context2D.fillText(this.frameTime.toFixed(0).toString()+ " ms", 180, 50);
 
-    //DrawCall
-    //TODO:
+    // Draw Calls
+    context2D.fillStyle = 'silver';
+    context2D.fillText("Draw Calls: ", 10, 90);
+    context2D.fillStyle = 'cyan';
+    context2D.fillText(this.drawCalls.toString(), 185, 90);
+
+    context2D.fillStyle = 'silver';
+    context2D.fillText("Triangles: ", 10, 130);
+    context2D.fillStyle = 'cyan';
+    context2D.fillText(this.totalTriangles.toLocaleString(), 165, 130);
+
   }
 
   setEventlisteners() {
