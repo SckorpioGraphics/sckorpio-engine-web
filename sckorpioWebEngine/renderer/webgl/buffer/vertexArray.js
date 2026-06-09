@@ -15,9 +15,9 @@ class VertexArray {
     }
 
     // Adds a vertex buffer and its layout to the vertex array
-    addBuffer(vb, layout) {
+    addBuffer(buffer, layout) {
         // Bind the vertex buffer
-        vb.bind();
+        buffer.bind();
 
         // Get the layout elements
         const elements = layout.getElements();
@@ -35,8 +35,11 @@ class VertexArray {
                 offset                  // offset
             );
 
-            //enable
+            // enable
             gl.enableVertexAttribArray(element.attribLocation);
+
+            // divisor for instances (element.divisor = 0: per vertex | 1: per instance)
+            gl.vertexAttribDivisor(element.attribLocation, element.divisor);
 
             // Update the offset for the next attribute
             offset += element.count * BufferElement.getSizeOfType(element.type);
