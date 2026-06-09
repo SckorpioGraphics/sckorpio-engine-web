@@ -8,6 +8,7 @@ class Shape extends Entity{
     constructor(){
         super();
         this.uid = 0;
+        this.components = [];
         this.transformComponent = null;
         this.meshComponent = null;
         this.addTransformComponent();
@@ -31,8 +32,17 @@ class Shape extends Entity{
         this.transformComponent.setRotation(rotation);
     }
 
+    setInstanced(enabled = true) {
+        this.meshComponent.setInstanced(enabled);
+    }
+
+    addInstance(position = [0,0,0], rotation = [0,0,0], scale = [1,1,1]) {
+        this.meshComponent.createInstance(position, rotation, scale);
+    }
+
     addMeshComponent() {
         this.meshComponent = new MeshComponent();
+        this.components.push(this.meshComponent);
     }
 
     setVisible(visible){
