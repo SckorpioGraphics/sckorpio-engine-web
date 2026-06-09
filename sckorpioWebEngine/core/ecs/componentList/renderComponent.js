@@ -88,7 +88,7 @@ class RenderComponent{
 
     setColor(){
         if(this.material.shader.shaderName == "basic3D"){
-            this.material.shader.setUniform3fv("uColor",this.material.color);
+            this.material.shader.setUniform3fv("u_color",this.material.color);
         }
     }
 
