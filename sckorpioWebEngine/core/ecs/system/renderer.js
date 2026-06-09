@@ -55,33 +55,73 @@ class Renderer {
             if(entity.meshComponent.isVisible()){
                 //get renderComponent
                 const renderComponent = entity.meshComponent.renderComponent;
-                //bind
+                //bind resources
                 renderComponent.bind();
+                
+                if(renderComponent.isInstanced) {
+                    // if isInstanced
 
-                //MVP
-                renderComponent.setMVP(
-                    entity.transformComponent.getModelMatrix(),
-                    this.cameraEntity.cameraComponent.getViewMatrix(),
-                    this.cameraEntity.cameraComponent.getProjectionMatrix()
-                );
+                    // set is instanced uniform
+                    renderComponent.setIsInstanced();
 
-                renderComponent.setColor();
-
-                //DrawCall
-                if(renderComponent.useElements){
-                    gl.drawElements(
-                        renderComponent.topology, 
-                        renderComponent.count, 
-                        renderComponent.indexType, 
-                        renderComponent.offset
+                    // Setting Only VP
+                    renderComponent.setViewProjection(
+                        this.cameraEntity.cameraComponent.getViewMatrix(),
+                        this.cameraEntity.cameraComponent.getProjectionMatrix()
                     );
-                } else{
-                    gl.drawArrays(
-                        renderComponent.topology, 
-                        renderComponent.offset, 
-                        renderComponent.count
+
+                    renderComponent.setColor();
+
+                    //DrawCall
+                    if(renderComponent.useElements){
+                        gl.drawElementsInstanced(
+                            renderComponent.topology, 
+                            renderComponent.count, 
+                            renderComponent.indexType, 
+                            renderComponent.offset,
+                            renderComponent.instanceCount
+                        );
+                    } else{
+                        gl.drawArraysInstanced(
+                            renderComponent.topology, 
+                            renderComponent.offset, 
+                            renderComponent.count,
+                            renderComponent.instanceCount
+                        );
+                    }
+
+                } else {
+                    // if just source mesh
+                    // Setting MVP
+                    renderComponent.setMVP(
+                        entity.transformComponent.getModelMatrix(),
+                        this.cameraEntity.cameraComponent.getViewMatrix(),
+                        this.cameraEntity.cameraComponent.getProjectionMatrix()
                     );
+
+                    renderComponent.setColor();
+
+                    //DrawCall
+                    if(renderComponent.useElements){
+                        gl.drawElements(
+                            renderComponent.topology, 
+                            renderComponent.count, 
+                            renderComponent.indexType, 
+                            renderComponent.offset
+                        );
+                    } else{
+                        gl.drawArrays(
+                            renderComponent.topology, 
+                            renderComponent.offset, 
+                            renderComponent.count
+                        );
+                    }
+
                 }
+
+                // Unbind VAO after draw call
+                renderComponent.vertexArray.unbind();
+                gl.bindVertexArray(null);
             }
         });
 
