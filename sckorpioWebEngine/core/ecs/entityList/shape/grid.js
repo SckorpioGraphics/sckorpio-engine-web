@@ -15,7 +15,7 @@ class Grid extends Shape{
     setMeshComponentData(){
         //layout
         this.meshComponent.layout = [
-            {type:"float",count:3,name:"vertPosition"}
+            {type:"float",count:3,name:"a_vertPosition"}
         ];
 
         //fill Vertex data

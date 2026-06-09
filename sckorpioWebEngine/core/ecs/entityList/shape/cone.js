@@ -44,7 +44,7 @@ class Cone extends Shape{
         
         //layout
         this.meshComponent.layout = [
-            {type:"float",count:3,name:"vertPosition"}
+            {type:"float",count:3,name:"a_vertPosition"}
         ];
 
         // Base center vertex
@@ -73,8 +73,8 @@ class Cone extends Shape{
 
         //layout
         this.meshComponent.layout = [
-            {type:"float",count:3,name:"vertPosition"},
-            {type:"float",count:2,name:"vertUV"}
+            {type:"float",count:3,name:"a_vertPosition"},
+            {type:"float",count:2,name:"a_vertUV"}
         ];
 
         // Base center vertex

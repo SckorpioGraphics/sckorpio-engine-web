@@ -1,26 +1,26 @@
 #shadervertex
 precision mediump float;
 
-attribute vec3 vertPosition;
-attribute vec3 vertColor;
-varying vec3 fragColor;
+attribute vec3 a_vertPosition;
+attribute vec3 a_vertColor;
+varying vec3 v_fragColor;
 
-uniform mat4 uModel;
-uniform mat4 uView;
-uniform mat4 uProjection;
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
 
 void main()
 {
-    fragColor = vertColor;
-    gl_Position = uProjection * uView * uModel * vec4(vertPosition, 1.0);
+    v_fragColor = a_vertColor;
+    gl_Position = u_projection * u_view * u_model * vec4(a_vertPosition, 1.0);
 }
 
 #shaderfragment
 precision mediump float;
 
-varying vec3 fragColor;
+varying vec3 v_fragColor;
 
 void main()
 {
-    gl_FragColor = vec4(fragColor ,1.0);
+    gl_FragColor = vec4(v_fragColor ,1.0);
 }

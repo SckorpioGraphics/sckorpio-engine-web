@@ -38,7 +38,7 @@ class Box extends Shape {
 
         //buffer data
         this.meshComponent.layout = [
-            { type: "float", count: 3, name: "vertPosition" }
+            { type: "float", count: 3, name: "a_vertPosition" }
         ];
 
         this.meshComponent.verticesData = [
@@ -62,8 +62,8 @@ class Box extends Shape {
 
         //buffer data
         this.meshComponent.layout = [
-            { type: "float", count: 3, name: "vertPosition" },
-            { type: "float", count: 3, name: "vertColor" }
+            { type: "float", count: 3, name: "a_vertPosition" },
+            { type: "float", count: 3, name: "a_vertColor" }
         ];
 
         this.meshComponent.verticesData = 
@@ -118,8 +118,8 @@ class Box extends Shape {
 
         //buffer data
         this.meshComponent.layout = [
-            { type: "float", count: 3, name: "vertPosition" },
-            { type: "float", count: 3, name: "vertColor" }
+            { type: "float", count: 3, name: "a_vertPosition" },
+            { type: "float", count: 3, name: "a_vertColor" }
         ];
 
         this.meshComponent.verticesData = [
@@ -143,8 +143,8 @@ class Box extends Shape {
 
         //buffer data
         this.meshComponent.layout = [
-            { type: "float", count: 3, name: "vertPosition" },
-            { type: "float", count: 2, name: "vertUV" }
+            { type: "float", count: 3, name: "a_vertPosition" },
+            { type: "float", count: 2, name: "a_vertUV" }
         ];
 
         let [uMin, vMin, uMax, vMax] = uvRange;

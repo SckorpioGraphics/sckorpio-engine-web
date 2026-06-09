@@ -1,11 +1,11 @@
 #shadervertex
 precision mediump float;
 
-attribute vec2 vertPosition;
+attribute vec2 a_vertPosition;
 
 void main()
 {
-    gl_Position = vec4(vertPosition, 0.0, 1.0);
+    gl_Position = vec4(a_vertPosition, 0.0, 1.0);
 }
 
 #shaderfragment

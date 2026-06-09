@@ -94,9 +94,9 @@ class RenderComponent{
 
     setMVP(model,view,projection){
         // set MVP
-        this.material.shader.setUniformMat4f("uModel",model);
-        this.material.shader.setUniformMat4f("uView",view);
-        this.material.shader.setUniformMat4f("uProjection",projection);
+        this.material.shader.setUniformMat4f("u_model",model);
+        this.material.shader.setUniformMat4f("u_view",view);
+        this.material.shader.setUniformMat4f("u_projection",projection);
     }
 
     bind(){

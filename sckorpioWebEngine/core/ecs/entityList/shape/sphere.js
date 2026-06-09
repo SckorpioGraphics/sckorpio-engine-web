@@ -40,7 +40,7 @@ class Sphere extends Shape{
         
         //layout
         this.meshComponent.layout = [
-            {type:"float",count:3,name:"vertPosition"}
+            {type:"float",count:3,name:"a_vertPosition"}
         ];
 
         //vertices data

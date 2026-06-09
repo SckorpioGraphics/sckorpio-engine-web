@@ -1,28 +1,28 @@
 #shadervertex
 precision mediump float;
 
-attribute vec3 vertPosition;
-attribute vec2 vertUV;
-varying vec2 fragUV;
+attribute vec3 a_vertPosition;
+attribute vec2 a_vertUV;
+varying vec2 v_fragUV;
 
-uniform mat4 uModel;
-uniform mat4 uView;
-uniform mat4 uProjection;
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
 
 void main()
 {
-    fragUV = vertUV;
-    gl_Position = uProjection * uView * uModel * vec4(vertPosition, 1.0);
+    v_fragUV = a_vertUV;
+    gl_Position = u_projection * u_view * u_model * vec4(a_vertPosition, 1.0);
 }
 
 #shaderfragment
 precision mediump float;
 
-varying vec2 fragUV;
+varying vec2 v_fragUV;
 
 uniform sampler2D uTexture;
 
 void main()
 {
-    gl_FragColor = texture2D(uTexture,fragUV);
+    gl_FragColor = texture2D(uTexture,v_fragUV);
 }
