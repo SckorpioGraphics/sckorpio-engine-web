@@ -172,7 +172,7 @@ Main rendering system:
 - Configures vertex attribute pointers
 - Enables vertex attribute arrays
 
-#### **VertexBufferLayout** (`vertexBufferLayout.js`)
+#### **BufferLayout** (`BufferLayout.js`)
 - Defines vertex attribute layout
 - Supports float, unsigned int, and unsigned byte types
 - Calculates stride automatically

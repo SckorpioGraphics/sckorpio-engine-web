@@ -1,6 +1,6 @@
 import { gl } from "../../../core/canvas/utils.js";
 
-class VertexBufferElement {
+class BufferElement {
     constructor(type, count, normalized, attribLocation) {  
       this.type = type;
       this.count = count;
@@ -23,7 +23,7 @@ class VertexBufferElement {
     }
   }
   
-  class VertexBufferLayout {
+  class BufferLayout {
     constructor() {
       this.m_Stride = 0; // Stride
       this.m_Elements = []; // vertex buffer elements
@@ -41,24 +41,24 @@ class VertexBufferElement {
   
     // push elements(float) in layout
     pushFloat(count,attribLocation) {
-        this.m_Elements.push(new VertexBufferElement(gl.FLOAT, count, gl.FALSE, attribLocation));
-        this.m_Stride += VertexBufferElement.getSizeOfType(gl.FLOAT) * count;
+        this.m_Elements.push(new BufferElement(gl.FLOAT, count, gl.FALSE, attribLocation));
+        this.m_Stride += BufferElement.getSizeOfType(gl.FLOAT) * count;
     }
 
     // push elements(int) in layout
     pushUnsignedInt(count,attribLocation) {
-        this.m_Elements.push(new VertexBufferElement(gl.UNSIGNED_INT, count, gl.FALSE, attribLocation));
-        this.m_Stride += VertexBufferElement.getSizeOfType(gl.UNSIGNED_INT) * count;
+        this.m_Elements.push(new BufferElement(gl.UNSIGNED_INT, count, gl.FALSE, attribLocation));
+        this.m_Stride += BufferElement.getSizeOfType(gl.UNSIGNED_INT) * count;
     }
 
     // push elements(byte) in layout
     pushUnsignedByte(count,attribLocation) {
-        this.m_Elements.push(new VertexBufferElement(gl.UNSIGNED_BYTE, count, gl.TRUE, attribLocation));
-        this.m_Stride += VertexBufferElement.getSizeOfType(gl.UNSIGNED_BYTE) * count;
+        this.m_Elements.push(new BufferElement(gl.UNSIGNED_BYTE, count, gl.TRUE, attribLocation));
+        this.m_Stride += BufferElement.getSizeOfType(gl.UNSIGNED_BYTE) * count;
     }
   }
 
   export{
-    VertexBufferElement,
-    VertexBufferLayout
+    BufferElement,
+    BufferLayout
   }

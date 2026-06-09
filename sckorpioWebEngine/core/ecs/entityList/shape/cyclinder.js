@@ -35,7 +35,6 @@ class Cyclinder extends Shape{
             case 'textureFace': this.setTextureFaceMeshComponentData(this.uvRange); break;
             // Future modes can be added here
         }
-        console.log("cyclinder:",this.meshComponent);
     }
 
     setBasicCyclinderMeshComponentData(){

@@ -1,5 +1,5 @@
 import { gl, getWebGLResourceID } from "../../../core/canvas/utils.js";
-import { VertexBufferElement } from "./vertexBufferLayout.js";
+import { BufferElement } from "./BufferLayout.js";
 class VertexArray {
     constructor() {
         this.uniqueID = getWebGLResourceID();
@@ -39,7 +39,7 @@ class VertexArray {
             gl.enableVertexAttribArray(element.attribLocation);
 
             // Update the offset for the next attribute
-            offset += element.count * VertexBufferElement.getSizeOfType(element.type);
+            offset += element.count * BufferElement.getSizeOfType(element.type);
         });
     }
 
