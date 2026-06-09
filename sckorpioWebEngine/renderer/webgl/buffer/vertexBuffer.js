@@ -7,24 +7,24 @@ class VertexBuffer {
     }
 
     // Generates vertex buffer
-    generate(data) {
+    generate(vertexData) {
         // Create a new buffer
         this.vertexBuffer = gl.createBuffer();
         // Bind the buffer
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
         // Provide the data to the buffer
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), gl.STATIC_DRAW);
+        // Unbind
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
 
     // Binds 
     bind() {
-        //console.log("Bind() VB =",this.uniqueID);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
     }
 
     // unbinds
     unbind() {
-        //console.log("Bind() VB =",this.uniqueID);
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
 }
