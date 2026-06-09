@@ -92,6 +92,10 @@ class Renderer {
 
                 } else {
                     // if just source mesh
+
+                    // set is instanced uniform
+                    renderComponent.setIsInstanced();
+                    
                     // Setting MVP
                     renderComponent.setMVP(
                         entity.transformComponent.getModelMatrix(),

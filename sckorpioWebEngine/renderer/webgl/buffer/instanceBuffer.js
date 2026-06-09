@@ -17,7 +17,7 @@ class InstanceBuffer {
         // Bind the buffer
         gl.bindBuffer(gl.ARRAY_BUFFER, this.instanceBuffer);
         // Provide the data to the buffer
-        gl.bufferData(gl.ARRAY_BUFFER, instanceData.length, gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(new Float32Array(instanceData)), gl.STATIC_DRAW);
         // Unbind
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
