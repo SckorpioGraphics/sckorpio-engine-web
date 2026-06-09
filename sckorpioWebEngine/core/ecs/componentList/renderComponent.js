@@ -1,6 +1,7 @@
 import { VertexArray } from "../../../renderer/webgl/buffer/vertexArray.js";
 import { VertexBuffer } from "../../../renderer/webgl/buffer/vertexBuffer.js";
 import { IndexBuffer } from "../../../renderer/webgl/buffer/indexBuffer.js";
+import { InstanceBuffer } from "../../../renderer/webgl/buffer/instanceBuffer.js";
 import { BufferLayout } from "../../../renderer/webgl/buffer/bufferLayout.js";
 import { gl } from "../../canvas/utils.js";
 
@@ -11,7 +12,7 @@ class RenderComponent{
         //geometry data
         this.vertexArray;
         this.vertexBuffer;
-        this.layout;
+        this.vertexBufferLayout;
         this.indexBuffer;
         this.useElements = false;
         this.indexType = gl.UNSIGNED_SHORT;
@@ -21,9 +22,15 @@ class RenderComponent{
 
         //material
         this.material;
+
+        //instanceData
+        this.isInstanced = false;
+        this.instanceCount = 0;
+        this.instanceBuffer = null;
+        this.instanceBufferLayout;
     }
 
-    setData(sourceVertexDataLayout,vertexData,indexData){
+    setData(vertexDataLayout,vertexData,indexData){
         //GPU buffers creation
  
         //vertex array
@@ -35,26 +42,25 @@ class RenderComponent{
         this.vertexBuffer.generate(vertexData);
 
         //Vertex Buffer layout
-        this.layout = new BufferLayout();
+        this.vertexBufferLayout = new BufferLayout('vertex');
         let layoutSize = 0;
         let attribLocation;
     
-        sourceVertexDataLayout.forEach((layoutElement) => {
-
+        vertexDataLayout.forEach((layoutElement) => {
             //finding attrib location from attached shader
             attribLocation = this.material.shader.getAttribLocation(layoutElement.name);
 
             //creating layout
             if(layoutElement.type == "float"){
-                this.layout.pushFloat(layoutElement.count,attribLocation);
+                this.vertexBufferLayout.pushFloat(layoutElement.count,attribLocation);
             } else if(layoutElement.type == "int"){
-                this.layout.pushInt(layoutElement.count,attribLocation);
+                this.vertexBufferLayout.pushInt(layoutElement.count,attribLocation);
             }
             layoutSize += layoutElement.count;
         });
         
         //add vertex buffer & layout to vertex Array
-        this.vertexArray.addBuffer(this.vertexBuffer,this.layout);
+        this.vertexArray.addBuffer(this.vertexBuffer,this.vertexBufferLayout);
 
         //set count to vertices size
         this.count = vertexData.length/layoutSize;
@@ -71,6 +77,40 @@ class RenderComponent{
             this.indexBuffer = new IndexBuffer();
             this.indexBuffer.generate(indexData);
         }
+    }
+
+    setInstancedData(instanceDataLayout,instanceData,totalInstances){
+        // set isInstanced flag = true
+        this.isInstanced = true;
+        this.instanceCount = totalInstances;
+
+        // Instance Buffer
+        this.instanceBuffer = new InstanceBuffer();
+        this.instanceBuffer.generate(instanceData, totalInstances);
+
+        // Instance Buffer Layout
+        this.instanceBufferLayout = new BufferLayout('instance');
+        let layoutSize = 0;
+        let attribLocation;
+    
+        instanceDataLayout.forEach((layoutElement) => {
+            //finding attrib location from attached shader
+            attribLocation = this.material.shader.getAttribLocation(layoutElement.name);
+
+            //creating layout
+            if (layoutElement.type == "mat4f") {
+                this.instanceBufferLayout.pushMat4f(attribLocation);
+            } else if(layoutElement.type == "float"){
+                this.instanceBufferLayout.pushFloat(layoutElement.count,attribLocation);
+            } else if(layoutElement.type == "int"){
+                this.instanceBufferLayout.pushInt(layoutElement.count,attribLocation);
+            }
+            layoutSize += layoutElement.count;
+        });
+        
+        //add vertex buffer & layout to vertex Array
+        this.vertexArray.addBuffer(this.instanceBuffer,this.instanceBufferLayout);
+
     }
 
     setTopology(topology){
@@ -94,12 +134,30 @@ class RenderComponent{
         }
     }
 
+    setIsInstanced(){
+        // set isInstanced in shader
+        if(this.isInstanced){
+            this.material.shader.setUniform1i("u_isInstanced",1);
+        } else {
+            this.material.shader.setUniform1i("u_isInstanced",0);
+        }
+        
+    }
+
     setMVP(model,view,projection){
         // set MVP
         this.material.shader.setUniformMat4f("u_model",model);
         this.material.shader.setUniformMat4f("u_view",view);
         this.material.shader.setUniformMat4f("u_projection",projection);
     }
+
+    setViewProjection(view, projection) {
+        // set VP
+        this.material.shader.setUniformMat4f("u_view",view);
+        this.material.shader.setUniformMat4f("u_projection",projection);
+    }
+
+    
 
     bind(){
         //bind GPU buffers (NOTE:Keep order stict like this)
