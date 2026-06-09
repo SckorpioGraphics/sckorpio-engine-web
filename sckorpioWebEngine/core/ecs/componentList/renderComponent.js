@@ -7,6 +7,7 @@ import { gl } from "../../canvas/utils.js";
 class RenderComponent{
     constructor() {
         this.uid = 0;
+
         //geometry data
         this.vertexArray;
         this.vertexBuffer;
@@ -17,11 +18,12 @@ class RenderComponent{
         this.topology = gl.TRIANGLES;
         this.offset = 0;
         this.count;
+
         //material
         this.material;
     }
 
-    setData(layoutData,verticesData,indexData){
+    setData(sourceVertexDataLayout,vertexData,indexData){
         //GPU buffers creation
  
         //vertex array
@@ -30,33 +32,32 @@ class RenderComponent{
 
         //vertex buffer
         this.vertexBuffer = new VertexBuffer();
-        this.vertexBuffer.generate(verticesData);
+        this.vertexBuffer.generate(vertexData);
 
         //Vertex Buffer layout
         this.layout = new BufferLayout();
         let layoutSize = 0;
         let attribLocation;
     
-        layoutData.forEach((layoutDataElement) => {
+        sourceVertexDataLayout.forEach((layoutElement) => {
 
             //finding attrib location from attached shader
-            attribLocation = this.material.shader.getAttribLocation(layoutDataElement.name);
+            attribLocation = this.material.shader.getAttribLocation(layoutElement.name);
 
             //creating layout
-            if(layoutDataElement.type == "float"){
-                this.layout.pushFloat(layoutDataElement.count,attribLocation);
-            } else if(layoutDataElement.type == "int"){
-                this.layout.pushInt(layoutDataElement.count,attribLocation);
+            if(layoutElement.type == "float"){
+                this.layout.pushFloat(layoutElement.count,attribLocation);
+            } else if(layoutElement.type == "int"){
+                this.layout.pushInt(layoutElement.count,attribLocation);
             }
-            layoutSize += layoutDataElement.count;
+            layoutSize += layoutElement.count;
         });
         
         //add vertex buffer & layout to vertex Array
-        //console.log("passing",this.shader);
         this.vertexArray.addBuffer(this.vertexBuffer,this.layout);
 
         //set count to vertices size
-        this.count = verticesData.length/layoutSize;
+        this.count = vertexData.length/layoutSize;
     
         //index buffer
         if(indexData.length > 0){
@@ -87,6 +88,7 @@ class RenderComponent{
     }
 
     setColor(){
+        // set color of material
         if(this.material.shader.shaderName == "basic3D"){
             this.material.shader.setUniform3fv("u_color",this.material.color);
         }
@@ -110,7 +112,6 @@ class RenderComponent{
         //bind shader
         this.material.shader.bind();
 
-        //console.log("is textur?? =",this.texture);
         //bind texture
         if(this.material.texture){
             this.material.texture.bind();

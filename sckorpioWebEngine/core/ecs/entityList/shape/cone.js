@@ -48,7 +48,7 @@ class Cone extends Shape{
         ];
 
         // Base center vertex
-        this.meshComponent.verticesData = this.meshComponent.verticesData.concat([0, 0, 0]);
+        this.meshComponent.vertexData = this.meshComponent.vertexData.concat([0, 0, 0]);
 
         // Base circle vertices
         for (let i = 1; i <= this.radialSegments; i++) {
@@ -57,10 +57,10 @@ class Cone extends Shape{
             const z = this.radius * Math.sin(theta);
             
             // Base circle vertex
-            this.meshComponent.verticesData = this.meshComponent.verticesData.concat([x, 0, z]);
+            this.meshComponent.vertexData = this.meshComponent.vertexData.concat([x, 0, z]);
         }
         // Apex vertex
-        this.meshComponent.verticesData = this.meshComponent.verticesData.concat([0, this.height, 0]);
+        this.meshComponent.vertexData = this.meshComponent.vertexData.concat([0, this.height, 0]);
         
         
         //index data
@@ -78,7 +78,7 @@ class Cone extends Shape{
         ];
 
         // Base center vertex
-        this.meshComponent.verticesData = this.meshComponent.verticesData.concat([0, 0, 0, (uvRange[0]+uvRange[2])/2, (uvRange[1]+uvRange[3])/2]);
+        this.meshComponent.vertexData = this.meshComponent.vertexData.concat([0, 0, 0, (uvRange[0]+uvRange[2])/2, (uvRange[1]+uvRange[3])/2]);
 
         // Base circle vertices
         for (let i = 1; i <= this.radialSegments; i++) {
@@ -89,10 +89,10 @@ class Cone extends Shape{
             const v = uvRange[1] + ( (Math.sin(theta) + 1) / 2 ) * (uvRange[3] - uvRange[1]);
             
             // Base circle vertex
-            this.meshComponent.verticesData = this.meshComponent.verticesData.concat([x, 0, z, u, v]);
+            this.meshComponent.vertexData = this.meshComponent.vertexData.concat([x, 0, z, u, v]);
         }
         // Apex vertex
-        this.meshComponent.verticesData = this.meshComponent.verticesData.concat([0, this.height, 0, (uvRange[0]+uvRange[2])/2, (uvRange[1]+uvRange[3])/2]);
+        this.meshComponent.vertexData = this.meshComponent.vertexData.concat([0, this.height, 0, (uvRange[0]+uvRange[2])/2, (uvRange[1]+uvRange[3])/2]);
         
         
         //index data

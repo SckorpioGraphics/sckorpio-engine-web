@@ -6,7 +6,7 @@ class MeshComponent extends Component{
         super();
         this.visible = true;
         this.layout;
-        this.verticesData = [];
+        this.vertexData = [];
         this.indexData = [];
         this.textureUV = [0.0, 0.0, 1.0, 1.0];
         this.material;
@@ -21,8 +21,8 @@ class MeshComponent extends Component{
         return this.visible;
     }
 
-    setVerticesData(verticesData){
-        this.verticesData = verticesData;
+    setVertexData(vertexData){
+        this.vertexData = vertexData;
     }
 
     setIndexData(indexData){
@@ -55,7 +55,7 @@ class MeshComponent extends Component{
     }
 
     loadGPUData(){
-        this.renderComponent.setData(this.layout,this.verticesData,this.indexData);
+        this.renderComponent.setData(this.layout,this.vertexData,this.indexData);
     }
 }
 

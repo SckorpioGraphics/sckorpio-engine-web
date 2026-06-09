@@ -58,7 +58,7 @@ class Sphere extends Shape{
                 const y = this.radius * cosTheta;
                 const z = this.radius * sinPhi * sinTheta;
                 
-                this.meshComponent.verticesData = this.meshComponent.verticesData.concat([x, y, z]);
+                this.meshComponent.vertexData = this.meshComponent.vertexData.concat([x, y, z]);
             }
         }
 

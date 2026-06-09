@@ -41,7 +41,7 @@ class Box extends Shape {
             { type: "float", count: 3, name: "a_vertPosition" }
         ];
 
-        this.meshComponent.verticesData = [
+        this.meshComponent.vertexData = [
             -0.5, -0.5, 0.5,
             0.5, -0.5, 0.5,
             0.5, 0.5, 0.5,
@@ -66,7 +66,7 @@ class Box extends Shape {
             { type: "float", count: 3, name: "a_vertColor" }
         ];
 
-        this.meshComponent.verticesData = 
+        this.meshComponent.vertexData = 
         [
             -0.5, -0.5, -0.5,   1.0, 0.0, 0.0,
             0.5, -0.5, -0.5,    1.0, 0.0, 0.0,
@@ -122,7 +122,7 @@ class Box extends Shape {
             { type: "float", count: 3, name: "a_vertColor" }
         ];
 
-        this.meshComponent.verticesData = [
+        this.meshComponent.vertexData = [
             -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
             0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
             0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
@@ -149,7 +149,7 @@ class Box extends Shape {
 
         let [uMin, vMin, uMax, vMax] = uvRange;
 
-        this.meshComponent.verticesData = [
+        this.meshComponent.vertexData = [
             // back
             -0.5, -0.5, -0.5, uMax, vMin,
             0.5, -0.5, -0.5, uMin, vMin,

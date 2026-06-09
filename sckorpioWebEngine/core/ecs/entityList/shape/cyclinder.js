@@ -51,21 +51,21 @@ class Cyclinder extends Shape{
             const theta = (i / this.radialSegments) * 2 * Math.PI;
             const x = this.radius * Math.cos(theta);
             const z = this.radius * Math.sin(theta);
-            this.meshComponent.verticesData = this.meshComponent.verticesData.concat([x, 0, z]);
+            this.meshComponent.vertexData = this.meshComponent.vertexData.concat([x, 0, z]);
         }
         //top circle vertices
         for (let i = 0; i < this.radialSegments; i++) {
             const theta = (i / this.radialSegments) * 2 * Math.PI;
             const x = this.radius * Math.cos(theta);
             const z = this.radius * Math.sin(theta);
-            this.meshComponent.verticesData = this.meshComponent.verticesData.concat([x, this.height, z]);
+            this.meshComponent.vertexData = this.meshComponent.vertexData.concat([x, this.height, z]);
         }
         
         //bottom center vertex
-        this.meshComponent.verticesData = this.meshComponent.verticesData.concat([0, 0, 0]);
+        this.meshComponent.vertexData = this.meshComponent.vertexData.concat([0, 0, 0]);
 
         //top center vertex
-        this.meshComponent.verticesData = this.meshComponent.verticesData.concat([0, this.height, 0]);
+        this.meshComponent.vertexData = this.meshComponent.vertexData.concat([0, this.height, 0]);
         
         //index data
         this.meshComponent.indexData = this.setDefaultCyclinderIndices();

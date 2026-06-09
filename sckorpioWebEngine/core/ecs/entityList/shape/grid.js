@@ -36,7 +36,7 @@ class Grid extends Shape{
             let y2 = 0.0;
             let z2 = -(this.gridCount * this.gridGap);
             
-            this.meshComponent.verticesData = this.meshComponent.verticesData.concat([
+            this.meshComponent.vertexData = this.meshComponent.vertexData.concat([
                 x1,y1,z1,
                 x2,y2,z2
             ]);
@@ -52,7 +52,7 @@ class Grid extends Shape{
             let y2 = 0.0;
             let z2 = i * this.gridGap;
             
-            this.meshComponent.verticesData = this.meshComponent.verticesData.concat([
+            this.meshComponent.vertexData = this.meshComponent.vertexData.concat([
                 x1,y1,z1,
                 x2,y2,z2
             ]);

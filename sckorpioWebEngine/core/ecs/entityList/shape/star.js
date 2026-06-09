@@ -40,7 +40,7 @@ class Star extends Shape{
         ];
 
         // Vertex Data
-        this.meshComponent.verticesData = [
+        this.meshComponent.vertexData = [
             0.0, 0.0, 0.5,      // 0 outer
             0.19, 0.0, 0.16,    // 1 inner
             0.47, 0.0, 0.15,    // 2 outer
@@ -54,7 +54,7 @@ class Star extends Shape{
         ];
 
         // center vertex (index 10)
-        this.meshComponent.verticesData.push(0.0, 0.0, 0.0);
+        this.meshComponent.vertexData.push(0.0, 0.0, 0.0);
 
         // Index Data
         this.meshComponent.indexData = this.getDefaultStarIndices();
