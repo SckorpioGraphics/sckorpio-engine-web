@@ -32,8 +32,8 @@ class Scene extends SckorpioWebScene{
         sphere.setPosition(vec3.fromValues(-2.0,0.5,0.0));
         sphere.setColor(0,1,1);
         sphere.addInstance([-2,0,3],[0,0,0],[0.5,0.5,0.5]);
-        sphere.addInstance([-2,0,5],[0,0,0],[1.0,1.0,1.0]);
-        sphere.addInstance([-2,0,7],[0,0,0],[1.3,1.3,2.0]);
+        sphere.addInstance([-2,0,5],[0,0,0],[1.5,0.2,1.5]);
+        sphere.addInstance([-2,0,7],[0,0,0],[0.3,0.3,2.0]);
         this.entitiesList.push(sphere);
         
 
@@ -94,8 +94,8 @@ class Scene extends SckorpioWebScene{
         cone.setPosition(vec3.fromValues(-4.0,0.0,0.0));
         cone.setColor(0,1,0);
         cone.addInstance([-4,0,3],[30,0,0],[1,1,1]);
-        cone.addInstance([-4,0,5],[60,0,0],[1,1,1]);
-        cone.addInstance([-4,0,7],[90,0,0],[1,1,1]);
+        cone.addInstance([-4,0,5],[60,0,0],[1,0.6,1]);
+        cone.addInstance([-4,0,7],[90,0,0],[1,2,1]);
         this.entitiesList.push(cone);
 
         // Cyclinder
@@ -103,9 +103,9 @@ class Scene extends SckorpioWebScene{
         cyclinder.setPosition(vec3.fromValues(-6.0,0.0,0.0));
         cyclinder.setScale(vec3.fromValues(1.0,1.0,1.0));
         cyclinder.setColor(1,0,0);
-        cyclinder.addInstance([-6,0,3],[30,0,0],[1,1,1]);
-        cyclinder.addInstance([-6,0,5],[60,0,0],[1,1,1]);
-        cyclinder.addInstance([-6,0,7],[90,0,0],[1,1,1]);
+        cyclinder.addInstance([-6,0,3],[30,0,0],[1.0,1.0,1.0]);
+        cyclinder.addInstance([-6,0,5],[60,0,0],[1,0.3,1]);
+        cyclinder.addInstance([-6,0,7],[90,0,0],[0.3,2.0,0.3]);
         this.entitiesList.push(cyclinder);
         
     }
