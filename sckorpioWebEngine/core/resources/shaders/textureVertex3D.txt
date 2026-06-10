@@ -1,18 +1,42 @@
 #shadervertex
 precision mediump float;
 
+// --- SOURCE MESH VERTEX ATTRIBUTES ---
 attribute vec3 a_vertPosition;
 attribute vec2 a_vertUV;
 varying vec2 v_fragUV;
 
+// --- INSTANCED ATTRIBUTES ---
+attribute vec4 a_instanceMatrix0;
+attribute vec4 a_instanceMatrix1;
+attribute vec4 a_instanceMatrix2;
+attribute vec4 a_instanceMatrix3;
+
+// --- UNIFORM FOR INSTANCES ---
+uniform int u_isInstanced;
+
+// --- UNIFORMS ----
 uniform mat4 u_model;
 uniform mat4 u_view;
 uniform mat4 u_projection;
 
 void main()
 {
+    mat4 modelMatrix;
+    
+    if (u_isInstanced == 1) {
+        modelMatrix = mat4(
+            a_instanceMatrix0,
+            a_instanceMatrix1,
+            a_instanceMatrix2,
+            a_instanceMatrix3
+        );
+    } else {
+        modelMatrix = u_model;
+    }
+
     v_fragUV = a_vertUV;
-    gl_Position = u_projection * u_view * u_model * vec4(a_vertPosition, 1.0);
+    gl_Position = u_projection * u_view * modelMatrix * vec4(a_vertPosition, 1.0);
 }
 
 #shaderfragment

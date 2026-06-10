@@ -49,29 +49,44 @@ class Scene extends SckorpioWebScene{
         // Box with face colors
         let colorFaceBox = new Box({ mode: 'colorFace' });
         colorFaceBox.setPosition(vec3.fromValues(2.0,0.5,0.0));
+        colorFaceBox.addInstance([2,0,3],[0,30,0],[1,0.5,1.5]);
+        colorFaceBox.addInstance([2,0,5],[0,60,0],[1,0.5,1]);
+        colorFaceBox.addInstance([2,0,7],[0,45,0],[0.5,1.0,0.3]);
         this.entitiesList.push(colorFaceBox);
 
         // Box with vertex colors
         let colorVertexBox = new Box({ mode: 'colorVertex' });
         colorVertexBox.setPosition(vec3.fromValues(4.0,0.5,0.0));
+        colorVertexBox.addInstance([4,0,3],[0,45,0],[0.5,1.0,0.3]);
+        colorVertexBox.addInstance([4,0,5],[0,120,0],[1,0.5,1]);
+        colorVertexBox.addInstance([4,0,7],[0,60,0],[1,0.5,1.5]);
         this.entitiesList.push(colorVertexBox);
 
         // Box with UVs
         let uvFaceBox = new Box({mode: 'textureFace'});
         uvFaceBox.setPosition(vec3.fromValues(6.0,0.5,0.0));
         uvFaceBox.setDefaultMaterial('uvVertex3D');
+        uvFaceBox.addInstance([6,0,3],[0,30,0],[1,0.5,1.5]);
+        uvFaceBox.addInstance([6,0,5],[0,60,0],[1,0.5,1]);
+        uvFaceBox.addInstance([6,0,7],[0,45,0],[0.5,1.0,0.3]);
         this.entitiesList.push(uvFaceBox);
 
         // texture Box
         let box1 = new Box({mode: 'textureFace'});
         box1.setPosition(vec3.fromValues(8.0,0.5,0.0));
         box1.setScale(vec3.fromValues(1.0,1.0,1.0));
+        box1.addInstance([8,0,3],[30,0,0],[1,1,1]);
+        box1.addInstance([8,0,5],[60,0,0],[1,1,1]);
+        box1.addInstance([8,0,7],[90,0,0],[1,1,1]);
         this.entitiesList.push(box1);
 
         // wood Box
         let box2 = new Box({mode: 'textureFace', uvRange: [0, 0, 1, 1]});
         box2.setPosition(vec3.fromValues(10.0,0.5,0.0));
         box2.setTexture("woodCarton");
+        box2.addInstance([10,0,3],[0,30,0],[1,0.5,1.5]);
+        box2.addInstance([10,0,5],[0,60,0],[1,0.5,1]);
+        box2.addInstance([10,0,7],[0,45,0],[0.5,1.0,0.3]);
         this.entitiesList.push(box2);
 
         // Cone
@@ -313,14 +328,14 @@ class Scene extends SckorpioWebScene{
         // Original
         //await this.sceneTestingOriginal();
         // Instanced
-        //await this.sceneTestingInstanced();
+        await this.sceneTestingInstanced();
 
         //-----------
         // Original
         //await this.createMassiveStandardScene();
 
         // Instanced
-        await this.createMassiveInstancedScene();
+        //await this.createMassiveInstancedScene();
 
 
 
