@@ -28,7 +28,7 @@ class Box extends Shape {
             case 'basic': this.setBasicMeshComponentData(); break;
             case 'colorFace': this.setColorFaceMeshComponentData(); break;
             case 'colorVertex': this.setColorVertexMeshComponentData(); break;
-            case 'textureFace': this.setTextureFaceMeshComponentData(this.uvRange); break;
+            case 'textureFace': this.setTextureMeshComponentData(this.uvRange); break;
         }
     }
 
@@ -137,7 +137,7 @@ class Box extends Shape {
         this.meshComponent.indexData = this.getDefaultBoxIndices();
     }
 
-    setTextureFaceMeshComponentData(uvRange){
+    setTextureMeshComponentData(uvRange){
         //texture material
         this.setTextureMaterial();
 

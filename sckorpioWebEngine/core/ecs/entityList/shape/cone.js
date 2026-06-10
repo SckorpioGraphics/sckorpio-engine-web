@@ -32,7 +32,7 @@ class Cone extends Shape{
     setMeshComponentData(){
         switch (this.mode) {
             case 'basic': this.setBasicMeshComponentData(); break;
-            case 'textureFace': this.setTextureFaceMeshComponentData(this.uvRange); break;
+            case 'textureFace': this.setTextureMeshComponentData(this.uvRange); break;
             // Future modes can be added here
         }
     }
@@ -66,7 +66,7 @@ class Cone extends Shape{
         this.meshComponent.indexData = this.getDefaultConeIndices();
     }
 
-    setTextureFaceMeshComponentData(uvRange){
+    setTextureMeshComponentData(uvRange){
         //textureFace Material
         this.setTextureMaterial();
 
