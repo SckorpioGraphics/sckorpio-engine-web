@@ -15,7 +15,9 @@ class Scene extends SckorpioWebScene{
         //generate custom textures
         this.customTextureList = [
             "tile1",
-            "tile2"
+            "tile2",
+            "football",
+            "fifa26football"
         ];
 
         await this.textureBook.generateCustomTextures(
@@ -38,11 +40,39 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(ground);
         */
 
+        // Texture Sphere FIF26
+        let sphere3 = new Sphere({ mode: 'texture' , radius: 0.5});
+        sphere3.setPosition(vec3.fromValues(-10.0,0.5,0.0));
+        sphere3.setColor(0,1,1);
+        sphere3.setTexture('fifa26football');
+        this.entitiesList.push(sphere3);
+
+        // Texture Sphere
+        let sphere2 = new Sphere({ mode: 'texture' , radius: 0.5});
+        sphere2.setPosition(vec3.fromValues(-8.0,0.5,0.0));
+        sphere2.setColor(0,1,1);
+        sphere2.setTexture('football');
+        this.entitiesList.push(sphere2);
+
         // Sphere
         let sphere = new Sphere({ mode: 'basic' , radius: 0.5});
-        sphere.setPosition(vec3.fromValues(-2.0,0.5,0.0));
+        sphere.setPosition(vec3.fromValues(-6.0,0.5,0.0));
         sphere.setColor(0,1,1);
         this.entitiesList.push(sphere);
+
+        // Cyclinder
+        let cyclinder = new Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
+        cyclinder.setPosition(vec3.fromValues(-4.0,0.0,0.0));
+        cyclinder.setScale(vec3.fromValues(1.0,1.0,1.0));
+        cyclinder.setColor(1,0,0);
+        this.entitiesList.push(cyclinder);
+
+        // Cone
+        let cone = new Cone({ mode: 'basic' , radius:0.5, height:1.0});
+        cone.setPosition(vec3.fromValues(-2.0,0.0,0.0));
+        cone.setColor(0,1,0);
+        this.entitiesList.push(cone);
+
 
         // Basic box
         let basicBox = new Box({ mode: 'basic' });
@@ -77,19 +107,6 @@ class Scene extends SckorpioWebScene{
         box2.setPosition(vec3.fromValues(10.0,0.5,0.0));
         box2.setTexture("woodCarton");
         this.entitiesList.push(box2);
-
-        // Cone
-        let cone = new Cone({ mode: 'basic' , radius:0.5, height:1.0});
-        cone.setPosition(vec3.fromValues(-4.0,0.0,0.0));
-        cone.setColor(0,1,0);
-        this.entitiesList.push(cone);
-
-        // Cyclinder
-        let cyclinder = new Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
-        cyclinder.setPosition(vec3.fromValues(-6.0,0.0,0.0));
-        cyclinder.setScale(vec3.fromValues(1.0,1.0,1.0));
-        cyclinder.setColor(1,0,0);
-        this.entitiesList.push(cyclinder);
 
         // Plane Mesh Basic
         let plane1 = new Plane({mode: 'basic'});
