@@ -16,10 +16,16 @@ class Renderer {
     init() {
         this.clear();
         this.enableDepthTest();
+        this.enableTransparency();
     }
 
     enableDepthTest() {
         gl.enable(gl.DEPTH_TEST);
+    }
+
+    enableTransparency() {
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     }
 
     clear() {

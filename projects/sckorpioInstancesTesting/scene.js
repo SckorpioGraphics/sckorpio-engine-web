@@ -15,7 +15,8 @@ class Scene extends SckorpioWebScene{
         //generate custom textures
         this.customTextureList = [
             "tile1",
-            "tile2"
+            "tile2",
+            "sckorpioLogoTransparent"
         ];
 
         await this.textureBook.generateCustomTextures(
@@ -133,9 +134,15 @@ class Scene extends SckorpioWebScene{
         plane3.addInstance([16,0,5],[0,60,0],[1,0.5,1]);
         plane3.addInstance([16,0,7],[0,45,0],[0.5,1.0,0.3]);
         this.entitiesList.push(plane3);
-        
 
-        
+        // Plane Mesh Texture
+        let plane4 = new Plane({mode: 'texture'});
+        plane4.setTexture("sckorpioLogoTransparent");
+        plane4.setPosition(vec3.fromValues(18.0, 0.0, 0.0));
+        plane4.addInstance([18,0,3],[0,30,0],[1,0.5,1.5]);
+        plane4.addInstance([18,0,5],[0,60,0],[1,0.5,1]);
+        plane4.addInstance([18,0,7],[0,45,0],[0.5,1.0,0.3]);
+        this.entitiesList.push(plane4);
         
     }
 
