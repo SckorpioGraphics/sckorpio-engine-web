@@ -14,9 +14,8 @@ class Scene extends SckorpioWebScene{
     async initResources(){
         //generate custom textures
         this.customTextureList = [
-            "sckorpioLogoTransparent",
             "football",
-            "fifa26football"
+            "adidas_Trionda"
         ];
 
         await this.textureBook.generateCustomTextures(
@@ -39,19 +38,19 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(ground);
         */
 
-        // Texture Sphere FIF26
-        let sphere3 = new Sphere({ mode: 'texture' , radius: 0.5});
-        sphere3.setPosition(vec3.fromValues(-10.0,0.5,0.0));
-        sphere3.setColor(0,1,1);
-        sphere3.setTexture('fifa26football');
-        this.entitiesList.push(sphere3);
+        // Adidas Trionda Football
+        let football = new Sphere({ mode: 'texture' , radius: 0.5});
+        football.setPosition(vec3.fromValues(-10.0,0.5,0.0));
+        football.setColor(0,1,1);
+        football.setTexture('adidas_Trionda');
+        this.entitiesList.push(football);
 
-        // Texture Sphere
-        let sphere2 = new Sphere({ mode: 'texture' , radius: 0.5});
-        sphere2.setPosition(vec3.fromValues(-8.0,0.5,0.0));
-        sphere2.setColor(0,1,1);
-        sphere2.setTexture('football');
-        this.entitiesList.push(sphere2);
+        // Basic Football
+        let football2 = new Sphere({ mode: 'texture' , radius: 0.5});
+        football2.setPosition(vec3.fromValues(-8.0,0.5,0.0));
+        football2.setColor(0,1,1);
+        football2.setTexture('football');
+        this.entitiesList.push(football2);
 
         // Sphere
         let sphere = new Sphere({ mode: 'basic' , radius: 0.5});
@@ -122,12 +121,6 @@ class Scene extends SckorpioWebScene{
         let plane3 = new Plane({mode: 'texture'});
         plane3.setPosition(vec3.fromValues(16.0, 0.5, 0.0));
         this.entitiesList.push(plane3);
-
-        // Plane Mesh Texture Transparent
-        let plane4 = new Plane({mode: 'texture'});
-        plane4.setPosition(vec3.fromValues(18.0, 0.5, 0.0));
-        plane4.setTexture('sckorpioLogoTransparent');
-        this.entitiesList.push(plane4);
         
     }
 }
