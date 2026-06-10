@@ -65,7 +65,7 @@ class Scene extends SckorpioWebScene{
         // Box with UVs
         let uvFaceBox = new Box({mode: 'textureFace'});
         uvFaceBox.setPosition(vec3.fromValues(6.0,0.5,0.0));
-        uvFaceBox.setDefaultMaterial('uvVertex3D');
+        uvFaceBox.setMaterial('uvVertex3D');
         uvFaceBox.addInstance([6,0,3],[0,30,0],[1,0.5,1.5]);
         uvFaceBox.addInstance([6,0,5],[0,60,0],[1,0.5,1]);
         uvFaceBox.addInstance([6,0,7],[0,45,0],[0.5,1.0,0.3]);
@@ -137,7 +137,7 @@ class Scene extends SckorpioWebScene{
         // Box with UVs
         let uvFaceBox = new Box({ mode: 'textureFace' });
         uvFaceBox.setPosition(vec3.fromValues(6.0, 0.5, 0.0));
-        uvFaceBox.setDefaultMaterial('uvVertex3D');
+        uvFaceBox.setMaterial('uvVertex3D');
         this.entitiesList.push(uvFaceBox);
 
         // Texture Box

@@ -385,7 +385,7 @@ entity.setRotation(vec3.fromValues(rx, ry, rz));
 
 ```javascript
 // Use default material
-entity.setDefaultMaterial("basicRed");
+entity.setMaterial("basicRed");
 
 // Set color (for basic3D shader)
 entity.setColor(r, g, b);

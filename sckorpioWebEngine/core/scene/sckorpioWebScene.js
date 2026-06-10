@@ -129,25 +129,25 @@ class SckorpioWebScene {
     createDefaultEntities(){
         //Grid
         this.grid = new Grid(100,1.0);
-        this.grid.setDefaultMaterial("basicGrey");
+        this.grid.setMaterial("basicGrey");
 
         //x-Axis
         this.xAxis = new Box();
         this.xAxis.setPosition(vec3.fromValues(50.0, 0.0, 0.0));
         this.xAxis.setScale(vec3.fromValues(100.0, 0.02, 0.02));
-        this.xAxis.setDefaultMaterial("basicRed");
+        this.xAxis.setMaterial("basicRed");
 
         //y-Axis
         this.yAxis = new Box();
         this.yAxis.setPosition(vec3.fromValues(0.0, 50.0, 0.0));
         this.yAxis.setScale(vec3.fromValues(0.02, 100.0, 0.02));
-        this.yAxis.setDefaultMaterial("basicGreen");
+        this.yAxis.setMaterial("basicGreen");
 
         //z-Axis
         this.zAxis = new Box();
         this.zAxis.setPosition(vec3.fromValues(0.0, 0.0, 50.0));
         this.zAxis.setScale(vec3.fromValues(0.02, 0.02, 100.0));
-        this.zAxis.setDefaultMaterial("basicBlue");
+        this.zAxis.setMaterial("basicBlue");
 
         //add meshes to default list
         this.defaultEntitiesList.push(this.grid);

@@ -49,7 +49,7 @@ class Shape extends Entity{
         this.meshComponent.setVisible(visible);
     }
 
-    setDefaultMaterial(materialName){
+    setMaterial(materialName){
         this.meshComponent.setMaterial(MaterialBook.getInstance().getMaterial(materialName));
     }
 

@@ -58,7 +58,7 @@ class Box extends Shape {
 
     setColorFaceMeshComponentData(){
         //colorFace Material
-        this.setDefaultMaterial("colorVertex");
+        this.setMaterial("colorVertex");
 
         //buffer data
         this.meshComponent.layout = [
@@ -114,7 +114,7 @@ class Box extends Shape {
 
     setColorVertexMeshComponentData(){
         //colorFace Material
-        this.setDefaultMaterial("colorVertex");
+        this.setMaterial("colorVertex");
 
         //buffer data
         this.meshComponent.layout = [
