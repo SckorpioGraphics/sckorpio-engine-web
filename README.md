@@ -346,7 +346,7 @@ let colorBox = new Box({ mode: 'colorVertex' });
 colorBox.setPosition(vec3.fromValues(2.0, 0.5, 0.0));
 
 // Textured box
-let texturedBox = new Box({ mode: 'textureFace', uvRange: [0, 0, 2, 2] });
+let texturedBox = new Box({ mode: 'texture', uvRange: [0, 0, 2, 2] });
 texturedBox.setPosition(vec3.fromValues(4.0, 0.5, 0.0));
 texturedBox.setTexture("woodCarton");
 ```

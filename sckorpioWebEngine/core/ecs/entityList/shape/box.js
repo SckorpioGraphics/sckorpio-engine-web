@@ -28,7 +28,7 @@ class Box extends Shape {
             case 'basic': this.setBasicMeshComponentData(); break;
             case 'colorFace': this.setColorFaceMeshComponentData(); break;
             case 'colorVertex': this.setColorVertexMeshComponentData(); break;
-            case 'textureFace': this.setTextureMeshComponentData(this.uvRange); break;
+            case 'texture': this.setTextureMeshComponentData(this.uvRange); break;
         }
     }
 

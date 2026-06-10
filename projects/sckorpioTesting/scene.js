@@ -30,7 +30,7 @@ class Scene extends SckorpioWebScene{
         
         // Ground
         /*
-        let ground = new Box({mode: 'textureFace', uvRange: [0, 0, 50, 50]});
+        let ground = new Box({mode: 'texture', uvRange: [0, 0, 50, 50]});
         ground.setPosition(vec3.fromValues(0.0,-0.1,0.0));
         ground.setScale(vec3.fromValues(100.0,0.02,100.0));
         ground.setTexture("grass");
@@ -60,19 +60,19 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(colorVertexBox);
 
         // Box with UVs
-        let uvFaceBox = new Box({mode: 'textureFace'});
+        let uvFaceBox = new Box({mode: 'texture'});
         uvFaceBox.setPosition(vec3.fromValues(6.0,0.5,0.0));
         uvFaceBox.setMaterial('uvVertex3D');
         this.entitiesList.push(uvFaceBox);
 
         // texture Box
-        let box1 = new Box({mode: 'textureFace'});
+        let box1 = new Box({mode: 'texture'});
         box1.setPosition(vec3.fromValues(8.0,0.5,0.0));
         box1.setScale(vec3.fromValues(1.0,1.0,1.0));
         this.entitiesList.push(box1);
 
         // wood Box
-        let box2 = new Box({mode: 'textureFace', uvRange: [0, 0, 1, 1]});
+        let box2 = new Box({mode: 'texture', uvRange: [0, 0, 1, 1]});
         box2.setPosition(vec3.fromValues(10.0,0.5,0.0));
         box2.setTexture("woodCarton");
         this.entitiesList.push(box2);

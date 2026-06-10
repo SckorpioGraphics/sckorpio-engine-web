@@ -1,6 +1,7 @@
 import { Box } from "../../sckorpioWebEngine/core/ecs/entityList/shape/box.js";
 import { Cone } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cone.js";
 import { Cyclinder } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cyclinder.js";
+import { Plane } from "../../sckorpioWebEngine/core/ecs/entityList/shape/plane.js";
 import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
 import { SckorpioWebScene } from "../../sckorpioWebEngine/core/scene/sckorpioWebScene.js";
 
@@ -26,6 +27,25 @@ class Scene extends SckorpioWebScene{
     //------------------
 
     async sceneTestingInstanced(){
+
+        // Cyclinder
+        let cyclinder = new Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
+        cyclinder.setPosition(vec3.fromValues(-6.0,0.0,0.0));
+        cyclinder.setScale(vec3.fromValues(1.0,1.0,1.0));
+        cyclinder.setColor(1,0,0);
+        cyclinder.addInstance([-6,0,3],[30,0,0],[1.0,1.0,1.0]);
+        cyclinder.addInstance([-6,0,5],[60,0,0],[1,0.3,1]);
+        cyclinder.addInstance([-6,0,7],[90,0,0],[0.3,2.0,0.3]);
+        this.entitiesList.push(cyclinder);
+
+        // Cone
+        let cone = new Cone({ mode: 'basic' , radius:0.5, height:1.0});
+        cone.setPosition(vec3.fromValues(-4.0,0.0,0.0));
+        cone.setColor(0,1,0);
+        cone.addInstance([-4,0,3],[30,0,0],[1,1,1]);
+        cone.addInstance([-4,0,5],[60,0,0],[1,0.6,1]);
+        cone.addInstance([-4,0,7],[90,0,0],[1,2,1]);
+        this.entitiesList.push(cone);
 
         // Sphere
         let sphere = new Sphere({ mode: 'basic' , radius: 0.5});
@@ -63,7 +83,7 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(colorVertexBox);
 
         // Box with UVs
-        let uvFaceBox = new Box({mode: 'textureFace'});
+        let uvFaceBox = new Box({mode: 'texture'});
         uvFaceBox.setPosition(vec3.fromValues(6.0,0.5,0.0));
         uvFaceBox.setMaterial('uvVertex3D');
         uvFaceBox.addInstance([6,0,3],[0,30,0],[1,0.5,1.5]);
@@ -72,7 +92,7 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(uvFaceBox);
 
         // texture Box
-        let box1 = new Box({mode: 'textureFace'});
+        let box1 = new Box({mode: 'texture'});
         box1.setPosition(vec3.fromValues(8.0,0.5,0.0));
         box1.setScale(vec3.fromValues(1.0,1.0,1.0));
         box1.addInstance([8,0,3],[30,0,0],[1,1,1]);
@@ -81,7 +101,7 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(box1);
 
         // wood Box
-        let box2 = new Box({mode: 'textureFace', uvRange: [0, 0, 1, 1]});
+        let box2 = new Box({mode: 'texture', uvRange: [0, 0, 1, 1]});
         box2.setPosition(vec3.fromValues(10.0,0.5,0.0));
         box2.setTexture("woodCarton");
         box2.addInstance([10,0,3],[0,30,0],[1,0.5,1.5]);
@@ -89,24 +109,33 @@ class Scene extends SckorpioWebScene{
         box2.addInstance([10,0,7],[0,45,0],[0.5,1.0,0.3]);
         this.entitiesList.push(box2);
 
-        // Cone
-        let cone = new Cone({ mode: 'basic' , radius:0.5, height:1.0});
-        cone.setPosition(vec3.fromValues(-4.0,0.0,0.0));
-        cone.setColor(0,1,0);
-        cone.addInstance([-4,0,3],[30,0,0],[1,1,1]);
-        cone.addInstance([-4,0,5],[60,0,0],[1,0.6,1]);
-        cone.addInstance([-4,0,7],[90,0,0],[1,2,1]);
-        this.entitiesList.push(cone);
+        // Plane Mesh Basic
+        let plane1 = new Plane({mode: 'basic'});
+        plane1.setPosition(vec3.fromValues(12.0, 0.0, 0.0));
+        plane1.addInstance([12,0,3],[0,30,0],[1,0.5,1.5]);
+        plane1.addInstance([12,0,5],[0,60,0],[1,0.5,1]);
+        plane1.addInstance([12,0,7],[0,45,0],[0.5,1.0,0.3]);
+        this.entitiesList.push(plane1);
 
-        // Cyclinder
-        let cyclinder = new Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
-        cyclinder.setPosition(vec3.fromValues(-6.0,0.0,0.0));
-        cyclinder.setScale(vec3.fromValues(1.0,1.0,1.0));
-        cyclinder.setColor(1,0,0);
-        cyclinder.addInstance([-6,0,3],[30,0,0],[1.0,1.0,1.0]);
-        cyclinder.addInstance([-6,0,5],[60,0,0],[1,0.3,1]);
-        cyclinder.addInstance([-6,0,7],[90,0,0],[0.3,2.0,0.3]);
-        this.entitiesList.push(cyclinder);
+
+        // Plane Mesh ColorVertex
+        let plane2 = new Plane({mode: 'colorVertex'});
+        plane2.setPosition(vec3.fromValues(14.0, 0.0, 0.0));
+        plane2.addInstance([14,0,3],[0,30,0],[1,0.5,1.5]);
+        plane2.addInstance([14,0,5],[0,60,0],[1,0.5,1]);
+        plane2.addInstance([14,0,7],[0,45,0],[0.5,1.0,0.3]);
+        this.entitiesList.push(plane2);
+
+        // Plane Mesh Texture
+        let plane3 = new Plane({mode: 'texture'});
+        plane3.setPosition(vec3.fromValues(16.0, 0.0, 0.0));
+        plane3.addInstance([16,0,3],[0,30,0],[1,0.5,1.5]);
+        plane3.addInstance([16,0,5],[0,60,0],[1,0.5,1]);
+        plane3.addInstance([16,0,7],[0,45,0],[0.5,1.0,0.3]);
+        this.entitiesList.push(plane3);
+        
+
+        
         
     }
 
@@ -135,19 +164,19 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(colorVertexBox);
 
         // Box with UVs
-        let uvFaceBox = new Box({ mode: 'textureFace' });
+        let uvFaceBox = new Box({ mode: 'texture' });
         uvFaceBox.setPosition(vec3.fromValues(6.0, 0.5, 0.0));
         uvFaceBox.setMaterial('uvVertex3D');
         this.entitiesList.push(uvFaceBox);
 
         // Texture Box
-        let box1 = new Box({ mode: 'textureFace' });
+        let box1 = new Box({ mode: 'texture' });
         box1.setPosition(vec3.fromValues(8.0, 0.5, 0.0));
         box1.setScale(vec3.fromValues(1.0, 1.0, 1.0));
         this.entitiesList.push(box1);
 
         // Wood Box
-        let box2 = new Box({ mode: 'textureFace', uvRange: [0, 0, 1, 1] });
+        let box2 = new Box({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         box2.setPosition(vec3.fromValues(10.0, 0.5, 0.0));
         box2.setTexture("woodCarton");
         this.entitiesList.push(box2);

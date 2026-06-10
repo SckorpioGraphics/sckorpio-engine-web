@@ -57,7 +57,7 @@ class Scene extends SckorpioWebScene {
             radius *= (0.95 + Math.random() * 0.1);
             height *= (0.9 + Math.random() * 0.2);
 
-            let cone = new Cone({ mode: "textureFace" });
+            let cone = new Cone({ mode: "texture" });
 
             cone.setPosition(vec3.fromValues(
                 basePos[0],
@@ -146,7 +146,7 @@ class Scene extends SckorpioWebScene {
             // ----------------------------------
             else {
 
-                let smallGift = new Box({ mode: "textureFace" });
+                let smallGift = new Box({ mode: "texture" });
                 smallGift.setPosition(vec3.fromValues(
                     x * 0.97,
                     ornamentY - 0.15,
@@ -173,7 +173,7 @@ class Scene extends SckorpioWebScene {
         SKY
         ------------------------------------------------------
         */
-        let sky = new Box({ mode: 'textureFace', uvRange: [0, 0, 1, 1] });
+        let sky = new Box({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         sky.setPosition(vec3.fromValues(0.0, 40.0, 0.0));
         sky.setScale(vec3.fromValues(200.0, 100.0, 200.0));
         sky.setTexture("sky");
@@ -184,7 +184,7 @@ class Scene extends SckorpioWebScene {
         ------------------------------------------------------
         */
 
-        let ground = new Box({ mode: 'textureFace', uvRange: [0, 0, 1, 1] });
+        let ground = new Box({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         ground.setPosition(vec3.fromValues(0.0, -0.1, 0.0));
         ground.setScale(vec3.fromValues(200.0, 0.02, 200.0));
         ground.setTexture("snowGround2");
@@ -238,7 +238,7 @@ class Scene extends SckorpioWebScene {
         ];
 
         gifts.forEach(g => {
-            let box = new Box({ mode: 'textureFace' });
+            let box = new Box({ mode: 'texture' });
             box.setPosition(vec3.fromValues(...g.pos));
             box.setScale(vec3.fromValues(...g.scale));
             box.setTexture(g.tex);
