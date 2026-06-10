@@ -31,13 +31,13 @@ class Cone extends Shape{
 
     setMeshComponentData(){
         switch (this.mode) {
-            case 'basic': this.setBasicConeMeshComponentData(); break;
+            case 'basic': this.setBasicMeshComponentData(); break;
             case 'textureFace': this.setTextureFaceMeshComponentData(this.uvRange); break;
             // Future modes can be added here
         }
     }
 
-    setBasicConeMeshComponentData(){
+    setBasicMeshComponentData(){
         //basic material
         this.setBasicMaterial();
         

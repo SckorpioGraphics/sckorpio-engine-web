@@ -29,12 +29,12 @@ class Sphere extends Shape{
 
     setMeshComponentData(){
         switch (this.mode) {
-            case 'basic': this.setBasicSphereMeshComponentData(); break;
+            case 'basic': this.setBasicMeshComponentData(); break;
             // Future modes can be added here
         }
     }
 
-    setBasicSphereMeshComponentData(){
+    setBasicMeshComponentData(){
         //basic material
         this.setBasicMaterial();
         

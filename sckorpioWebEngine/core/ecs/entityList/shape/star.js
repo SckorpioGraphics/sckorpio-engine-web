@@ -24,13 +24,13 @@ class Star extends Shape{
 
     setMeshComponentData(){
         switch (this.mode) {
-            case 'basic': this.setBasicStarMeshComponentData(); break;
+            case 'basic': this.setBasicMeshComponentData(); break;
             // Future modes can be added here
         }
         console.log(this.meshComponent);
     }
 
-    setBasicStarMeshComponentData(){
+    setBasicMeshComponentData(){
         //basic material
         this.setBasicMaterial();
         
