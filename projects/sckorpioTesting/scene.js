@@ -2,6 +2,7 @@ import { Box } from "../../sckorpioWebEngine/core/ecs/entityList/shape/box.js";
 import { Cone } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cone.js";
 import { Cyclinder } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cyclinder.js";
 import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
+import { Plane } from "../../sckorpioWebEngine/core/ecs/entityList/shape/plane.js";
 import { SckorpioWebScene } from "../../sckorpioWebEngine/core/scene/sckorpioWebScene.js";
 
 class Scene extends SckorpioWebScene{
@@ -89,6 +90,22 @@ class Scene extends SckorpioWebScene{
         cyclinder.setScale(vec3.fromValues(1.0,1.0,1.0));
         cyclinder.setColor(1,0,0);
         this.entitiesList.push(cyclinder);
+
+        // Plane Mesh Basic
+        let plane1 = new Plane({mode: 'basic'});
+        plane1.setPosition(vec3.fromValues(12.0, 0.5, 0.0));
+        this.entitiesList.push(plane1);
+
+
+        // Plane Mesh ColorVertex
+        let plane2 = new Plane({mode: 'colorVertex'});
+        plane2.setPosition(vec3.fromValues(14.0, 0.5, 0.0));
+        this.entitiesList.push(plane2);
+
+        // Plane Mesh Texture
+        let plane3 = new Plane({mode: 'texture'});
+        plane3.setPosition(vec3.fromValues(16.0, 0.5, 0.0));
+        this.entitiesList.push(plane3);
         
     }
 }
