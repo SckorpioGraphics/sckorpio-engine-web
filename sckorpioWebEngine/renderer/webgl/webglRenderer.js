@@ -1,7 +1,7 @@
-import { logger } from "../../../canvas/logger.js";
-import { gl } from "../../../canvas/utils.js";
+import { logger } from "../../canvas/logger.js";
+import { gl } from "../../canvas/utils.js";
 
-class Renderer {
+class WebGLRenderer {
     constructor() {
         this.uid = 0;
         this.cameraEntity;
@@ -150,5 +150,5 @@ class Renderer {
 }
 
 export { 
-    Renderer 
+    WebGLRenderer 
 };

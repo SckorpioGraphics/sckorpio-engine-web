@@ -1,7 +1,7 @@
 import { Box } from "../ecs/entityList/shape/box.js";
 import { Camera } from "../ecs/entityList/camera/camera.js";
 import { Grid } from "../ecs/entityList/shape/grid.js";
-import { Renderer } from "../ecs/system/renderer.js";
+import { WebGLRenderer } from "../../renderer/webgl/webglRenderer.js";
 import { ShaderBook } from "../../renderer/webgl/shader/shaderBook.js";
 import { MaterialBook } from "../../renderer/webgl/material/materialBook.js";
 import { TextureBook } from "../../renderer/webgl/texture/textureBook.js";
@@ -60,7 +60,7 @@ class SckorpioWebScene {
         /*
         RENDERER
         */
-        this.renderer = new Renderer();
+        this.renderer = new WebGLRenderer();
 
         /*
         CAMERA
