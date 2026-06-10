@@ -23,6 +23,7 @@ class Scene extends SckorpioWebScene{
         );
     }
 
+    //------------------
 
     async sceneTestingInstanced(){
 
@@ -242,12 +243,86 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(cyclinderInst3);
     }
 
+    //-------------------
+
+    async createMassiveStandardScene(count = 10000) {
+    // We can use a seed or predictable random to keep positions consistent between tests
+    for (let i = 0; i < count; i++) {
+        let box = new Box({ mode: 'basic' });
+
+        // Generate variable positions, rotations, and scales
+        const posX = (Math.random() - 0.5) * 100.0;
+        const posY = Math.random() * 20.0;
+        const posZ = (Math.random() - 0.5) * 100.0;
+
+        const rotX = Math.random() * 360.0;
+        const rotY = Math.random() * 360.0;
+        const rotZ = Math.random() * 360.0;
+
+        const scaleX = 0.2 + Math.random() * 0.8;
+        const scaleY = 0.2 + Math.random() * 0.8;
+        const scaleZ = 0.2 + Math.random() * 0.8;
+
+        box.setPosition(vec3.fromValues(posX, posY, posZ));
+        box.setRotation(vec3.fromValues(rotX, rotY, rotZ));
+        box.setScale(vec3.fromValues(scaleX, scaleY, scaleZ));
+        
+        // Give them a uniform color pass or randomize it
+        box.setColor(1.0, 0.0, i / count); 
+
+        this.entitiesList.push(box);
+    }
+}
+
+    async createMassiveInstancedScene(count = 10000) {
+        // 1. Instantiate just ONE single base mesh asset framework container
+        let baseInstancedBox = new Box({ mode: 'basic' });
+        baseInstancedBox.setPosition(vec3.fromValues(0, 0, 0));
+        baseInstancedBox.setColor(1.0, 0.0, 1.0);
+
+        // 2. Stream all variable coordinates directly into this single asset layout data cache
+        for (let i = 0; i < count; i++) {
+            const posX = (Math.random() - 0.5) * 100.0;
+            const posY = Math.random() * 20.0;
+            const posZ = (Math.random() - 0.5) * 100.0;
+
+            const rotX = Math.random() * 360.0;
+            const rotY = Math.random() * 360.0;
+            const rotZ = Math.random() * 360.0;
+
+            const scaleX = 0.2 + Math.random() * 0.8;
+            const scaleY = 0.2 + Math.random() * 0.8;
+            const scaleZ = 0.2 + Math.random() * 0.8;
+
+            // Pack arrays smoothly matching your engine API layout: addInstance(pos, rot, scale)
+            baseInstancedBox.addInstance(
+                [posX, posY, posZ],
+                [rotX, rotY, rotZ],
+                [scaleX, scaleY, scaleZ]
+            );
+        }
+
+        // 3. Push the single base object wrapper to the active execution list
+        this.entitiesList.push(baseInstancedBox);
+    }
+
+
+
     async createScene() {
 
         // Original
         //await this.sceneTestingOriginal();
         // Instanced
-        await this.sceneTestingInstanced();
+        //await this.sceneTestingInstanced();
+
+        //-----------
+        // Original
+        //await this.createMassiveStandardScene();
+
+        // Instanced
+        await this.createMassiveInstancedScene();
+
+
 
     }
 }

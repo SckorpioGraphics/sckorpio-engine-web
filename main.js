@@ -1,13 +1,13 @@
 import { verifyWebGLSupport } from "./sckorpioWebEngine/core/canvas/utils.js";
 import { title } from "./sckorpioWebEngine/core/canvas/title.js";
-import { Scene } from "./projects/sckorpioTesting/scene.js";
+import { Scene } from "./projects/sckorpioInstancesTesting/scene.js";
 
 var initSckorpioWebEngine = async function () {
     //Verify WebGL Support
     verifyWebGLSupport();
 
     // Initialize the scene
-    var scene = new Scene("sckorpioTesting"); 
+    var scene = new Scene("sckorpioInstancesTesting"); 
     await scene.init(); 
     await scene.initResources();
     await scene.createScene();
