@@ -1,4 +1,4 @@
-import { gl, getWebGLResourceID } from "../../../core/canvas/utils.js";
+import { gl, getWebGLResourceID } from "../../../canvas/utils.js";
 
 class Shader {
   constructor() {
@@ -21,7 +21,7 @@ class Shader {
   async generate(shaderName) {
     this.shaderProgram = null;
     this.shaderName = shaderName;
-    this.shaderFilePath = "sckorpioWebEngine/core/resources/shaders/" + shaderName + ".txt";
+    this.shaderFilePath = "sckorpioWebEngine/renderer/webgl/resources/shaders/" + shaderName + ".txt";
 
     const source = await this.parseShader(this.shaderFilePath);
 

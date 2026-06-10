@@ -3,7 +3,7 @@ import { VertexBuffer } from "../../../renderer/webgl/buffer/vertexBuffer.js";
 import { IndexBuffer } from "../../../renderer/webgl/buffer/indexBuffer.js";
 import { InstanceBuffer } from "../../../renderer/webgl/buffer/instanceBuffer.js";
 import { BufferLayout } from "../../../renderer/webgl/buffer/bufferLayout.js";
-import { gl } from "../../canvas/utils.js";
+import { gl } from "../../../canvas/utils.js";
 
 class RenderComponent{
     constructor() {

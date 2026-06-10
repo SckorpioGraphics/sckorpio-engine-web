@@ -1,5 +1,5 @@
-import { logger } from "../../canvas/logger.js";
-import { gl } from "../../canvas/utils.js";
+import { logger } from "../../../canvas/logger.js";
+import { gl } from "../../../canvas/utils.js";
 
 class Renderer {
     constructor() {

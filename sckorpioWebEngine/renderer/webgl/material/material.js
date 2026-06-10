@@ -1,4 +1,4 @@
-import { getWebGLResourceID } from "../../../core/canvas/utils.js";
+import { getWebGLResourceID } from "../../../canvas/utils.js";
 import { Shader } from "../shader/shader.js";
 import { Texture } from "../texture/texture.js";
 

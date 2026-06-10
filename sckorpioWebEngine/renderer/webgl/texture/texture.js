@@ -1,4 +1,4 @@
-import { gl, getWebGLResourceID } from "../../../core/canvas/utils.js";
+import { gl, getWebGLResourceID } from "../../../canvas/utils.js";
 
 class Texture {
   constructor(textureName) {

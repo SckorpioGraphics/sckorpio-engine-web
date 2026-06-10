@@ -7,9 +7,9 @@ class TextureBook {
         }
 
         //default textures
-        this.defaultTexturesPath = "sckorpioWebEngine/core/resources/textures/";
+        this.defaultTexturesPath = "sckorpioWebEngine/renderer/webgl/resources/textures/";
         this.defaultTextureNames = [
-            "sckorpioWebTexture",
+            "sckorpioDefaultTexture",
             "grass",
             "woodCarton",
             "brick"

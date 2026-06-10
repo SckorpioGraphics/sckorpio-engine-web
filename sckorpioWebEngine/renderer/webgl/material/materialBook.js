@@ -107,7 +107,7 @@ class MaterialBook {
         let textureMaterial = new Material("textureMaterial");
         textureMaterial.setShader(ShaderBook.getInstance().getShader("textureVertex3D"));
         textureMaterial.setColor(1.0,1.0,1.0);
-        textureMaterial.setTexture(TextureBook.getInstance().getTexture("sckorpioWebTexture"));
+        textureMaterial.setTexture(TextureBook.getInstance().getTexture("sckorpioDefaultTexture"));
         this.customMaterials.set("textureMaterial",textureMaterial);
         return textureMaterial;
     }

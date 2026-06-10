@@ -1,4 +1,4 @@
-import { gl } from "../../../core/canvas/utils.js";
+import { gl } from "../../../canvas/utils.js";
 
 class BufferElement {
     constructor(type, count, normalized, attribLocation, divisor = 0) {  

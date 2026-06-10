@@ -1,5 +1,5 @@
-import { verifyWebGLSupport } from "./sckorpioWebEngine/core/canvas/utils.js";
-import { title } from "./sckorpioWebEngine/core/canvas/title.js";
+import { verifyWebGLSupport } from "./sckorpioWebEngine/canvas/utils.js";
+import { title } from "./sckorpioWebEngine/canvas/title.js";
 import { Scene } from "./projects/sckorpioInstancesTesting/scene.js";
 
 var initSckorpioWebEngine = async function () {

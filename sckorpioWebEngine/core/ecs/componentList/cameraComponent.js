@@ -1,5 +1,5 @@
 import { Component } from "../component/component.js";
-import { getWebGLCanvas, getWebGLCanvasHeight, getWebGLCanvasRatio, getWebGLCanvasWidth, gl } from "../../canvas/utils.js";
+import { getWebGLCanvas, getWebGLCanvasHeight, getWebGLCanvasRatio, getWebGLCanvasWidth, gl } from "../../../canvas/utils.js";
 
 class CameraComponent extends Component{
   constructor(type = "perspective") {

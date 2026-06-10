@@ -11,7 +11,7 @@ class Title {
     
         // Load the image
         const img = new Image();
-        img.src = "sckorpioWebEngine/core/resources/textures/logo/sckorpioWebIcon.png"; // Use correct path or URL
+        img.src = "sckorpioWebEngine/canvas/resources/textures/sckorpioEngineLogo.png"; // Use correct path or URL
     
         // antialiasing
         context.imageSmoothingEnabled = true;
@@ -25,7 +25,7 @@ class Title {
             context.shadowOffsetY = 0;
 
             // glow over image
-            context.drawImage(img, 0, 0, 200, 100);  // x, y, width, height
+            context.drawImage(img, 0, 0, 160, 80);  // x, y, width, height
         };
     }
 
