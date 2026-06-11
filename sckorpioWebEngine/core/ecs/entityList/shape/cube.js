@@ -5,7 +5,7 @@ const defaultBoxOptions = {
     uvRange: [0, 0, 1, 1]
 };
 
-class Box extends Shape {
+class Cube extends Shape {
     constructor(options) {
         super();
         options = Object.assign({}, defaultBoxOptions, options);
@@ -229,4 +229,4 @@ class Box extends Shape {
     }
 }
 
-export { Box };
+export { Cube };

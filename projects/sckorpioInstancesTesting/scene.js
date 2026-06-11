@@ -1,4 +1,4 @@
-import { Box } from "../../sckorpioWebEngine/core/ecs/entityList/shape/box.js";
+import { Cube } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cube.js";
 import { Cone } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cone.js";
 import { Cyclinder } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cyclinder.js";
 import { Plane } from "../../sckorpioWebEngine/core/ecs/entityList/shape/plane.js";
@@ -58,8 +58,8 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(sphere);
         
 
-        // Basic box
-        let basicBox = new Box({ mode: 'basic' });
+        // Basic cube
+        let basicBox = new Cube({ mode: 'basic' });
         basicBox.setPosition(vec3.fromValues(0.0,0.5,0.0));
         basicBox.setColor(1,0,1);
         basicBox.addInstance([0,0,3],[0,60,0],[0.5,0.7,2]);
@@ -67,24 +67,24 @@ class Scene extends SckorpioWebScene{
         basicBox.addInstance([0,0,7],[0,35,0],[2,0.5,0.3]);
         this.entitiesList.push(basicBox);
 
-        // Box with face colors
-        let colorFaceBox = new Box({ mode: 'colorFace' });
+        // Cube with face colors
+        let colorFaceBox = new Cube({ mode: 'colorFace' });
         colorFaceBox.setPosition(vec3.fromValues(2.0,0.5,0.0));
         colorFaceBox.addInstance([2,0,3],[0,30,0],[1,0.5,1.5]);
         colorFaceBox.addInstance([2,0,5],[0,60,0],[1,0.5,1]);
         colorFaceBox.addInstance([2,0,7],[0,45,0],[0.5,1.0,0.3]);
         this.entitiesList.push(colorFaceBox);
 
-        // Box with vertex colors
-        let colorVertexBox = new Box({ mode: 'colorVertex' });
+        // Cube with vertex colors
+        let colorVertexBox = new Cube({ mode: 'colorVertex' });
         colorVertexBox.setPosition(vec3.fromValues(4.0,0.5,0.0));
         colorVertexBox.addInstance([4,0,3],[0,45,0],[0.5,1.0,0.3]);
         colorVertexBox.addInstance([4,0,5],[0,120,0],[1,0.5,1]);
         colorVertexBox.addInstance([4,0,7],[0,60,0],[1,0.5,1.5]);
         this.entitiesList.push(colorVertexBox);
 
-        // Box with UVs
-        let uvFaceBox = new Box({mode: 'texture'});
+        // Cube with UVs
+        let uvFaceBox = new Cube({mode: 'texture'});
         uvFaceBox.setPosition(vec3.fromValues(6.0,0.5,0.0));
         uvFaceBox.setMaterial('uvVertex3D');
         uvFaceBox.addInstance([6,0,3],[0,30,0],[1,0.5,1.5]);
@@ -92,8 +92,8 @@ class Scene extends SckorpioWebScene{
         uvFaceBox.addInstance([6,0,7],[0,45,0],[0.5,1.0,0.3]);
         this.entitiesList.push(uvFaceBox);
 
-        // texture Box
-        let box1 = new Box({mode: 'texture'});
+        // texture Cube
+        let box1 = new Cube({mode: 'texture'});
         box1.setPosition(vec3.fromValues(8.0,0.5,0.0));
         box1.setScale(vec3.fromValues(1.0,1.0,1.0));
         box1.addInstance([8,0,3],[30,0,0],[1,1,1]);
@@ -101,8 +101,8 @@ class Scene extends SckorpioWebScene{
         box1.addInstance([8,0,7],[90,0,0],[1,1,1]);
         this.entitiesList.push(box1);
 
-        // wood Box
-        let box2 = new Box({mode: 'texture', uvRange: [0, 0, 1, 1]});
+        // wood Cube
+        let box2 = new Cube({mode: 'texture', uvRange: [0, 0, 1, 1]});
         box2.setPosition(vec3.fromValues(10.0,0.5,0.0));
         box2.setTexture("woodCarton");
         box2.addInstance([10,0,3],[0,30,0],[1,0.5,1.5]);
@@ -154,36 +154,36 @@ class Scene extends SckorpioWebScene{
         sphere.setColor(0, 1, 1);
         this.entitiesList.push(sphere);
 
-        // Base Box
-        let basicBox = new Box({ mode: 'basic' });
+        // Base Cube
+        let basicBox = new Cube({ mode: 'basic' });
         basicBox.setPosition(vec3.fromValues(0.0, 0.5, 0.0));
         basicBox.setColor(1, 0, 1);
         this.entitiesList.push(basicBox);
 
-        // Box with face colors
-        let colorFaceBox = new Box({ mode: 'colorFace' });
+        // Cube with face colors
+        let colorFaceBox = new Cube({ mode: 'colorFace' });
         colorFaceBox.setPosition(vec3.fromValues(2.0, 0.5, 0.0));
         this.entitiesList.push(colorFaceBox);
 
-        // Box with vertex colors
-        let colorVertexBox = new Box({ mode: 'colorVertex' });
+        // Cube with vertex colors
+        let colorVertexBox = new Cube({ mode: 'colorVertex' });
         colorVertexBox.setPosition(vec3.fromValues(4.0, 0.5, 0.0));
         this.entitiesList.push(colorVertexBox);
 
-        // Box with UVs
-        let uvFaceBox = new Box({ mode: 'texture' });
+        // Cube with UVs
+        let uvFaceBox = new Cube({ mode: 'texture' });
         uvFaceBox.setPosition(vec3.fromValues(6.0, 0.5, 0.0));
         uvFaceBox.setMaterial('uvVertex3D');
         this.entitiesList.push(uvFaceBox);
 
-        // Texture Box
-        let box1 = new Box({ mode: 'texture' });
+        // Texture Cube
+        let box1 = new Cube({ mode: 'texture' });
         box1.setPosition(vec3.fromValues(8.0, 0.5, 0.0));
         box1.setScale(vec3.fromValues(1.0, 1.0, 1.0));
         this.entitiesList.push(box1);
 
-        // Wood Box
-        let box2 = new Box({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        // Wood Cube
+        let box2 = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         box2.setPosition(vec3.fromValues(10.0, 0.5, 0.0));
         box2.setTexture("woodCarton");
         this.entitiesList.push(box2);
@@ -226,21 +226,21 @@ class Scene extends SckorpioWebScene{
 
 
         // --- BASIC BOX "INSTANCES" AS NEW ENTITIES ---
-        let basicBoxInst1 = new Box({ mode: 'basic' });
+        let basicBoxInst1 = new Cube({ mode: 'basic' });
         basicBoxInst1.setPosition(vec3.fromValues(0, 0, 3));
         basicBoxInst1.setRotation(vec3.fromValues(0, 60, 0));
         basicBoxInst1.setScale(vec3.fromValues(0.5, 0.7, 2));
         basicBoxInst1.setColor(1, 0, 1);
         this.entitiesList.push(basicBoxInst1);
 
-        let basicBoxInst2 = new Box({ mode: 'basic' });
+        let basicBoxInst2 = new Cube({ mode: 'basic' });
         basicBoxInst2.setPosition(vec3.fromValues(0, 0, 5));
         basicBoxInst2.setRotation(vec3.fromValues(0, -30, 0));
         basicBoxInst2.setScale(vec3.fromValues(1, 1, 1));
         basicBoxInst2.setColor(1, 0, 1);
         this.entitiesList.push(basicBoxInst2);
 
-        let basicBoxInst3 = new Box({ mode: 'basic' });
+        let basicBoxInst3 = new Cube({ mode: 'basic' });
         basicBoxInst3.setPosition(vec3.fromValues(0, 0, 7));
         basicBoxInst3.setRotation(vec3.fromValues(0, 35, 0));
         basicBoxInst3.setScale(vec3.fromValues(2, 0.5, 0.3));
@@ -299,7 +299,7 @@ class Scene extends SckorpioWebScene{
     async createMassiveStandardScene(count = 10000) {
     // We can use a seed or predictable random to keep positions consistent between tests
     for (let i = 0; i < count; i++) {
-        let box = new Box({ mode: 'basic' });
+        let cube = new Cube({ mode: 'basic' });
 
         // Generate variable positions, rotations, and scales
         const posX = (Math.random() - 0.5) * 100.0;
@@ -314,20 +314,20 @@ class Scene extends SckorpioWebScene{
         const scaleY = 0.2 + Math.random() * 0.8;
         const scaleZ = 0.2 + Math.random() * 0.8;
 
-        box.setPosition(vec3.fromValues(posX, posY, posZ));
-        box.setRotation(vec3.fromValues(rotX, rotY, rotZ));
-        box.setScale(vec3.fromValues(scaleX, scaleY, scaleZ));
+        cube.setPosition(vec3.fromValues(posX, posY, posZ));
+        cube.setRotation(vec3.fromValues(rotX, rotY, rotZ));
+        cube.setScale(vec3.fromValues(scaleX, scaleY, scaleZ));
         
         // Give them a uniform color pass or randomize it
-        box.setColor(1.0, 0.0, i / count); 
+        cube.setColor(1.0, 0.0, i / count); 
 
-        this.entitiesList.push(box);
+        this.entitiesList.push(cube);
     }
 }
 
     async createMassiveInstancedScene(count = 10000) {
         // 1. Instantiate just ONE single base mesh asset framework container
-        let baseInstancedBox = new Box({ mode: 'basic' });
+        let baseInstancedBox = new Cube({ mode: 'basic' });
         baseInstancedBox.setPosition(vec3.fromValues(0, 0, 0));
         baseInstancedBox.setColor(1.0, 0.0, 1.0);
 

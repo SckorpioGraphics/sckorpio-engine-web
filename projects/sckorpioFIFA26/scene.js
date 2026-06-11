@@ -1,4 +1,4 @@
-import { Box } from "../../sckorpioWebEngine/core/ecs/entityList/shape/box.js";
+import { Cube } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cube.js";
 import { Cone } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cone.js";
 import { Cyclinder } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cyclinder.js";
 import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
@@ -148,7 +148,7 @@ class Scene extends SckorpioWebScene {
         this.entitiesList.push(screenSupport);
 
         // Scoreboard Housing Sits atop the tall support post outside the seating rim bounds
-        let screenHousing = new Box({ mode: 'basic' });
+        let screenHousing = new Cube({ mode: 'basic' });
         screenHousing.setColor(0.15, 0.15, 0.15);
         screenHousing.addInstance([-82.0, 20.0, 0.0], [0, 90, 0], [25.0, 12.0, 1.5]);
         this.entitiesList.push(screenHousing);
@@ -199,7 +199,7 @@ class Scene extends SckorpioWebScene {
 
         this.entitiesList.push(roofPillar);
 
-        let roofSlab = new Box({ mode: 'texture', uvRange: [0, 0, 10, 2] });
+        let roofSlab = new Cube({ mode: 'texture', uvRange: [0, 0, 10, 2] });
         roofSlab.setTexture("roof_material");
         roofSlab.addInstance([0.0, 12.0, 52.0], [-5, 0, 0], [130.0, 0.8, 22.0]); 
         this.entitiesList.push(roofSlab);
@@ -207,7 +207,7 @@ class Scene extends SckorpioWebScene {
 
     buildStadiumGateBoards() {
         // Main board
-        let mainBoard = new Box({ mode: 'basic' });
+        let mainBoard = new Cube({ mode: 'basic' });
         mainBoard.setColor(0.15, 0.15, 0.15);
 
         // Main Title
@@ -235,7 +235,7 @@ class Scene extends SckorpioWebScene {
         this.seatRest = new Plane({ mode: 'texture' });
         this.seatRest.setTexture('seat_rest');
 
-        this.standRow = new Box({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        this.standRow = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         this.standRow.setTexture('concrete2');
 
         for (let r = 0; r < 9; r++) {
@@ -304,7 +304,7 @@ class Scene extends SckorpioWebScene {
         floodLightPole.addInstance([ 75, 0, -55], [0, 0, 0], [1, 1, 1]);
         this.entitiesList.push(floodLightPole);
 
-        let floodLightPanel = new Box({ mode: 'basic' });
+        let floodLightPanel = new Cube({ mode: 'basic' });
         floodLightPanel.setColor(0.5, 0.5, 0.5);
         floodLightPanel.addInstance([-75, 30,  55], [0, -45, 0], [10, 8, 2]);
         floodLightPanel.addInstance([ 75, 30,  55], [0,  45, 0], [10, 8, 2]);
@@ -405,7 +405,7 @@ class Scene extends SckorpioWebScene {
         player_shakira.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
         this.entitiesList.push(player_shakira);
 
-        let trophyBox = new Box({mode : 'texture'});
+        let trophyBox = new Cube({mode : 'texture'});
         //trophyBox.setColor(100/255.0,85/255.0,150/255.0);
         trophyBox.setTexture('trophy_box2');
         trophyBox.setPosition(vec3.fromValues(4.0, 0.6, 0.0));
@@ -437,30 +437,30 @@ class Scene extends SckorpioWebScene {
         cone.setColor(0, 1, 0);
         this.entitiesList.push(cone);
 
-        let basicBox = new Box({ mode: 'basic' });
+        let basicBox = new Cube({ mode: 'basic' });
         basicBox.setPosition(vec3.fromValues(0.0, 0.5, 0.0));
         basicBox.setColor(1, 0, 1);
         this.entitiesList.push(basicBox);
 
-        let colorFaceBox = new Box({ mode: 'colorFace' });
+        let colorFaceBox = new Cube({ mode: 'colorFace' });
         colorFaceBox.setPosition(vec3.fromValues(2.0, 0.5, 0.0));
         this.entitiesList.push(colorFaceBox);
 
-        let colorVertexBox = new Box({ mode: 'colorVertex' });
+        let colorVertexBox = new Cube({ mode: 'colorVertex' });
         colorVertexBox.setPosition(vec3.fromValues(4.0, 0.5, 0.0));
         this.entitiesList.push(colorVertexBox);
 
-        let uvFaceBox = new Box({ mode: 'texture' });
+        let uvFaceBox = new Cube({ mode: 'texture' });
         uvFaceBox.setPosition(vec3.fromValues(6.0, 0.5, 0.0));
         uvFaceBox.setMaterial('uvVertex3D');
         this.entitiesList.push(uvFaceBox);
 
-        let box1 = new Box({ mode: 'texture' });
+        let box1 = new Cube({ mode: 'texture' });
         box1.setPosition(vec3.fromValues(8.0, 0.5, 0.0));
         box1.setScale(vec3.fromValues(1.0, 1.0, 1.0));
         this.entitiesList.push(box1);
 
-        let box2 = new Box({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let box2 = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         box2.setPosition(vec3.fromValues(10.0, 0.5, 0.0));
         box2.setTexture("woodCarton");
         this.entitiesList.push(box2);

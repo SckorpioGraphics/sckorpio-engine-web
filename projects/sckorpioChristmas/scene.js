@@ -1,4 +1,4 @@
-import { Box } from "../../sckorpioWebEngine/core/ecs/entityList/shape/box.js";
+import { Cube } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cube.js";
 import { Cone } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cone.js";
 import { Cyclinder } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cyclinder.js";
 import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
@@ -146,7 +146,7 @@ class Scene extends SckorpioWebScene {
             // ----------------------------------
             else {
 
-                let smallGift = new Box({ mode: "texture" });
+                let smallGift = new Cube({ mode: "texture" });
                 smallGift.setPosition(vec3.fromValues(
                     x * 0.97,
                     ornamentY - 0.15,
@@ -173,7 +173,7 @@ class Scene extends SckorpioWebScene {
         SKY
         ------------------------------------------------------
         */
-        let sky = new Box({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let sky = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         sky.setPosition(vec3.fromValues(0.0, 40.0, 0.0));
         sky.setScale(vec3.fromValues(200.0, 100.0, 200.0));
         sky.setTexture("sky");
@@ -184,7 +184,7 @@ class Scene extends SckorpioWebScene {
         ------------------------------------------------------
         */
 
-        let ground = new Box({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let ground = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         ground.setPosition(vec3.fromValues(0.0, -0.1, 0.0));
         ground.setScale(vec3.fromValues(200.0, 0.02, 200.0));
         ground.setTexture("snowGround2");
@@ -238,11 +238,11 @@ class Scene extends SckorpioWebScene {
         ];
 
         gifts.forEach(g => {
-            let box = new Box({ mode: 'texture' });
-            box.setPosition(vec3.fromValues(...g.pos));
-            box.setScale(vec3.fromValues(...g.scale));
-            box.setTexture(g.tex);
-            this.entitiesList.push(box);
+            let cube = new Cube({ mode: 'texture' });
+            cube.setPosition(vec3.fromValues(...g.pos));
+            cube.setScale(vec3.fromValues(...g.scale));
+            cube.setTexture(g.tex);
+            this.entitiesList.push(cube);
         });
 
         /*

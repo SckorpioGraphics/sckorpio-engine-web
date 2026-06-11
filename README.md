@@ -89,7 +89,7 @@ The canvas system manages multiple rendering surfaces:
 ## Entity Component System (ECS)
 
 SckorpioWebEngine uses an ECS architecture where:
-- **Entities**: Game objects (Camera, Box, Sphere, Grid, etc.)
+- **Entities**: Game objects (Camera, Cube, Sphere, Grid, etc.)
 - **Components**: Data containers (Transform, Mesh, Render, Camera)
 - **Systems**: Logic processors (Renderer)
 
@@ -332,21 +332,21 @@ initSckorpioWebEngine();
 
 ### Creating Entities
 
-#### Box
+#### Cube
 ```javascript
-import { Box } from "../../sckorpioWebEngine/ecs/entityList/shape/box.js";
+import { Cube } from "../../sckorpioWebEngine/ecs/entityList/shape/cube.js";
 
-// Basic box
-let box = new Box({ mode: 'basic' });
-box.setPosition(vec3.fromValues(0.0, 0.5, 0.0));
-box.setColor(1, 0, 1); // Magenta
+// Basic cube
+let cube = new Cube({ mode: 'basic' });
+cube.setPosition(vec3.fromValues(0.0, 0.5, 0.0));
+cube.setColor(1, 0, 1); // Magenta
 
-// Colored box (vertex colors)
-let colorBox = new Box({ mode: 'colorVertex' });
+// Colored cube (vertex colors)
+let colorBox = new Cube({ mode: 'colorVertex' });
 colorBox.setPosition(vec3.fromValues(2.0, 0.5, 0.0));
 
-// Textured box
-let texturedBox = new Box({ mode: 'texture', uvRange: [0, 0, 2, 2] });
+// Textured cube
+let texturedBox = new Cube({ mode: 'texture', uvRange: [0, 0, 2, 2] });
 texturedBox.setPosition(vec3.fromValues(4.0, 0.5, 0.0));
 texturedBox.setTexture("woodCarton");
 ```
@@ -419,7 +419,7 @@ The camera supports multiple input methods:
 
 ### Built-in Shapes
 
-- **Box**: Configurable cube with multiple rendering modes
+- **Cube**: Configurable cube with multiple rendering modes
 - **Sphere**: Parametric sphere with configurable resolution
 - **Grid**: Reference grid for scene visualization
 - **Axis Helpers**: X (red), Y (green), Z (blue) axis lines

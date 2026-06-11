@@ -1,4 +1,4 @@
-import { Box } from "../../sckorpioWebEngine/core/ecs/entityList/shape/box.js";
+import { Cube } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cube.js";
 import { Cone } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cone.js";
 import { Cyclinder } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cyclinder.js";
 import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
@@ -32,7 +32,7 @@ class Scene extends SckorpioWebScene{
         
         // Ground
         /*
-        let ground = new Box({mode: 'texture', uvRange: [0, 0, 50, 50]});
+        let ground = new Cube({mode: 'texture', uvRange: [0, 0, 50, 50]});
         ground.setPosition(vec3.fromValues(0.0,-0.1,0.0));
         ground.setScale(vec3.fromValues(100.0,0.02,100.0));
         ground.setTexture("grass");
@@ -73,36 +73,36 @@ class Scene extends SckorpioWebScene{
         this.entitiesList.push(cone);
 
 
-        // Basic box
-        let basicBox = new Box({ mode: 'basic' });
+        // Basic cube
+        let basicBox = new Cube({ mode: 'basic' });
         basicBox.setPosition(vec3.fromValues(0.0,0.5,0.0));
         basicBox.setColor(1,0,1);
         this.entitiesList.push(basicBox);
 
-        // Box with face colors
-        let colorFaceBox = new Box({ mode: 'colorFace' });
+        // Cube with face colors
+        let colorFaceBox = new Cube({ mode: 'colorFace' });
         colorFaceBox.setPosition(vec3.fromValues(2.0,0.5,0.0));
         this.entitiesList.push(colorFaceBox);
 
-        // Box with vertex colors
-        let colorVertexBox = new Box({ mode: 'colorVertex' });
+        // Cube with vertex colors
+        let colorVertexBox = new Cube({ mode: 'colorVertex' });
         colorVertexBox.setPosition(vec3.fromValues(4.0,0.5,0.0));
         this.entitiesList.push(colorVertexBox);
 
-        // Box with UVs
-        let uvFaceBox = new Box({mode: 'texture'});
+        // Cube with UVs
+        let uvFaceBox = new Cube({mode: 'texture'});
         uvFaceBox.setPosition(vec3.fromValues(6.0,0.5,0.0));
         uvFaceBox.setMaterial('uvVertex3D');
         this.entitiesList.push(uvFaceBox);
 
-        // texture Box
-        let box1 = new Box({mode: 'texture'});
+        // texture Cube
+        let box1 = new Cube({mode: 'texture'});
         box1.setPosition(vec3.fromValues(8.0,0.5,0.0));
         box1.setScale(vec3.fromValues(1.0,1.0,1.0));
         this.entitiesList.push(box1);
 
-        // wood Box
-        let box2 = new Box({mode: 'texture', uvRange: [0, 0, 1, 1]});
+        // wood Cube
+        let box2 = new Cube({mode: 'texture', uvRange: [0, 0, 1, 1]});
         box2.setPosition(vec3.fromValues(10.0,0.5,0.0));
         box2.setTexture("woodCarton");
         this.entitiesList.push(box2);
