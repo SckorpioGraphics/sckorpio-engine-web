@@ -401,7 +401,7 @@ class Scene extends SckorpioWebScene {
         let player_shakira = new Plane({ mode: 'texture' });
         player_shakira.setTexture('player_shakira');
         player_shakira.setPosition(vec3.fromValues(4.0, 1.5, -2.0));
-        player_shakira.setScale(vec3.fromValues(2.0, 2.5, 1.0));
+        player_shakira.setScale(vec3.fromValues(1.5, 3.0, 1.0));
         player_shakira.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
         this.entitiesList.push(player_shakira);
 
