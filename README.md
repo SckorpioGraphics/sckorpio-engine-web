@@ -260,7 +260,7 @@ Base scene class that provides:
 - **Render Loop**: Implements the main rendering loop using `requestAnimationFrame`
 - **Event Listeners**: Keyboard shortcuts for grid/axis visibility
 
-### SckorpioScene (`scene/sckorpioWebScene.js`)
+### SckorpioScene (`scene/sckorpioScene.js`)
 
 Extended scene class with additional features (similar to Scene but with different method names for material setting).
 
@@ -338,16 +338,16 @@ import { Cube } from "../../sckorpioWebEngine/ecs/entityList/shape/cube.js";
 
 // Basic cube
 let cube = new Cube({ mode: 'basic' });
-cube.setPosition(vec3.fromValues(0.0, 0.5, 0.0));
+cube.setPosition(0.0, 0.5, 0.0);
 cube.setColor(1, 0, 1); // Magenta
 
 // Colored cube (vertex colors)
 let colorBox = new Cube({ mode: 'colorVertex' });
-colorBox.setPosition(vec3.fromValues(2.0, 0.5, 0.0));
+colorBox.setPosition(2.0, 0.5, 0.0);
 
 // Textured cube
 let texturedBox = new Cube({ mode: 'texture', uvRange: [0, 0, 2, 2] });
-texturedBox.setPosition(vec3.fromValues(4.0, 0.5, 0.0));
+texturedBox.setPosition(4.0, 0.5, 0.0);
 texturedBox.setTexture("woodCarton");
 ```
 
@@ -356,7 +356,7 @@ texturedBox.setTexture("woodCarton");
 import { Sphere } from "../../sckorpioWebEngine/ecs/entityList/shape/sphere.js";
 
 let sphere = new Sphere(0.5, 36, 36); // radius, latitudeBands, longitudeBands
-sphere.setPosition(vec3.fromValues(-2.0, 0.5, 0.0));
+sphere.setPosition(-2.0, 0.5, 0.0);
 sphere.setColor(0, 1, 1); // Cyan
 ```
 
@@ -372,13 +372,13 @@ grid.setMaterial("basicGrey");
 
 ```javascript
 // Position
-entity.setPosition(vec3.fromValues(x, y, z));
+entity.setPosition(x, y, z);
 
 // Scale
-entity.setScale(vec3.fromValues(sx, sy, sz));
+entity.setScale(sx, sy, sz);
 
 // Rotation (in degrees)
-entity.setRotation(vec3.fromValues(rx, ry, rz));
+entity.setRotation(rx, ry, rz);
 ```
 
 ### Materials and Textures

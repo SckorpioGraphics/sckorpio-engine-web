@@ -10,18 +10,18 @@ class TransformComponent extends Component{
         this.setModelMatrix();
     }
 
-    setPosition(position){
-        this.position = position;
+    setPosition(x,y,z){
+        this.position = vec3.fromValues(x,y,z);
         this.setModelMatrix();
     }
 
-    setScale(scale){
-        this.scale = scale;
+    setScale(sx,sy,sz){
+        this.scale = vec3.fromValues(sx,sy,sz);
         this.setModelMatrix();
     }
 
-    setRotation(rotation){
-        this.rotation = rotation;
+    setRotation(rx,ry,rz){
+        this.rotation = vec3.fromValues(rx,ry,rz);
         this.setModelMatrix();
     }
 

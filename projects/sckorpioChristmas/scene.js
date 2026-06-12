@@ -3,7 +3,7 @@ import { Cone } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cone.js"
 import { Cyclinder } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cyclinder.js";
 import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
 import { Star } from "../../sckorpioWebEngine/core/ecs/entityList/shape/star.js";
-import { SckorpioScene } from "../../sckorpioWebEngine/core/scene/sckorpioWebScene.js";
+import { SckorpioScene } from "../../sckorpioWebEngine/core/scene/sckorpioScene.js";
 
 class Scene extends SckorpioScene {
     constructor(projectName) {
@@ -59,17 +59,17 @@ class Scene extends SckorpioScene {
 
             let cone = new Cone({ mode: "texture" });
 
-            cone.setPosition(vec3.fromValues(
+            cone.setPosition(
                 basePos[0],
                 currentY,
                 basePos[2]
-            ));
+            );
 
-            cone.setScale(vec3.fromValues(
+            cone.setScale(
                 radius,
                 height,
                 radius
-            ));
+            );
 
             if (texture)
                 cone.setTexture(texture);
@@ -104,15 +104,15 @@ class Scene extends SckorpioScene {
 
                 let star = new Star({ mode: "basic" });
 
-                star.setPosition(vec3.fromValues(x, ornamentY, z));
+                star.setPosition(x, ornamentY, z);
 
                 // small star
                 const s = 0.4;
-                star.setScale(vec3.fromValues(s, s, s));
+                star.setScale(s, s, s);
 
                 // rotate so star faces outward
                 // (rotating around Y using angle)
-                star.setRotation(vec3.fromValues(-90, (angle * 180 / Math.PI), 0));
+                star.setRotation(-90, (angle * 180 / Math.PI), 0);
 
                 // golden-ish variations
                 const glow = 0.8 + Math.random() * 0.2;
@@ -129,8 +129,8 @@ class Scene extends SckorpioScene {
                 let orb = new Sphere();
                 const orbScale = 0.15 + Math.random() * 0.05;
 
-                orb.setScale(vec3.fromValues(orbScale, orbScale, orbScale));
-                orb.setPosition(vec3.fromValues(x, ornamentY, z));
+                orb.setScale(orbScale, orbScale, orbScale);
+                orb.setPosition(x, ornamentY, z);
 
                 const c = j % 4;
                 if (c === 0) orb.setColor(1, 0, 0);
@@ -147,13 +147,13 @@ class Scene extends SckorpioScene {
             else {
 
                 let smallGift = new Cube({ mode: "texture" });
-                smallGift.setPosition(vec3.fromValues(
+                smallGift.setPosition(
                     x * 0.97,
                     ornamentY - 0.15,
                     z * 0.97
-                ));
+                );
 
-                smallGift.setScale(vec3.fromValues(0.35, 0.35, 0.35));
+                smallGift.setScale(0.35, 0.35, 0.35);
                 smallGift.setTexture("gift" + (1 + Math.floor(Math.random() * 5)));
 
                 scene.entitiesList.push(smallGift);
@@ -174,8 +174,8 @@ class Scene extends SckorpioScene {
         ------------------------------------------------------
         */
         let sky = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
-        sky.setPosition(vec3.fromValues(0.0, 40.0, 0.0));
-        sky.setScale(vec3.fromValues(200.0, 100.0, 200.0));
+        sky.setPosition(0.0, 40.0, 0.0);
+        sky.setScale(200.0, 100.0, 200.0);
         sky.setTexture("sky");
         this.entitiesList.push(sky);
         /*
@@ -185,8 +185,8 @@ class Scene extends SckorpioScene {
         */
 
         let ground = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
-        ground.setPosition(vec3.fromValues(0.0, -0.1, 0.0));
-        ground.setScale(vec3.fromValues(200.0, 0.02, 200.0));
+        ground.setPosition(0.0, -0.1, 0.0);
+        ground.setScale(200.0, 0.02, 200.0);
         ground.setTexture("snowGround2");
         this.entitiesList.push(ground);
 
@@ -209,17 +209,17 @@ class Scene extends SckorpioScene {
 
         // trunk
         let trunk = new Cyclinder({ mode: 'basic' });
-        trunk.setPosition(vec3.fromValues(0.0, -2.0, 0.0));
-        trunk.setScale(vec3.fromValues(1.0, 8.0, 1.0));
+        trunk.setPosition(0.0, -2.0, 0.0);
+        trunk.setScale(1.0, 8.0, 1.0);
         trunk.setColor(0.4, 0.2, 0.05);
         this.entitiesList.push(trunk);
 
 
         // ⭐ STAR TOPPER
         let star = new Star({ mode: 'basic' });
-        star.setPosition(vec3.fromValues(0.0, 18.0, 0.0));
-        star.setScale(vec3.fromValues(1.6, 1.6, 1.6));
-        star.setRotation(vec3.fromValues(-90.0, 0.0, 0.0));
+        star.setPosition(0.0, 18.0, 0.0);
+        star.setScale(1.6, 1.6, 1.6);
+        star.setRotation(-90.0, 0.0, 0.0);
         star.setColor(1.0, 0.9, 0.0);
         this.entitiesList.push(star);
 
@@ -239,8 +239,8 @@ class Scene extends SckorpioScene {
 
         gifts.forEach(g => {
             let cube = new Cube({ mode: 'texture' });
-            cube.setPosition(vec3.fromValues(...g.pos));
-            cube.setScale(vec3.fromValues(...g.scale));
+            cube.setPosition(...g.pos);
+            cube.setScale(...g.scale);
             cube.setTexture(g.tex);
             this.entitiesList.push(cube);
         });
@@ -252,24 +252,24 @@ class Scene extends SckorpioScene {
         */
 
         // let snowBottom = new Sphere(1.2);
-        // snowBottom.setPosition(vec3.fromValues(-6.0, 1.2, 3.0));
+        // snowBottom.setPosition(-6.0, 1.2, 3.0);
         // snowBottom.setColor(1, 1, 1);
         // this.entitiesList.push(snowBottom);
 
         // let snowMid = new Sphere(0.9);
-        // snowMid.setPosition(vec3.fromValues(-6.0, 2.6, 3.0));
+        // snowMid.setPosition(-6.0, 2.6, 3.0);
         // snowMid.setColor(1, 1, 1);
         // this.entitiesList.push(snowMid);
 
         // let snowHead = new Sphere(0.6);
-        // snowHead.setPosition(vec3.fromValues(-6.0, 3.6, 3.0));
+        // snowHead.setPosition(-6.0, 3.6, 3.0);
         // snowHead.setColor(1, 1, 1);
         // this.entitiesList.push(snowHead);
 
         // // carrot (tiny cone)
         // let nose = new Cone({ mode: 'basic' });
-        // nose.setPosition(vec3.fromValues(-6.0, 3.6, 3.6));
-        // nose.setScale(vec3.fromValues(0.2, 0.6, 0.2));
+        // nose.setPosition(-6.0, 3.6, 3.6);
+        // nose.setScale(0.2, 0.6, 0.2);
         // nose.setColor(1, 0.4, 0);
         // this.entitiesList.push(nose);
 

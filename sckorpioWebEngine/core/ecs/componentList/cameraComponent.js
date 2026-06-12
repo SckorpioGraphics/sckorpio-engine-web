@@ -63,8 +63,8 @@ class CameraComponent extends Component {
     this.lastY = getWebGLCanvasHeight() / 2.0;
   }
 
-  setPosition(position) {
-    this.cameraPos = position;
+  setPosition(x,y,z) {
+    this.cameraPos = vec3.fromValues(x,y,z);
     this.updateViewMatrix();
   }
 

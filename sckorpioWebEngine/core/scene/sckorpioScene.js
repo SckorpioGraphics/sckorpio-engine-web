@@ -133,20 +133,20 @@ class SckorpioScene {
 
         //x-Axis
         this.xAxis = new Cube();
-        this.xAxis.setPosition(vec3.fromValues(50.0, 0.0, 0.0));
-        this.xAxis.setScale(vec3.fromValues(100.0, 0.02, 0.02));
+        this.xAxis.setPosition(50.0, 0.0, 0.0);
+        this.xAxis.setScale(100.0, 0.02, 0.02);
         this.xAxis.setMaterial("basicRed");
 
         //y-Axis
         this.yAxis = new Cube();
-        this.yAxis.setPosition(vec3.fromValues(0.0, 50.0, 0.0));
-        this.yAxis.setScale(vec3.fromValues(0.02, 100.0, 0.02));
+        this.yAxis.setPosition(0.0, 50.0, 0.0);
+        this.yAxis.setScale(0.02, 100.0, 0.02);
         this.yAxis.setMaterial("basicGreen");
 
         //z-Axis
         this.zAxis = new Cube();
-        this.zAxis.setPosition(vec3.fromValues(0.0, 0.0, 50.0));
-        this.zAxis.setScale(vec3.fromValues(0.02, 0.02, 100.0));
+        this.zAxis.setPosition(0.0, 0.0, 50.0);
+        this.zAxis.setScale(0.02, 0.02, 100.0);
         this.zAxis.setMaterial("basicBlue");
 
         //add meshes to default list

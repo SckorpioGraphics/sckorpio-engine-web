@@ -20,16 +20,16 @@ class Shape extends Entity{
         this.components.push(this.transformComponent);
     }
 
-    setPosition(position){
-        this.transformComponent.setPosition(position);
+    setPosition(x,y,z){
+        this.transformComponent.setPosition(x,y,z);
     }
 
-    setScale(scale){
-        this.transformComponent.setScale(scale);
+    setScale(sx,sy,sz){
+        this.transformComponent.setScale(sx,sy,sz);
     }
 
-    setRotation(rotation){
-        this.transformComponent.setRotation(rotation);
+    setRotation(rx,ry,rz){
+        this.transformComponent.setRotation(rx,ry,rz);
     }
 
     setInstanced(enabled = true) {

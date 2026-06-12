@@ -3,7 +3,7 @@ import { Cone } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cone.js"
 import { Cyclinder } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cyclinder.js";
 import { Plane } from "../../sckorpioWebEngine/core/ecs/entityList/shape/plane.js";
 import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
-import { SckorpioScene } from "../../sckorpioWebEngine/core/scene/sckorpioWebScene.js";
+import { SckorpioScene } from "../../sckorpioWebEngine/core/scene/sckorpioScene.js";
 
 class Scene extends SckorpioScene{
     constructor(projectName) {

@@ -69,30 +69,30 @@ class Scene extends SckorpioScene {
 
     buildPitch() {
         let site = new Plane({ mode: 'basic', uvRange: [0, 0, 4, 4] });
-        site.setPosition(vec3.fromValues(0.0, -0.05, 0.0));
-        site.setRotation(vec3.fromValues(90, 0, 0));
+        site.setPosition(0.0, -0.05, 0.0);
+        site.setRotation(90, 0, 0);
         site.setColor(0.3,0.3,0.3);
-        site.setScale(vec3.fromValues(200.0, 150.0, 1.0));
+        site.setScale(200.0, 150.0, 1.0);
         this.entitiesList.push(site);
 
         let ground = new Plane({ mode: 'texture', uvRange: [0, 0, 40, 20] });
-        ground.setPosition(vec3.fromValues(0.0, 0.0, 0.0));
-        ground.setRotation(vec3.fromValues(90, 0, 0));
-        ground.setScale(vec3.fromValues(110.0, 80.0, 1.0));
+        ground.setPosition(0.0, 0.0, 0.0);
+        ground.setRotation(90, 0, 0);
+        ground.setScale(110.0, 80.0, 1.0);
         ground.setTexture("pitch_grass");
         this.entitiesList.push(ground);
 
         let markings = new Plane({ mode: 'texture', uvRange: [0, 0, 1, 1] });
-        markings.setPosition(vec3.fromValues(0.0, 0.01, 0.0));
-        markings.setRotation(vec3.fromValues(90, 0, 0));
-        markings.setScale(vec3.fromValues(100.0, 80.0, 1.0));
+        markings.setPosition(0.0, 0.01, 0.0);
+        markings.setRotation(90, 0, 0);
+        markings.setScale(100.0, 80.0, 1.0);
         markings.setTexture("pitch_markings");
         this.entitiesList.push(markings);
     }
 
     buildBalls() {
         let football = new Sphere({ mode: 'texture', radius: 0.2 });
-        football.setPosition(vec3.fromValues(-36.0, 0.3, 0.0));
+        football.setPosition(-36.0, 0.3, 0.0);
         football.setColor(0, 1, 1);
         football.setTexture('adidas_trionda');
 
@@ -104,7 +104,7 @@ class Scene extends SckorpioScene {
         this.entitiesList.push(football);
 
         let football2 = new Sphere({ mode: 'texture', radius: 0.2 });
-        football2.setPosition(vec3.fromValues(-30.0, 0.3, 0.0));
+        football2.setPosition(-30.0, 0.3, 0.0);
         football2.setColor(0, 1, 1);
         football2.setTexture('football');
         //this.entitiesList.push(football2);  
@@ -112,7 +112,7 @@ class Scene extends SckorpioScene {
 
     buildGoalPosts() {
         let postPole = new Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
-        postPole.setPosition(vec3.fromValues(-45.0, 0.0, 0.0));
+        postPole.setPosition(-45.0, 0.0, 0.0);
         postPole.setColor(0.8, 0.8, 0.8);
         
         postPole.addInstance([-45.0, 0.0, -7.0], [0, 0, 0], [0.5, 4.0, 0.5]);
@@ -274,7 +274,7 @@ class Scene extends SckorpioScene {
 
         if (!isRotated) {
             const zSign = bZ > 0 ? -1 : 1;
-            const targetZ = bZ + (zSign * (sD * 0.5)) + (zSign * 0.5);
+            const targetZ = bZ + (zSign * (sD * 0.5) + (zSign * 0.5));
             const startX = bX - (sW * 0.5) + 1.5;
             const endX = bX + (sW * 0.5) - 1.5;
 
@@ -284,7 +284,7 @@ class Scene extends SckorpioScene {
             }
         } else {
             const xSign = bX > 0 ? -1 : 1;
-            const targetX = bX + (xSign * (sD * 0.5)) + (xSign * 0.5);
+            const targetX = bX + (xSign * (sD * 0.5) + (xSign * 0.5));
             const startZ = bZ - (sW * 0.5) + 1.5;
             const endZ = bZ + (sW * 0.5) - 1.5;
 
@@ -325,65 +325,65 @@ class Scene extends SckorpioScene {
         
         let player1 = new Plane({ mode: 'texture' });
         player1.setTexture('player_messi');
-        player1.setPosition(vec3.fromValues(-30.0, 1.0, 10.0));
-        player1.setScale(vec3.fromValues(2.0, 2.5, 1.0));
-        player1.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player1.setPosition(-30.0, 1.0, 10.0);
+        player1.setScale(2.0, 2.5, 1.0);
+        player1.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player1);
 
         let player_sckorpio1 = new Plane({ mode: 'texture' });
         player_sckorpio1.setTexture('player_sckorpio1');
-        player_sckorpio1.setPosition(vec3.fromValues(-30.0, 1.0, 8.0));
-        player_sckorpio1.setScale(vec3.fromValues(2.0, 2.0, 1.0));
-        player_sckorpio1.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player_sckorpio1.setPosition(-30.0, 1.0, 8.0);
+        player_sckorpio1.setScale(2.0, 2.0, 1.0);
+        player_sckorpio1.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio1);
 
         let player2 = new Plane({ mode: 'texture' });
         player2.setTexture('player_ronaldo');
-        player2.setPosition(vec3.fromValues(-25.0, 1.3, -10.0));
-        player2.setScale(vec3.fromValues(2.0, 2.7, 1.0));
-        player2.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player2.setPosition(-25.0, 1.3, -10.0);
+        player2.setScale(2.0, 2.7, 1.0);
+        player2.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player2);
 
         let player_sckorpio2 = new Plane({ mode: 'texture' });
         player_sckorpio2.setTexture('player_sckorpio2');
-        player_sckorpio2.setPosition(vec3.fromValues(-25.0, 1.0, -8.0));
-        player_sckorpio2.setScale(vec3.fromValues(2.0, 2.0, 1.0));
-        player_sckorpio2.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player_sckorpio2.setPosition(-25.0, 1.0, -8.0);
+        player_sckorpio2.setScale(2.0, 2.0, 1.0);
+        player_sckorpio2.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio2);
 
         let player3 = new Plane({ mode: 'texture' });
         player3.setTexture('player_mbappe');
-        player3.setPosition(vec3.fromValues(-10.0, 1.0, -5.0));
-        player3.setScale(vec3.fromValues(2.0, 2.0, 1.0));
-        player3.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player3.setPosition(-10.0, 1.0, -5.0);
+        player3.setScale(2.0, 2.0, 1.0);
+        player3.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player3);
 
         let player_sckorpio3 = new Plane({ mode: 'texture' });
         player_sckorpio3.setTexture('player_sckorpio3');
-        player_sckorpio3.setPosition(vec3.fromValues(-10.0, 1.0, -3.0));
-        player_sckorpio3.setScale(vec3.fromValues(2.0, 2.0, 1.0));
-        player_sckorpio3.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player_sckorpio3.setPosition(-10.0, 1.0, -3.0);
+        player_sckorpio3.setScale(2.0, 2.0, 1.0);
+        player_sckorpio3.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio3);
 
         let player4 = new Plane({ mode: 'texture' });
         player4.setTexture('player_neymar');
-        player4.setPosition(vec3.fromValues(-10.0, 1.0, 5.0));
-        player4.setScale(vec3.fromValues(2.0, 2.0, 1.0));
-        player4.setRotation(vec3.fromValues(0.0, 270.0, 0.0));
+        player4.setPosition(-10.0, 1.0, 5.0);
+        player4.setScale(2.0, 2.0, 1.0);
+        player4.setRotation(0.0, 270.0, 0.0);
         this.entitiesList.push(player4);
 
         let player_sckorpio4 = new Plane({ mode: 'texture' });
         player_sckorpio4.setTexture('player_sckorpio4');
-        player_sckorpio4.setPosition(vec3.fromValues(-10.0, 1.0, 3.0));
-        player_sckorpio4.setScale(vec3.fromValues(2.0, 2.0, 1.0));
-        player_sckorpio4.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player_sckorpio4.setPosition(-10.0, 1.0, 3.0);
+        player_sckorpio4.setScale(2.0, 2.0, 1.0);
+        player_sckorpio4.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio4);
 
         let player_sckorpio5 = new Plane({ mode: 'texture' });
         player_sckorpio5.setTexture('player_sckorpio5');
-        player_sckorpio5.setPosition(vec3.fromValues(-43.0, 1.0, 0.0));
-        player_sckorpio5.setScale(vec3.fromValues(3.0, 3.0, 1.0));
-        player_sckorpio5.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player_sckorpio5.setPosition(-43.0, 1.0, 0.0);
+        player_sckorpio5.setScale(3.0, 3.0, 1.0);
+        player_sckorpio5.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio5);
 
 
@@ -393,88 +393,88 @@ class Scene extends SckorpioScene {
     buildFIFACeremony() {
         let player_sckorpio = new Plane({ mode: 'texture' });
         player_sckorpio.setTexture('player_sckorpio');
-        player_sckorpio.setPosition(vec3.fromValues(4.0, 1.0, 2.0));
-        player_sckorpio.setScale(vec3.fromValues(2.0, 2.0, 1.0));
-        player_sckorpio.setRotation(vec3.fromValues(0.0, 270.0, 0.0));
+        player_sckorpio.setPosition(4.0, 1.0, 2.0);
+        player_sckorpio.setScale(2.0, 2.0, 1.0);
+        player_sckorpio.setRotation(0.0, 270.0, 0.0);
         this.entitiesList.push(player_sckorpio);
 
         let player_shakira = new Plane({ mode: 'texture' });
         player_shakira.setTexture('player_shakira');
-        player_shakira.setPosition(vec3.fromValues(4.0, 1.5, -2.0));
-        player_shakira.setScale(vec3.fromValues(1.5, 3.0, 1.0));
-        player_shakira.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        player_shakira.setPosition(4.0, 1.5, -2.0);
+        player_shakira.setScale(1.5, 3.0, 1.0);
+        player_shakira.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_shakira);
 
         let trophyBox = new Cube({mode : 'texture'});
         //trophyBox.setColor(100/255.0,85/255.0,150/255.0);
         trophyBox.setTexture('trophy_box2');
-        trophyBox.setPosition(vec3.fromValues(4.0, 0.6, 0.0));
-        trophyBox.setScale(vec3.fromValues(0.6, 1.3, 0.6));
+        trophyBox.setPosition(4.0, 0.6, 0.0);
+        trophyBox.setScale(0.6, 1.3, 0.6);
         this.entitiesList.push(trophyBox);
 
         let fifaTrophy = new Plane({ mode : 'texture'});
         fifaTrophy.setTexture('fifa_trophy');
-        fifaTrophy.setPosition(vec3.fromValues(4.0, 1.7, 0.0));
-        fifaTrophy.setScale(vec3.fromValues(0.5, 1.0, 0.5));
-        fifaTrophy.setRotation(vec3.fromValues(0.0, 90.0, 0.0));
+        fifaTrophy.setPosition(4.0, 1.7, 0.0);
+        fifaTrophy.setScale(0.5, 1.0, 0.5);
+        fifaTrophy.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(fifaTrophy);
 
     }
 
     buildEnginePrimitiveShowcase() {
         let sphere = new Sphere({ mode: 'basic', radius: 0.5 });
-        sphere.setPosition(vec3.fromValues(-6.0, 0.5, 0.0));
+        sphere.setPosition(-6.0, 0.5, 0.0);
         sphere.setColor(0, 1, 1);
         this.entitiesList.push(sphere);
 
         let cyclinder = new Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
-        cyclinder.setPosition(vec3.fromValues(-4.0, 0.0, 0.0));
+        cyclinder.setPosition(-4.0, 0.0, 0.0);
         cyclinder.setColor(1, 0, 0);
         this.entitiesList.push(cyclinder);
 
         let cone = new Cone({ mode: 'basic', radius: 0.5, height: 1.0 });
-        cone.setPosition(vec3.fromValues(-2.0, 0.0, 0.0));
+        cone.setPosition(-2.0, 0.0, 0.0);
         cone.setColor(0, 1, 0);
         this.entitiesList.push(cone);
 
         let basicBox = new Cube({ mode: 'basic' });
-        basicBox.setPosition(vec3.fromValues(0.0, 0.5, 0.0));
+        basicBox.setPosition(0.0, 0.5, 0.0);
         basicBox.setColor(1, 0, 1);
         this.entitiesList.push(basicBox);
 
         let colorFaceBox = new Cube({ mode: 'colorFace' });
-        colorFaceBox.setPosition(vec3.fromValues(2.0, 0.5, 0.0));
+        colorFaceBox.setPosition(2.0, 0.5, 0.0);
         this.entitiesList.push(colorFaceBox);
 
         let colorVertexBox = new Cube({ mode: 'colorVertex' });
-        colorVertexBox.setPosition(vec3.fromValues(4.0, 0.5, 0.0));
+        colorVertexBox.setPosition(4.0, 0.5, 0.0);
         this.entitiesList.push(colorVertexBox);
 
         let uvFaceBox = new Cube({ mode: 'texture' });
-        uvFaceBox.setPosition(vec3.fromValues(6.0, 0.5, 0.0));
+        uvFaceBox.setPosition(6.0, 0.5, 0.0);
         uvFaceBox.setMaterial('uvVertex3D');
         this.entitiesList.push(uvFaceBox);
 
         let box1 = new Cube({ mode: 'texture' });
-        box1.setPosition(vec3.fromValues(8.0, 0.5, 0.0));
-        box1.setScale(vec3.fromValues(1.0, 1.0, 1.0));
+        box1.setPosition(8.0, 0.5, 0.0);
+        box1.setScale(1.0, 1.0, 1.0);
         this.entitiesList.push(box1);
 
         let box2 = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
-        box2.setPosition(vec3.fromValues(10.0, 0.5, 0.0));
+        box2.setPosition(10.0, 0.5, 0.0);
         box2.setTexture("woodCarton");
         this.entitiesList.push(box2);
 
         let plane1 = new Plane({ mode: 'basic' });
-        plane1.setPosition(vec3.fromValues(12.0, 0.5, 0.0));
+        plane1.setPosition(12.0, 0.5, 0.0);
         this.entitiesList.push(plane1);
 
         let plane2 = new Plane({ mode: 'colorVertex' });
-        plane2.setPosition(vec3.fromValues(14.0, 0.5, 0.0));
+        plane2.setPosition(14.0, 0.5, 0.0);
         this.entitiesList.push(plane2);
 
         let plane3 = new Plane({ mode: 'texture' });
-        plane3.setPosition(vec3.fromValues(16.0, 0.5, 0.0));
+        plane3.setPosition(16.0, 0.5, 0.0);
         this.entitiesList.push(plane3);
     }
 }
