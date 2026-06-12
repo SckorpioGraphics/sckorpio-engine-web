@@ -25,6 +25,7 @@ class Scene extends SckorpioScene {
             "goal_post_net", 
             "concrete2", 
             "concrete4",
+            "brick_wall",
             "flood_light_led", 
             "seat_bottom", 
             "seat_rest",
@@ -56,6 +57,7 @@ class Scene extends SckorpioScene {
         this.buildPitch();
         this.buildBalls();
         this.buildGoalPosts();
+        this.buildExteriorWalls();
         this.buildStandsAndSeats();
         this.buildFloodlights();
         this.buildStadiumScreen();            
@@ -259,6 +261,32 @@ class Scene extends SckorpioScene {
         this.entitiesList.push(this.standRow);
         this.entitiesList.push(this.seatBottom);
         this.entitiesList.push(this.seatRest);
+    }
+
+    buildExteriorWalls() {
+        let outerWall = new Cube({ mode: 'texture', uvRange: [0, 0, 6, 2] });
+        outerWall.setTexture("brick_wall"); 
+
+        // --- NORTH GRANDSTAND BACK WALLS (Aligned precisely with your 2 North seat blocks) ---
+        // Block 1 (Left North Side)
+        outerWall.addInstance([-35.0, 4.5, 62.0], [0, 0, 0], [60.0, 10.0, 1.0]);
+        // Block 2 (Right North Side)
+        outerWall.addInstance([ 35.0, 4.5, 62.0], [0, 0, 0], [60.0, 10.0, 1.0]);
+
+        // --- SOUTH GRANDSTAND BACK WALLS (Aligned precisely with your 2 South seat blocks) ---
+        // Block 3 (Left South Side)
+        outerWall.addInstance([-35.0, 4.5, -62.0], [0, 0, 0], [60.0, 10.0, 1.0]);
+        // Block 4 (Right South Side)
+        outerWall.addInstance([ 35.0, 4.5, -62.0], [0, 0, 0], [60.0, 10.0, 1.0]);
+
+        // --- WING GRANDSTAND BACK WALLS (Aligned right behind your East/West procedural arrays) ---
+        // Block 5 (East Wing Side - X coordinate matches the deep back edge of your step loop)
+        outerWall.addInstance([-80, 4.5, 0.0], [0, 90, 0], [90.0, 10.0, 1.0]);
+        
+        // Block 6 (West Wing Side - X coordinate matches the deep back edge of your step loop)
+        outerWall.addInstance([ 80, 4.5, 0.0], [0, 90, 0], [90.0, 10.0, 1.0]);
+
+        this.entitiesList.push(outerWall);
     }
 
     proceduralRowInstance(boxPos, boxRot, boxScale, seatFacingAngle) {
