@@ -6,7 +6,7 @@ import { ShaderBook } from "../../renderer/webgl/shader/shaderBook.js";
 import { MaterialBook } from "../../renderer/webgl/material/materialBook.js";
 import { TextureBook } from "../../renderer/webgl/texture/textureBook.js";
 
-class SckorpioWebScene {
+class SckorpioScene {
     constructor(){
         this.uid = 0;
 
@@ -194,5 +194,5 @@ class SckorpioWebScene {
 }
 
 export{
-    SckorpioWebScene
+    SckorpioScene
 }

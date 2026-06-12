@@ -1,8 +1,8 @@
 import { Cube } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cube.js";
 import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
-import { SckorpioWebScene } from "../../sckorpioWebEngine/core/scene/sckorpioWebScene.js";
+import { SckorpioScene } from "../../sckorpioWebEngine/core/scene/sckorpioWebScene.js";
 
-class Scene extends SckorpioWebScene{
+class Scene extends SckorpioScene{
     constructor(projectName) {
         super();
         this.projectName = projectName;

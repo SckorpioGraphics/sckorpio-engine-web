@@ -37,7 +37,7 @@ SckorpioWebEngine follows a layered architecture:
               ↓
 ┌─────────────────────────────────────┐
 │         Scene Management            │
-│    (Scene, SckorpioWebScene classes)  │
+│    (Scene, SckorpioScene classes)  │
 └─────────────────────────────────────┘
               ↓
 ┌─────────────────────────────────────┐
@@ -260,13 +260,13 @@ Base scene class that provides:
 - **Render Loop**: Implements the main rendering loop using `requestAnimationFrame`
 - **Event Listeners**: Keyboard shortcuts for grid/axis visibility
 
-### SckorpioWebScene (`scene/sckorpioWebScene.js`)
+### SckorpioScene (`scene/sckorpioWebScene.js`)
 
 Extended scene class with additional features (similar to Scene but with different method names for material setting).
 
 ### Project Scenes (`projects/*/scene.js`)
 
-User-defined scenes that extend `SckorpioWebScene`:
+User-defined scenes that extend `SckorpioScene`:
 - **Custom Resource Loading**: Loads project-specific textures
 - **Scene Creation**: Defines custom entities and their arrangements
 - **Project Organization**: Each project has its own directory with resources
