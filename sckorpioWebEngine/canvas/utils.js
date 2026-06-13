@@ -84,6 +84,15 @@ Logger
 
 export function getLoggerCanvas() {
   var canvas = document.getElementById("sckorpioWebEngine-2d-logger-surface");
+
+  if (canvas) {
+    if (canvas.width !== 260 || canvas.height !== 210) {
+      canvas.width = 260;   // Matches width: 260px
+      canvas.height = 210;  // Matches height: 210px
+    }
+  } else {
+    console.error("Logger canvas element 'sckorpioWebEngine-2d-logger-surface' not found.");
+  }
   return canvas;
 }
 

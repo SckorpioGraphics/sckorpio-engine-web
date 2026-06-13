@@ -5,6 +5,7 @@ import { WebGLRenderer } from "../../renderer/webgl/webglRenderer.js";
 import { ShaderBook } from "../../renderer/webgl/shader/shaderBook.js";
 import { MaterialBook } from "../../renderer/webgl/material/materialBook.js";
 import { TextureBook } from "../../renderer/webgl/texture/textureBook.js";
+import { logger } from "../../canvas/logger.js";
 
 class SckorpioScene {
     constructor(){
@@ -54,6 +55,8 @@ class SckorpioScene {
 
         this.darkModeClearColor = vec3.fromValues(0.14, 0.11, 0.26);
         this.darkModeGridColor = vec3.fromValues(0.45, 0.40, 0.65);
+
+        this.logger = logger;
     }
 
     async init(){
@@ -118,10 +121,12 @@ class SckorpioScene {
             this.mode = 0;
             this.renderer.setClearColor(this.darkModeClearColor);
             this.grid.setColor(this.darkModeGridColor[0], this.darkModeGridColor[1], this.darkModeGridColor[2]);
+            this.logger.setThemeMode("dark");
         } else {
             this.mode = 1;
             this.renderer.setClearColor(this.lightModeClearColor);
             this.grid.setColor(this.lightModeGridColor[0], this.lightModeGridColor[1], this.lightModeGridColor[2]);
+            this.logger.setThemeMode("light");
         }
 
     }
