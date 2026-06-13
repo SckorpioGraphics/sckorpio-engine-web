@@ -65,7 +65,7 @@ class Scene extends SckorpioScene {
         this.buildGrandstandRoof();     
         this.buildStadiumGateBoards(); 
         this.buildFIFAPlayers();
-        this.buildFIFACeremony();
+       this.buildFIFACeremony();
         //this.buildEnginePrimitiveShowcase();
     }
 
@@ -99,7 +99,7 @@ class Scene extends SckorpioScene {
         football.setTexture('adidas_trionda');
 
         football.addInstance([-36.0, 0.3, 0.0], [0, 0, 0], [1,1,1]);
-        football.addInstance([-30.0, 0.3, 9.0], [0, 0, 0], [1,1,1]);
+        football.addInstance([-30.0, 0.3, 7.0], [0, 0, 0], [1,1,1]);
         football.addInstance([5.0, 0.3, 1.0], [0, 0, 0], [1,1,1]);
    
         
@@ -353,42 +353,42 @@ class Scene extends SckorpioScene {
         
         let player1 = new Plane({ mode: 'texture' });
         player1.setTexture('player_messi');
-        player1.setPosition(-30.0, 1.0, 10.0);
+        player1.setPosition(-30.0, 1.0, 8.0);
         player1.setScale(2.0, 2.5, 1.0);
         player1.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player1);
 
         let player_sckorpio1 = new Plane({ mode: 'texture' });
         player_sckorpio1.setTexture('player_sckorpio1');
-        player_sckorpio1.setPosition(-30.0, 1.0, 8.0);
+        player_sckorpio1.setPosition(-30.0, 1.0, 6.0);
         player_sckorpio1.setScale(2.0, 2.0, 1.0);
         player_sckorpio1.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio1);
 
         let player2 = new Plane({ mode: 'texture' });
         player2.setTexture('player_ronaldo');
-        player2.setPosition(-25.0, 1.3, -10.0);
+        player2.setPosition(-25.0, 1.3, -8.0);
         player2.setScale(2.0, 2.7, 1.0);
         player2.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player2);
 
         let player_sckorpio2 = new Plane({ mode: 'texture' });
         player_sckorpio2.setTexture('player_sckorpio2');
-        player_sckorpio2.setPosition(-25.0, 1.0, -8.0);
+        player_sckorpio2.setPosition(-25.0, 1.0, -6.0);
         player_sckorpio2.setScale(2.0, 2.0, 1.0);
         player_sckorpio2.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio2);
 
         let player3 = new Plane({ mode: 'texture' });
         player3.setTexture('player_mbappe');
-        player3.setPosition(-10.0, 1.0, -5.0);
+        player3.setPosition(-15.0, 1.0, -5.0);
         player3.setScale(2.0, 2.0, 1.0);
         player3.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player3);
 
         let player_sckorpio3 = new Plane({ mode: 'texture' });
         player_sckorpio3.setTexture('player_sckorpio3');
-        player_sckorpio3.setPosition(-10.0, 1.0, -3.0);
+        player_sckorpio3.setPosition(-15.0, 1.0, -3.0);
         player_sckorpio3.setScale(2.0, 2.0, 1.0);
         player_sckorpio3.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio3);
