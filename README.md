@@ -62,7 +62,7 @@ SckorpioWebEngine follows a layered architecture:
 
 ## Core Systems
 
-### 1. Canvas Management (`sckorpioWebEngine/canvas/`)
+### 1. Canvas Management (`sckorpioEngineWeb/canvas/`)
 
 The canvas system manages multiple rendering surfaces:
 
@@ -71,9 +71,9 @@ The canvas system manages multiple rendering surfaces:
 - **Canvas Utilities**: Functions to get canvas dimensions, aspect ratio, and WebGL context
 - **Resource ID Generation**: Unique ID generation for WebGL resources
 - **Multi-Canvas Support**: Manages three canvas elements:
-  - `sckorpioWebEngine-webgl-surface`: Main WebGL rendering canvas
-  - `sckorpioWebEngine-2d-title-surface`: 2D canvas for title display
-  - `sckorpioWebEngine-2d-logger-surface`: 2D canvas for FPS/performance logging
+  - `sckorpioEngineWeb-webgl-surface`: Main WebGL rendering canvas
+  - `sckorpioEngineWeb-2d-title-surface`: 2D canvas for title display
+  - `sckorpioEngineWeb-2d-logger-surface`: 2D canvas for FPS/performance logging
 
 #### **title.js**
 - **Title Display System**: Renders the "SckorpioWebEngine" title on a 2D overlay canvas
@@ -278,10 +278,10 @@ User-defined scenes that extend `SckorpioScene`:
 ## Project Structure
 
 ```
-sckorpioWebEngine/
+sckorpioEngineWeb/
 ├── index.html                 # Main HTML entry point
 ├── main.js                    # Application entry point
-├── sckorpioWebEngine/                  # Core library code
+├── sckorpioEngineWeb/                  # Core library code
 │   ├── canvas/               # Canvas and utility systems
 │   ├── ecs/                  # Entity Component System
 │   │   ├── component/        # Base component class
@@ -313,7 +313,7 @@ sckorpioWebEngine/
 
 1. **HTML Setup**: Include the WebGL canvas in your HTML:
 ```html
-<canvas id="sckorpioWebEngine-webgl-surface"></canvas>
+<canvas id="sckorpioEngineWeb-webgl-surface"></canvas>
 ```
 
 2. **Initialize SckorpioWebEngine**:
@@ -336,7 +336,7 @@ initSckorpioWebEngine();
 
 #### Cube
 ```javascript
-import { Cube } from "../../sckorpioWebEngine/ecs/entityList/shape/cube.js";
+import { Cube } from "../../sckorpioEngineWeb/ecs/entityList/shape/cube.js";
 
 // Basic cube
 let cube = new Cube({ mode: 'basic' });
@@ -355,7 +355,7 @@ texturedBox.setTexture("woodCarton");
 
 #### Sphere
 ```javascript
-import { Sphere } from "../../sckorpioWebEngine/ecs/entityList/shape/sphere.js";
+import { Sphere } from "../../sckorpioEngineWeb/ecs/entityList/shape/sphere.js";
 
 let sphere = new Sphere(0.5, 36, 36); // radius, latitudeBands, longitudeBands
 sphere.setPosition(-2.0, 0.5, 0.0);
@@ -364,7 +364,7 @@ sphere.setColor(0, 1, 1); // Cyan
 
 #### Grid
 ```javascript
-import { Grid } from "../../sckorpioWebEngine/ecs/entityList/shape/grid.js";
+import { Grid } from "../../sckorpioEngineWeb/ecs/entityList/shape/grid.js";
 
 let grid = new Grid(100, 1.0); // gridCount, gridGap
 grid.setMaterial("basicGrey");

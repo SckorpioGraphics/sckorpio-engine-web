@@ -1,6 +1,6 @@
-import { Cube } from "../../sckorpioWebEngine/core/ecs/entityList/shape/cube.js";
-import { Sphere } from "../../sckorpioWebEngine/core/ecs/entityList/shape/sphere.js";
-import { SckorpioScene } from "../../sckorpioWebEngine/core/scene/sckorpioScene.js";
+import { Cube } from "../../sckorpioEngineWeb/core/ecs/entityList/shape/cube.js";
+import { Sphere } from "../../sckorpioEngineWeb/core/ecs/entityList/shape/sphere.js";
+import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
 
 class Scene extends SckorpioScene{
     constructor(projectName) {

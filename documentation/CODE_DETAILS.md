@@ -7,8 +7,8 @@
 The engine starts here.
 
 ```js
-import { verifyWebGLSupport } from "./sckorpioWebEngine/canvas/utils.js";
-import { title } from "./sckorpioWebEngine/canvas/title.js";
+import { verifyWebGLSupport } from "./sckorpioEngineWeb/canvas/utils.js";
+import { title } from "./sckorpioEngineWeb/canvas/title.js";
 import { Scene } from "./projects/sckorpioFIFA26/scene.js";
 
 var initSckorpioWebEngine = async function () {
@@ -46,11 +46,11 @@ The startup is asynchronous because shader and texture loading happen before the
 
 The page defines three canvases:
 
-1. `sckorpioWebEngine-webgl-surface`
+1. `sckorpioEngineWeb-webgl-surface`
    - main rendering surface
-2. `sckorpioWebEngine-2d-title-surface`
+2. `sckorpioEngineWeb-2d-title-surface`
    - title overlay surface
-3. `sckorpioWebEngine-2d-logger-surface`
+3. `sckorpioEngineWeb-2d-logger-surface`
    - debug/performance overlay surface
 
 It also loads:
@@ -68,7 +68,7 @@ The engine relies on `gl-matrix` being available globally for matrix math and on
 
 ## 3. Canvas utilities and WebGL context
 
-### [sckorpioWebEngine/canvas/utils.js](sckorpioWebEngine/canvas/utils.js)
+### [sckorpioEngineWeb/canvas/utils.js](sckorpioEngineWeb/canvas/utils.js)
 
 This file is the engine’s browser-side bridge to the canvas system.
 
@@ -96,7 +96,7 @@ export function verifyWebGLSupport() {
 
 ```js
 export function getWebGLContext() {
-  var canvas = document.getElementById("sckorpioWebEngine-webgl-surface");
+  var canvas = document.getElementById("sckorpioEngineWeb-webgl-surface");
   var gl = canvas.getContext("webgl2");
   return gl;
 }
@@ -121,7 +121,7 @@ Most of the engine uses `gl` imported from this file instead of manually request
 
 ## 4. Title overlay implementation
 
-### [sckorpioWebEngine/canvas/title.js](sckorpioWebEngine/canvas/title.js)
+### [sckorpioEngineWeb/canvas/title.js](sckorpioEngineWeb/canvas/title.js)
 
 This class handles the 2D title overlay.
 
@@ -136,7 +136,7 @@ class Title {
         const context = getTitleContext();
 
         const img = new Image();
-        img.src = "sckorpioWebEngine/canvas/resources/textures/sckorpioEngineLogo.png";
+        img.src = "sckorpioEngineWeb/canvas/resources/textures/sckorpioEngineLogo.png";
 
         img.onload = function () {
             context.drawImage(img, 0, 0, 200, 200);
@@ -163,7 +163,7 @@ export const title = new Title();
 
 ## 5. Logger overlay implementation
 
-### [sckorpioWebEngine/canvas/logger.js](sckorpioWebEngine/canvas/logger.js)
+### [sckorpioEngineWeb/canvas/logger.js](sckorpioEngineWeb/canvas/logger.js)
 
 The logger is a debug overlay that tracks render stats.
 
@@ -228,7 +228,7 @@ window.addEventListener('keydown', (event) => {
 
 ## 6. Scene orchestration code
 
-### [sckorpioWebEngine/core/scene/sckorpioScene.js](sckorpioWebEngine/core/scene/sckorpioScene.js)
+### [sckorpioEngineWeb/core/scene/sckorpioScene.js](sckorpioEngineWeb/core/scene/sckorpioScene.js)
 
 This is the most important orchestration class.
 
@@ -383,7 +383,7 @@ toggleMode() {
 
 ## 9. Entity base classes
 
-### [sckorpioWebEngine/core/ecs/entity/entity.js](sckorpioWebEngine/core/ecs/entity/entity.js)
+### [sckorpioEngineWeb/core/ecs/entity/entity.js](sckorpioEngineWeb/core/ecs/entity/entity.js)
 
 ```js
 class Entity{
@@ -394,7 +394,7 @@ class Entity{
 }
 ```
 
-### [sckorpioWebEngine/core/ecs/component/component.js](sckorpioWebEngine/core/ecs/component/component.js)
+### [sckorpioEngineWeb/core/ecs/component/component.js](sckorpioEngineWeb/core/ecs/component/component.js)
 
 ```js
 class Component{
@@ -412,7 +412,7 @@ These two files are deliberately minimal and are used as shared base types for a
 
 ## 10. Shape hierarchy and transform logic
 
-### [sckorpioWebEngine/core/ecs/entityList/shape/shape.js](sckorpioWebEngine/core/ecs/entityList/shape/shape.js)
+### [sckorpioEngineWeb/core/ecs/entityList/shape/shape.js](sckorpioEngineWeb/core/ecs/entityList/shape/shape.js)
 
 ```js
 class Shape extends Entity{
@@ -451,7 +451,7 @@ This keeps object creation consistent.
 
 ## 11. Transform component details
 
-### [sckorpioWebEngine/core/ecs/componentList/transformComponent.js](sckorpioWebEngine/core/ecs/componentList/transformComponent.js)
+### [sckorpioEngineWeb/core/ecs/componentList/transformComponent.js](sckorpioEngineWeb/core/ecs/componentList/transformComponent.js)
 
 ```js
 class TransformComponent extends Component{
@@ -504,7 +504,7 @@ The engine does not use a separate math utility library for transformation; it d
 
 ## 12. Mesh component details
 
-### [sckorpioWebEngine/core/ecs/componentList/meshComponent.js](sckorpioWebEngine/core/ecs/componentList/meshComponent.js)
+### [sckorpioEngineWeb/core/ecs/componentList/meshComponent.js](sckorpioEngineWeb/core/ecs/componentList/meshComponent.js)
 
 This component is the bridge from CPU-side mesh data to GPU-ready render data.
 
@@ -545,7 +545,7 @@ This method is the point where mesh data becomes GPU data.
 
 ## 13. Render component details
 
-### [sckorpioWebEngine/core/ecs/componentList/renderComponent.js](sckorpioWebEngine/core/ecs/componentList/renderComponent.js)
+### [sckorpioEngineWeb/core/ecs/componentList/renderComponent.js](sckorpioEngineWeb/core/ecs/componentList/renderComponent.js)
 
 This is the main low-level renderer integration class.
 
@@ -611,7 +611,7 @@ The order is strict because WebGL state must be set correctly before draw calls 
 
 ## 14. Shader implementation details
 
-### [sckorpioWebEngine/renderer/webgl/shader/shader.js](sckorpioWebEngine/renderer/webgl/shader/shader.js)
+### [sckorpioEngineWeb/renderer/webgl/shader/shader.js](sckorpioEngineWeb/renderer/webgl/shader/shader.js)
 
 This class is responsible for shader compilation and linking.
 
@@ -621,7 +621,7 @@ This class is responsible for shader compilation and linking.
 async generate(shaderName) {
     this.shaderProgram = null;
     this.shaderName = shaderName;
-    this.shaderFilePath = "sckorpioWebEngine/renderer/webgl/resources/shaders/" + shaderName + ".txt";
+    this.shaderFilePath = "sckorpioEngineWeb/renderer/webgl/resources/shaders/" + shaderName + ".txt";
 
     const source = await this.parseShader(this.shaderFilePath);
 
@@ -695,7 +695,7 @@ These are used by the renderer to pass the current camera and model transforms i
 
 ## 16. Buffer layout implementation details
 
-### [sckorpioWebEngine/renderer/webgl/buffer/bufferLayout.js](sckorpioWebEngine/renderer/webgl/buffer/bufferLayout.js)
+### [sckorpioEngineWeb/renderer/webgl/buffer/bufferLayout.js](sckorpioEngineWeb/renderer/webgl/buffer/bufferLayout.js)
 
 This file defines how attributes are laid out in memory.
 
@@ -746,7 +746,7 @@ This is what allows an instanced model matrix to be uploaded correctly.
 
 ## 17. Vertex array behavior
 
-### [sckorpioWebEngine/renderer/webgl/buffer/vertexArray.js](sckorpioWebEngine/renderer/webgl/buffer/vertexArray.js)
+### [sckorpioEngineWeb/renderer/webgl/buffer/vertexArray.js](sckorpioEngineWeb/renderer/webgl/buffer/vertexArray.js)
 
 The vertex array is configured using:
 
@@ -772,7 +772,7 @@ This is where the engine links CPU layout data to actual GPU attribute slots.
 
 ## 18. Camera implementation details
 
-### [sckorpioWebEngine/core/ecs/componentList/cameraComponent.js](sckorpioWebEngine/core/ecs/componentList/cameraComponent.js)
+### [sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js](sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js)
 
 The camera component initializes with:
 
@@ -825,7 +825,7 @@ updateProjectionMatrix() {
 
 ## 19. Material and texture book details
 
-### [sckorpioWebEngine/renderer/webgl/material/materialBook.js](sckorpioWebEngine/renderer/webgl/material/materialBook.js)
+### [sckorpioEngineWeb/renderer/webgl/material/materialBook.js](sckorpioEngineWeb/renderer/webgl/material/materialBook.js)
 
 This file creates default materials using the shader book and texture book.
 
@@ -838,7 +838,7 @@ basicRedMaterial.setColor(1.0,0.0,0.0);
 this.defaultMaterials.set("basicRed",basicRedMaterial);
 ```
 
-### [sckorpioWebEngine/renderer/webgl/texture/textureBook.js](sckorpioWebEngine/renderer/webgl/texture/textureBook.js)
+### [sckorpioEngineWeb/renderer/webgl/texture/textureBook.js](sckorpioEngineWeb/renderer/webgl/texture/textureBook.js)
 
 The texture book loads default assets with:
 
@@ -852,7 +852,7 @@ It stores them in a `Map` so lookup is fast and consistent.
 
 ## 20. Cube mesh data details
 
-### [sckorpioWebEngine/core/ecs/entityList/shape/cube.js](sckorpioWebEngine/core/ecs/entityList/shape/cube.js)
+### [sckorpioEngineWeb/core/ecs/entityList/shape/cube.js](sckorpioEngineWeb/core/ecs/entityList/shape/cube.js)
 
 This file defines the 3D cube geometry and several material modes.
 
@@ -883,7 +883,7 @@ It shows exactly how a shape defines geometry, layout, and material expectations
 
 ## 21. Renderer loop details
 
-### [sckorpioWebEngine/renderer/webgl/webglRenderer.js](sckorpioWebEngine/renderer/webgl/webglRenderer.js)
+### [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
 
 The actual frame loop logic is here.
 
@@ -943,7 +943,7 @@ The loop uses `forEach(async ...)` rather than awaiting each draw call. That mea
 
 ## 22. Internal resource IDs
 
-### [sckorpioWebEngine/canvas/utils.js](sckorpioWebEngine/canvas/utils.js)
+### [sckorpioEngineWeb/canvas/utils.js](sckorpioEngineWeb/canvas/utils.js)
 
 ```js
 var resourceID = 0;
@@ -979,16 +979,16 @@ A practical sequence looks like this:
 |---|---|
 | App startup | [main.js](main.js) |
 | HTML + canvas setup | [index.html](index.html) |
-| Canvas utilities | [sckorpioWebEngine/canvas/utils.js](sckorpioWebEngine/canvas/utils.js) |
-| Logger overlay | [sckorpioWebEngine/canvas/logger.js](sckorpioWebEngine/canvas/logger.js) |
-| Title overlay | [sckorpioWebEngine/canvas/title.js](sckorpioWebEngine/canvas/title.js) |
-| Scene manager | [sckorpioWebEngine/core/scene/sckorpioScene.js](sckorpioWebEngine/core/scene/sckorpioScene.js) |
-| Renderer | [sckorpioWebEngine/renderer/webgl/webglRenderer.js](sckorpioWebEngine/renderer/webgl/webglRenderer.js) |
-| Shader system | [sckorpioWebEngine/renderer/webgl/shader/shader.js](sckorpioWebEngine/renderer/webgl/shader/shader.js) |
-| Material system | [sckorpioWebEngine/renderer/webgl/material/material.js](sckorpioWebEngine/renderer/webgl/material/material.js) |
-| Texture system | [sckorpioWebEngine/renderer/webgl/texture/texture.js](sckorpioWebEngine/renderer/webgl/texture/texture.js) |
-| Buffer system | [sckorpioWebEngine/renderer/webgl/buffer](sckorpioWebEngine/renderer/webgl/buffer) |
-| Camera logic | [sckorpioWebEngine/core/ecs/componentList/cameraComponent.js](sckorpioWebEngine/core/ecs/componentList/cameraComponent.js) |
-| Transform logic | [sckorpioWebEngine/core/ecs/componentList/transformComponent.js](sckorpioWebEngine/core/ecs/componentList/transformComponent.js) |
-| Mesh logic | [sckorpioWebEngine/core/ecs/componentList/meshComponent.js](sckorpioWebEngine/core/ecs/componentList/meshComponent.js) |
-| Render logic | [sckorpioWebEngine/core/ecs/componentList/renderComponent.js](sckorpioWebEngine/core/ecs/componentList/renderComponent.js) |
+| Canvas utilities | [sckorpioEngineWeb/canvas/utils.js](sckorpioEngineWeb/canvas/utils.js) |
+| Logger overlay | [sckorpioEngineWeb/canvas/logger.js](sckorpioEngineWeb/canvas/logger.js) |
+| Title overlay | [sckorpioEngineWeb/canvas/title.js](sckorpioEngineWeb/canvas/title.js) |
+| Scene manager | [sckorpioEngineWeb/core/scene/sckorpioScene.js](sckorpioEngineWeb/core/scene/sckorpioScene.js) |
+| Renderer | [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js) |
+| Shader system | [sckorpioEngineWeb/renderer/webgl/shader/shader.js](sckorpioEngineWeb/renderer/webgl/shader/shader.js) |
+| Material system | [sckorpioEngineWeb/renderer/webgl/material/material.js](sckorpioEngineWeb/renderer/webgl/material/material.js) |
+| Texture system | [sckorpioEngineWeb/renderer/webgl/texture/texture.js](sckorpioEngineWeb/renderer/webgl/texture/texture.js) |
+| Buffer system | [sckorpioEngineWeb/renderer/webgl/buffer](sckorpioEngineWeb/renderer/webgl/buffer) |
+| Camera logic | [sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js](sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js) |
+| Transform logic | [sckorpioEngineWeb/core/ecs/componentList/transformComponent.js](sckorpioEngineWeb/core/ecs/componentList/transformComponent.js) |
+| Mesh logic | [sckorpioEngineWeb/core/ecs/componentList/meshComponent.js](sckorpioEngineWeb/core/ecs/componentList/meshComponent.js) |
+| Render logic | [sckorpioEngineWeb/core/ecs/componentList/renderComponent.js](sckorpioEngineWeb/core/ecs/componentList/renderComponent.js) |

@@ -11,7 +11,7 @@ class Title {
     
         // Load the image
         const img = new Image();
-        img.src = "sckorpioWebEngine/canvas/resources/textures/sckorpioEngineLogo.png"; // Use correct path or URL
+        img.src = "sckorpioEngineWeb/canvas/resources/textures/sckorpioEngineLogo.png"; // Use correct path or URL
     
         // antialiasing
         context.imageSmoothingEnabled = true;

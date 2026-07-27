@@ -1,5 +1,5 @@
-import { verifyWebGLSupport } from "./sckorpioWebEngine/canvas/utils.js";
-import { title } from "./sckorpioWebEngine/canvas/title.js";
+import { verifyWebGLSupport } from "./sckorpioEngineWeb/canvas/utils.js";
+import { title } from "./sckorpioEngineWeb/canvas/title.js";
 import { Scene } from "./projects/sckorpioFIFA26/scene.js";
 
 var initSckorpioWebEngine = async function () {
