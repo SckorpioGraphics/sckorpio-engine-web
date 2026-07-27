@@ -43,6 +43,7 @@ class Scene extends SckorpioScene {
             "player_ronaldo",
             "player_mbappe",
             "player_neymar",
+            "player_rodri",
             "player_shakira",
             "fifa_trophy",
             "trophy_box1",
@@ -64,9 +65,10 @@ class Scene extends SckorpioScene {
         this.buildAdvertisementBoards();
         this.buildGrandstandRoof();     
         this.buildStadiumGateBoards(); 
-        this.buildFIFAPlayers();
-       this.buildFIFACeremony();
-        //this.buildEnginePrimitiveShowcase();
+        //this.buildFIFAPlayers();
+        this.buildFIFACeremony();
+        //this.buildFIFAPlayersFinal();
+        // this.buildEnginePrimitiveShowcase();
     }
 
     buildPitch() {
@@ -85,7 +87,7 @@ class Scene extends SckorpioScene {
         this.entitiesList.push(ground);
 
         let markings = new Plane({ mode: 'texture', uvRange: [0, 0, 1, 1] });
-        markings.setPosition(0.0, 0.01, 0.0);
+        markings.setPosition(0.0, 0.1, 0.0);
         markings.setRotation(90, 0, 0);
         markings.setScale(100.0, 80.0, 1.0);
         markings.setTexture("pitch_markings");
@@ -93,7 +95,7 @@ class Scene extends SckorpioScene {
     }
 
     buildBalls() {
-        let football = new Sphere({ mode: 'texture', radius: 0.2 });
+        let football = new Sphere({ mode:'texture', radius: 0.2 });
         football.setPosition(-36.0, 0.3, 0.0);
         football.setColor(0, 1, 1);
         football.setTexture('adidas_trionda');
@@ -347,6 +349,22 @@ class Scene extends SckorpioScene {
         floodLightLED.addInstance([-74, 30, -54], [0,  45, 0], [10, 8, 2]);
         floodLightLED.addInstance([ 74, 30, -54], [0, -45, 0], [10, 8, 2]);
         this.entitiesList.push(floodLightLED);
+    }
+
+    buildFIFAPlayersFinal(){
+        let player1 = new Plane({ mode: 'texture' });
+        player1.setTexture('player_messi');
+        player1.setPosition(-38.0, 1.5, 2.0);
+        player1.setScale(2.0, 2.5, 1.0);
+        player1.setRotation(0.0, 90.0, 0.0);
+        this.entitiesList.push(player1);
+
+        let player2 = new Plane({ mode: 'texture' });
+        player2.setTexture('player_rodri');
+        player2.setPosition(-38.0, 1.5, -2.0);
+        player2.setScale(2.0, 2.5, 1.0);
+        player2.setRotation(0.0, 90.0, 0.0);
+        this.entitiesList.push(player2);
     }
 
     buildFIFAPlayers() {
