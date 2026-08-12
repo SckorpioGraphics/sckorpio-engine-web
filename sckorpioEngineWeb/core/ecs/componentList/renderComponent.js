@@ -162,10 +162,10 @@ class RenderComponent{
     bind(){
         //bind GPU buffers (NOTE:Keep order stict like this)
         this.vertexArray.bind();
-        this.vertexBuffer.bind();
-        if(this.useElements){
-            this.indexBuffer.bind();
-        }
+        //this.vertexBuffer.bind();
+        // if(this.useElements){
+        //     this.indexBuffer.bind();
+        // }
         
         //bind shader
         this.material.shader.bind();
