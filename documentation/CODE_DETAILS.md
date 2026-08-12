@@ -515,23 +515,23 @@ this.visible = true;
 this.vertexLayout;
 this.vertexData = [];
 this.indexData = [];
+this.instanced = false;
 this.instanceLayout;
-this.instanceData = [];
-this.instancesCount = 0;
 this.textureUV = [0.0, 0.0, 1.0, 1.0];
 this.renderComponent = new RenderComponent();
 ```
 
-#### `loadGPUData()`
+#### `loadGPUData(transformComponent)`
 
 ```js
-loadGPUData(){
+loadGPUData(transformComponent){
     this.renderComponent.setMaterial(this.material);
     this.renderComponent.setData(this.layout,this.vertexData,this.indexData);
 
-    if(this.isInstanced){
-        if(this.instanceData.length > 0){
-            this.renderComponent.setInstancedData(this.instanceLayout, this.instanceData, this.instancesCount);
+    if(this.instanced){
+        const instancesCount = transformComponent.instancesCount;
+        if(instancesCount > 0){
+            this.renderComponent.setInstancedData(this.instanceLayout, transformComponent.instancesModelMatrices, instancesCount);
         }
     }
 }
@@ -539,7 +539,7 @@ loadGPUData(){
 
 ### Practical interpretation
 
-This method is the point where mesh data becomes GPU data.
+This method is the point where mesh data becomes GPU data. It now accepts the `transformComponent` as a parameter to access instance data (matrices and count) that are stored in the transform component rather than the mesh component.
 
 ---
 

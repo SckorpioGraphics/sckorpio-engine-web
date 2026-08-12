@@ -219,10 +219,16 @@ The transform logic is in [sckorpioEngineWeb/core/ecs/componentList/transformCom
 
 This component stores:
 
+**Local transform data:**
 - position
 - scale
 - rotation
 - model matrix
+
+**Instance transform data:**
+- `isInstanced` - flag to enable/disable instancing
+- `instancesCount` - number of instances
+- `instancesModelMatrices` - array of instance transformation matrices
 
 It computes a model matrix using `gl-matrix` by combining:
 
@@ -230,7 +236,9 @@ It computes a model matrix using `gl-matrix` by combining:
 2. rotation
 3. scaling
 
-The matrix is regenerated whenever the object’s transform changes.
+The matrix is regenerated whenever the object's transform changes.
+
+For instanced objects, the component also stores all instance matrices and provides the `createInstance()` method to generate and store new instance transformations.
 
 ### Mesh component
 
@@ -241,7 +249,6 @@ This is one of the most important components because it ties together:
 - CPU-side geometry data
 - GPU-side render data
 - material/reference information
-- instance information
 - visibility state
 
 It stores:
@@ -249,12 +256,12 @@ It stores:
 - `vertexData`
 - `indexData`
 - `vertexLayout`
-- `instanceData`
 - `instanceLayout`
 - `textureUV`
 - `renderComponent`
+- `isInstanced` - flag to enable/disable instancing
 
-The `loadGPUData()` method is especially important because it moves CPU geometry into WebGL buffers.
+The `loadGPUData(transformComponent)` method is especially important because it moves CPU geometry into WebGL buffers. It accepts the `transformComponent` as a parameter to access instance data stored there.
 
 ### Render component
 
