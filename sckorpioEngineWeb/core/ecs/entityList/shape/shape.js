@@ -13,6 +13,7 @@ class Shape extends Entity{
         this.meshComponent = null;
         this.addTransformComponent();
         this.addMeshComponent();
+        this.isInstanced = false;
     }
 
     addTransformComponent(){
@@ -33,11 +34,21 @@ class Shape extends Entity{
     }
 
     setInstanced(enabled = true) {
-        this.meshComponent.setInstanced(enabled);
+        if(enabled && !this.isInstanced){
+            this.transformComponent.setInstanced(true);
+            this.meshComponent.setInstanced(true);
+            this.isInstanced = true;
+        }
+        if(!enabled && this.isInstanced){
+            this.transformComponent.setInstanced(false);
+            this.meshComponent.setInstanced(false);
+            this.isInstanced = false;
+        }
     }
 
     addInstance(position = [0,0,0], rotation = [0,0,0], scale = [1,1,1]) {
-        this.meshComponent.createInstance(position, rotation, scale);
+        this.setInstanced(true);
+        this.transformComponent.createInstance(position, rotation, scale);
     }
 
     addMeshComponent() {
@@ -71,6 +82,14 @@ class Shape extends Entity{
 
     setTextureRepeat(repeatX,repeatY){
         this.meshComponent.setTextureRepeat(repeatX,repeatY);
+    }
+
+    loadGPUData(){
+        this.meshComponent.loadGPUData(this.transformComponent);
+    }
+
+    unloadGPUData(){
+        this.meshComponent.unloadGPUData();
     }
 }
 

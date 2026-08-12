@@ -14,8 +14,6 @@ class MeshComponent extends Component{
         //instances data
         this.isInstanced = false;
         this.instanceLayout;
-        this.instanceData = [];
-        this.instancesCount = 0;
 
         //material data
         this.textureUV = [0.0, 0.0, 1.0, 1.0];
@@ -45,12 +43,17 @@ class MeshComponent extends Component{
         this.vertexLayout = layout;
     }
 
-    setInstanced(){
-        this.isInstanced = true;
-        const defaultInstanceLayout = [
-            { name: "a_instanceMatrix0", type: "mat4f" }
-        ];
-        this.setInstanceLayout(defaultInstanceLayout);
+    setInstanced(enabled){
+        if(enabled)
+        {
+            this.isInstanced = true;
+            const defaultInstanceLayout = [
+                { name: "a_instanceMatrix0", type: "mat4f" }
+            ];
+            this.setInstanceLayout(defaultInstanceLayout);
+        } else{
+            this.isInstanced = false;
+        }
     }
 
     setInstanceLayout(layout){
@@ -79,49 +82,18 @@ class MeshComponent extends Component{
         this.renderComponent.unbind();
     }
 
-    createInstance(
-        position = [0,0,0],
-        rotation = [0,0,0],
-        scale = [1,1,1]
-    ){
-        if(!this.isInstanced){
-            this.setInstanced();
-        }
+    
 
-        // cretae Identity matrix
-        let instanceModelMatrix = mat4.create();
-        // Apply translation
-        mat4.translate(instanceModelMatrix, instanceModelMatrix, position);
-        
-        // Create rotation matrix
-        let rotationMatrix = mat4.create();
-        mat4.rotateX(rotationMatrix, rotationMatrix, glMatrix.toRadian(rotation[0])); // Rotation around X axis
-        mat4.rotateY(rotationMatrix, rotationMatrix, glMatrix.toRadian(rotation[1])); // Rotation around Y axis
-        mat4.rotateZ(rotationMatrix, rotationMatrix, glMatrix.toRadian(rotation[2])); // Rotation around Z axis
-
-        // Apply rotation
-        mat4.multiply(instanceModelMatrix, instanceModelMatrix, rotationMatrix);
-
-        // Apply scaling
-        mat4.scale(instanceModelMatrix, instanceModelMatrix, scale);
-        
-        // Push the 16 raw matrix floats directly into our loose CPU array
-        for (let i = 0; i < 16; i++) {
-            this.instanceData.push(instanceModelMatrix[i]);
-        }
-        this.instancesCount++;
-
-    }
-
-    loadGPUData(){
+    loadGPUData(transformComponent){
         // set material
         this.renderComponent.setMaterial(this.material);
         // set Source Mesh Data
         this.renderComponent.setData(this.layout,this.vertexData,this.indexData);
         // set Instances Data
         if(this.isInstanced){
-            if(this.instanceData.length > 0){
-                this.renderComponent.setInstancedData(this.instanceLayout, this.instanceData, this.instancesCount);
+            const instancesCount = transformComponent.instancesCount;
+            if(instancesCount > 0){
+                this.renderComponent.setInstancedData(this.instanceLayout, transformComponent.instancesModelMatrices, instancesCount);
             }
         }
     }

@@ -47,7 +47,7 @@ class WebGLRenderer {
 
     loadEntityDataToGPU() {
         this.entityList.forEach((entity)=>{
-            entity.meshComponent.loadGPUData();
+            entity.loadGPUData();
         })
     }
 

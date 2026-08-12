@@ -25,8 +25,8 @@ class Cyclinder extends Shape{
     setMode(mode){
         this.mode = mode;
         this.setMeshComponentData();
-        this.meshComponent.unloadGPUData();
-        this.meshComponent.loadGPUData();
+        this.unloadGPUData();
+        this.loadGPUData();
     }
 
     setMeshComponentData(){
