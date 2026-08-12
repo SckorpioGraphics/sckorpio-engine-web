@@ -24,7 +24,7 @@ class RenderComponent{
         this.material;
 
         //instanceData
-        this.isInstanced = false;
+        this.instanced = false;
         this.instanceCount = 0;
         this.instanceBuffer = null;
         this.instanceBufferLayout;
@@ -80,8 +80,8 @@ class RenderComponent{
     }
 
     setInstancedData(instanceDataLayout,instanceData,totalInstances){
-        // set isInstanced flag = true
-        this.isInstanced = true;
+        // set instanced flag = true
+        this.instanced = true;
         this.instanceCount = totalInstances;
 
         // Instance Buffer
@@ -134,12 +134,12 @@ class RenderComponent{
         }
     }
 
-    setIsInstanced(){
-        // set isInstanced in shader
-        if(this.isInstanced){
-            this.material.shader.setUniform1i("u_isInstanced",1);
+    setInstanced(){
+        // set instanced in shader
+        if(this.instanced){
+            this.material.shader.setUniform1i("u_instanced",1);
         } else {
-            this.material.shader.setUniform1i("u_isInstanced",0);
+            this.material.shader.setUniform1i("u_instanced",0);
         }
         
     }

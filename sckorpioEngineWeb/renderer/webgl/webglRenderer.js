@@ -67,11 +67,11 @@ class WebGLRenderer {
                 //bind resources
                 renderComponent.bind();
                 
-                if(renderComponent.isInstanced) {
-                    // if isInstanced
+                if(renderComponent.instanced) {
+                    // if instanced
 
                     // set is instanced uniform
-                    renderComponent.setIsInstanced();
+                    renderComponent.setInstanced();
 
                     // Setting Only VP
                     renderComponent.setViewProjection(
@@ -106,7 +106,7 @@ class WebGLRenderer {
                     // if just source mesh
 
                     // set is instanced uniform
-                    renderComponent.setIsInstanced();
+                    renderComponent.setInstanced();
                     
                     // Setting MVP
                     renderComponent.setMVP(

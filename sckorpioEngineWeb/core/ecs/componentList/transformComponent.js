@@ -11,7 +11,7 @@ class TransformComponent extends Component{
         this.setModelMatrix();
 
         // Instances Transform data
-        this.isInstanced = false;
+        this.instanced = false;
         this.instancesCount = 0;
         this.instancesModelMatrices = [];
     }
@@ -63,7 +63,7 @@ class TransformComponent extends Component{
     }
 
     setInstanced(enabled){
-        this.isInstanced = enabled;
+        this.instanced = enabled;
     }
 
     createInstance(
@@ -71,8 +71,8 @@ class TransformComponent extends Component{
         rotation = [0,0,0],
         scale = [1,1,1]
     ){
-        if(!this.isInstanced){
-            this.setIsInstanced(true);
+        if(!this.instanced){
+            this.setInstanced(true);
         }
 
         // cretae Identity matrix

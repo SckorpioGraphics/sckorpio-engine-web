@@ -12,7 +12,7 @@ class MeshComponent extends Component{
         this.indexData = [];
 
         //instances data
-        this.isInstanced = false;
+        this.instanced = false;
         this.instanceLayout;
 
         //material data
@@ -46,18 +46,18 @@ class MeshComponent extends Component{
     setInstanced(enabled){
         if(enabled)
         {
-            this.isInstanced = true;
+            this.instanced = true;
             const defaultInstanceLayout = [
                 { name: "a_instanceMatrix0", type: "mat4f" }
             ];
             this.setInstanceLayout(defaultInstanceLayout);
         } else{
-            this.isInstanced = false;
+            this.instanced = false;
         }
     }
 
     setInstanceLayout(layout){
-        this.isInstanced = true;
+        this.instanced = true;
         this.instanceLayout = layout;
     }
 
@@ -90,7 +90,7 @@ class MeshComponent extends Component{
         // set Source Mesh Data
         this.renderComponent.setData(this.layout,this.vertexData,this.indexData);
         // set Instances Data
-        if(this.isInstanced){
+        if(this.instanced){
             const instancesCount = transformComponent.instancesCount;
             if(instancesCount > 0){
                 this.renderComponent.setInstancedData(this.instanceLayout, transformComponent.instancesModelMatrices, instancesCount);

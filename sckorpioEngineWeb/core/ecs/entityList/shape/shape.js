@@ -13,7 +13,7 @@ class Shape extends Entity{
         this.meshComponent = null;
         this.addTransformComponent();
         this.addMeshComponent();
-        this.isInstanced = false;
+        this.instanced = false;
     }
 
     addTransformComponent(){
@@ -34,15 +34,15 @@ class Shape extends Entity{
     }
 
     setInstanced(enabled = true) {
-        if(enabled && !this.isInstanced){
+        if(enabled && !this.instanced){
             this.transformComponent.setInstanced(true);
             this.meshComponent.setInstanced(true);
-            this.isInstanced = true;
+            this.instanced = true;
         }
-        if(!enabled && this.isInstanced){
+        if(!enabled && this.instanced){
             this.transformComponent.setInstanced(false);
             this.meshComponent.setInstanced(false);
-            this.isInstanced = false;
+            this.instanced = false;
         }
     }
 

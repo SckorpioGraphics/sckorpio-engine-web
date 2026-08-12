@@ -13,7 +13,7 @@ attribute vec4 a_instanceMatrix2;
 attribute vec4 a_instanceMatrix3;
 
 // --- UNIFORM FOR INSTANCES ---
-uniform int u_isInstanced;
+uniform int u_instanced;
 
 // --- UNIFORMS ----
 uniform mat4 u_model;
@@ -24,7 +24,7 @@ void main()
 {
     mat4 modelMatrix;
     
-    if (u_isInstanced == 1) {
+    if (u_instanced == 1) {
         modelMatrix = mat4(
             a_instanceMatrix0,
             a_instanceMatrix1,
