@@ -213,6 +213,65 @@ It also exposes helper methods like:
 - `setVisible()`
 - `addInstance()`
 
+### Scene Graph (Node Hierarchy)
+
+The engine implements a scene graph through the `Node` class, defined in [sckorpioEngineWeb/core/ecs/entityList/node/node.js](sckorpioEngineWeb/core/ecs/entityList/node/node.js).
+
+**What is a Node?**
+
+A `Node` is an entity that can have parent-child relationships, forming a hierarchical tree structure. All visual mesh entities extend from `Node` to support this hierarchy.
+
+**Scene graph features:**
+
+- **Parent-child relationships**: Each node can have one parent and multiple children
+- **Hierarchical transforms**: Child transforms are automatically composed with parent transforms
+- **Depth tracking**: The hierarchy depth is maintained and updated automatically
+- **Transform propagation**: When a parent moves/rotates/scales, all children inherit those transformations
+
+**Key methods:**
+
+```js
+setParent(parentNode)
+  // Set this node's parent
+  // Automatically adds this node as a child to the parent
+  // Updates the transform hierarchy
+
+addChild(childNode)
+  // Add a child node
+  // Automatically calls childNode.setParent(this)
+
+updateDepth(newDepth)
+  // Updates this node's depth and recursively updates all children
+  // Ensures hierarchy consistency
+```
+
+**How transforms work in the hierarchy:**
+
+- **Local transform**: Position, rotation, and scale relative to the parent
+- **World transform**: Position, rotation, and scale in world space, computed by multiplying parent's world transform with this node's local transform
+- **Automatic propagation**: Changing a parent's transform automatically affects all descendants
+
+**Example usage:**
+
+```js
+// Create entities
+let parent = new Cube({mode: 'basic'});
+let child = new Sphere({mode: 'basic'});
+
+// Position parent at origin
+parent.setPosition(5, 0, 0);
+
+// Set child to be relative to parent
+child.setParent(parent);
+
+// Now child's world position is parent's position + child's local position
+child.setPosition(2, 0, 0);  // 2 units relative to parent
+```
+
+**Testing and Demo:**
+
+The [projects/sckorpioTestingSceneGraph](projects/sckorpioTestingSceneGraph) scene demonstrates the scene graph feature with multiple parent-child relationships and instancing.
+
 ### Transform component
 
 The transform logic is in [sckorpioEngineWeb/core/ecs/componentList/transformComponent.js](sckorpioEngineWeb/core/ecs/componentList/transformComponent.js).
@@ -223,22 +282,33 @@ This component stores:
 - position
 - scale
 - rotation
-- model matrix
+- local transform matrix
+
+**World transform data:**
+- world transform matrix (computed by combining parent's world transform with local transform)
+- parent transform reference (for hierarchical transforms)
 
 **Instance transform data:**
 - `isInstanced` - flag to enable/disable instancing
-- `instancesCount` - number of instances
-- `instancesModelMatrices` - array of instance transformation matrices
+- `localInstancesCount` - number of local instances
+- `localInstancesTransforms` - array of local instance transformation matrices
+- `worldInstancesCount` - number of world instances
+- `worldInstancesTransforms` - array of world instance transformation matrices
 
-It computes a model matrix using `gl-matrix` by combining:
+It computes matrices using `gl-matrix` by combining:
 
 1. translation
 2. rotation
 3. scaling
 
-The matrix is regenerated whenever the object's transform changes.
+**Hierarchical transform calculation:**
+- **Local transform**: computed from local position, rotation, and scale
+- **World transform**: computed by multiplying the parent's world transform with the local transform
+- This allows child entities to inherit parent transformations automatically
 
-For instanced objects, the component also stores all instance matrices and provides the `createInstance()` method to generate and store new instance transformations.
+The matrices are regenerated whenever the object's transform changes or when parent relationships are established.
+
+For instanced objects, the component stores both local and world instance matrices, applying the same hierarchical logic.
 
 ### Mesh component
 

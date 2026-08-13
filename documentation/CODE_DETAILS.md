@@ -502,7 +502,109 @@ The engine does not use a separate math utility library for transformation; it d
 
 ---
 
-## 12. Mesh component details
+## 12. Node class and scene graph hierarchy
+
+### [sckorpioEngineWeb/core/ecs/entityList/node/node.js](sckorpioEngineWeb/core/ecs/entityList/node/node.js)
+
+The `Node` class extends the base `Entity` to support hierarchical scene graphs.
+
+#### Constructor and hierarchy data
+
+```js
+class Node extends Entity{
+    constructor(){
+        super();
+        this.transformComponent = null;
+        this.addTransformComponent();
+
+        // instancing
+        this.instanced = false;
+
+        // Scene Graph
+        this.parentNode = null;
+        this.childNodes = [];
+        this.depth = 0;
+    }
+}
+```
+
+#### Setting up parent-child relationships
+
+```js
+setParent(parentNode){
+    // If parent is already there
+    if (this.parentNode === parentNode) return;
+
+    // set Parent
+    this.parentNode = parentNode;
+
+    if(parentNode instanceof Node) {
+        // add this as child to parent
+        parentNode.addChild(this);
+        // link parent transform component
+        this.transformComponent.setParent(parentNode.transformComponent);
+        // update depth
+        this.updateDepth(this.parentNode.depth + 1);
+    }
+}
+
+addChild(childNode){
+    // If child is already there
+    if (!this.childNodes.includes(childNode)) {
+        this.childNodes.push(childNode);
+        childNode.setParent(this);
+    }
+}
+```
+
+#### Depth propagation
+
+```js
+updateDepth(newDepth){
+    this.depth = newDepth;
+    this.childNodes.forEach((childNode)=>{
+        childNode.updateDepth(this.depth+1);
+    });
+}
+```
+
+This method recursively updates the depth for all descendants.
+
+### How the hierarchy affects transforms
+
+When you set a parent-child relationship:
+
+1. The child's `transformComponent` gets a reference to the parent's `transformComponent`
+2. When the renderer computes world transforms, it multiplies the parent's world transform with the child's local transform
+3. This means moving or rotating the parent automatically moves/rotates all children
+4. The hierarchy depth is tracked automatically for rendering order
+
+### Example usage from sckorpioTestingSceneGraph
+
+```js
+// Create a sphere and cylinder
+let sphere = new Sphere({ mode: 'basic' , radius: 0.5});
+let cyclinder = new Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
+
+// Position the cylinder
+cyclinder.setPosition(-5.0, 5.0, -5.0);
+
+// Make sphere a child of cylinder
+// Now sphere's world position = cylinder's world position + sphere's local position
+sphere.setParent(cyclinder);
+sphere.setPosition(0, -2, 0);  // Position relative to cylinder
+```
+
+### Key benefits
+
+- **Simplicity**: Parent-child relationships are maintained automatically
+- **Realism**: Objects inherit parent transformations naturally
+- **Optimization**: Shared transforms reduce redundant calculations
+- **Flexibility**: Works seamlessly with instancing
+
+---
+
+## 14. Mesh component details
 
 ### [sckorpioEngineWeb/core/ecs/componentList/meshComponent.js](sckorpioEngineWeb/core/ecs/componentList/meshComponent.js)
 
@@ -543,7 +645,7 @@ This method is the point where mesh data becomes GPU data. It now accepts the `t
 
 ---
 
-## 13. Render component details
+## 15. Render component details
 
 ### [sckorpioEngineWeb/core/ecs/componentList/renderComponent.js](sckorpioEngineWeb/core/ecs/componentList/renderComponent.js)
 
@@ -609,7 +711,7 @@ The order is strict because WebGL state must be set correctly before draw calls 
 
 ---
 
-## 14. Shader implementation details
+## 16. Shader implementation details
 
 ### [sckorpioEngineWeb/renderer/webgl/shader/shader.js](sckorpioEngineWeb/renderer/webgl/shader/shader.js)
 
@@ -670,7 +772,7 @@ The parser looks for `#shader vertex` and `#shader fragment` markers, which is a
 
 ---
 
-## 15. Shader uniform helpers
+## 17. Shader uniform helpers
 
 The shader class includes helpers such as:
 
@@ -693,7 +795,7 @@ These are used by the renderer to pass the current camera and model transforms i
 
 ---
 
-## 16. Buffer layout implementation details
+## 18. Buffer layout implementation details
 
 ### [sckorpioEngineWeb/renderer/webgl/buffer/bufferLayout.js](sckorpioEngineWeb/renderer/webgl/buffer/bufferLayout.js)
 
@@ -744,7 +846,7 @@ This is what allows an instanced model matrix to be uploaded correctly.
 
 ---
 
-## 17. Vertex array behavior
+## 19. Vertex array behavior
 
 ### [sckorpioEngineWeb/renderer/webgl/buffer/vertexArray.js](sckorpioEngineWeb/renderer/webgl/buffer/vertexArray.js)
 
@@ -770,7 +872,7 @@ This is where the engine links CPU layout data to actual GPU attribute slots.
 
 ---
 
-## 18. Camera implementation details
+## 20. Camera implementation details
 
 ### [sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js](sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js)
 
@@ -823,7 +925,7 @@ updateProjectionMatrix() {
 
 ---
 
-## 19. Material and texture book details
+## 21. Material and texture book details
 
 ### [sckorpioEngineWeb/renderer/webgl/material/materialBook.js](sckorpioEngineWeb/renderer/webgl/material/materialBook.js)
 
@@ -850,7 +952,7 @@ It stores them in a `Map` so lookup is fast and consistent.
 
 ---
 
-## 20. Cube mesh data details
+## 22. Cube mesh data details
 
 ### [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cube.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cube.js)
 
@@ -881,7 +983,7 @@ It shows exactly how a mesh defines geometry, layout, and material expectations 
 
 ---
 
-## 21. Renderer loop details
+## 23. Renderer loop details
 
 ### [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
 
@@ -941,7 +1043,7 @@ The loop uses `forEach(async ...)` rather than awaiting each draw call. That mea
 
 ---
 
-## 22. Internal resource IDs
+## 24. Internal resource IDs
 
 ### [sckorpioEngineWeb/canvas/utils.js](sckorpioEngineWeb/canvas/utils.js)
 
@@ -956,7 +1058,7 @@ This is used to generate unique IDs for WebGL resources.
 
 ---
 
-## 23. Summary of implementation flow
+## 25. Summary of implementation flow
 
 A practical sequence looks like this:
 
@@ -973,7 +1075,7 @@ A practical sequence looks like this:
 
 ---
 
-## 24. Quick reference map
+## 26. Quick reference map
 
 | Area | Main file |
 |---|---|
