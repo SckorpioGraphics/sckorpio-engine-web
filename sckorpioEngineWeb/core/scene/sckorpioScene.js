@@ -11,6 +11,18 @@ class SckorpioScene {
     constructor(){
         this.uid = 0;
 
+        //SYSTEMS
+        //renderer
+        this.renderer;
+
+        //camera 
+        this.camera;
+
+        //RESOURCES
+        this.materialBook;
+        this.shaderBook;
+        this.textureBook;
+
         //ENTITIES
         //meshes
         this.grid;
@@ -19,40 +31,17 @@ class SckorpioScene {
         this.zAxis;
         this.defaultEntitiesList = [];
         this.entitiesList = [];
-        //camera 
-        this.camera;
-
-        //SYSTEM
-        //renderer
-        this.renderer;
-
-        //RESOURCES
-        this.materialBook;
-        this.shaderBook;
-        this.textureBook;
-
+        
         //visibility
         this.isGridVisible = true;
         this.isAxisVisible = true;
 
         //mode
         this.mode = 1;
-        // moon1: (58.0/255.0, 168.0/255.0, 193.0/255.0)
-        // electriczblue: (125.0/255.0, 249.0/255.0, 255.0/255.0)
-        // robin egg: (0.0/255.0, 204.0/255.0, 204.0/255.0)
         
-
-        // Light
-        // (90.0/255.0, 170.0/255.0, 180.0/255.0);
-        // GRID: (0.5, 0.8, 0.8);
-
-        // Dark
-        // (80.0/255.0, 160.0/255.0, 170.0/255.0);
-        // GRID: (0.5, 0.8, 0.8);
-
-        this.lightModeClearColor = vec3.fromValues(80.0/255.0, 160.0/255.0, 170.0/255.0);
+        //color modes
+        this.lightModeClearColor = vec3.fromValues(0.32, 0.63, 0.67);
         this.lightModeGridColor = vec3.fromValues(0.5, 0.8, 0.8);
-
         this.darkModeClearColor = vec3.fromValues(0.14, 0.11, 0.26);
         this.darkModeGridColor = vec3.fromValues(0.45, 0.40, 0.65);
 
