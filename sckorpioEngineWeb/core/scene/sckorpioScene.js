@@ -172,6 +172,8 @@ class SckorpioScene {
     }
 
     load(){
+        // update Scene Graph
+        this.updateSceneGraph();
         // load systems with entities according to components
         this.addEntitiesToRenderer();
 
@@ -185,6 +187,26 @@ class SckorpioScene {
         this.renderer.addEntityList(this.entitiesList);
         // load Data of entities from CPU to GPU
         this.renderer.loadEntityDataToGPU();
+    }
+
+    updateSceneGraph(){
+        this.defaultEntitiesList.sort((a,b)=> a.depth - b.depth);
+        for(const entity of this.defaultEntitiesList){
+            entity.transformComponent.setWorldTransform();
+            entity.transformComponent.setWorldInstancesTransforms();
+            if(entity.transformComponent.worldInstancesCount>0){
+                entity.setInstanced(true);
+            }
+        }
+
+        this.entitiesList.sort((a,b)=> a.depth - b.depth);
+        for(const entity of this.entitiesList){
+            entity.transformComponent.setWorldTransform();
+            entity.transformComponent.setWorldInstancesTransforms();
+            if(entity.transformComponent.worldInstancesCount>0){
+                entity.setInstanced(true);
+            }
+        }
     }
 
     play(){
