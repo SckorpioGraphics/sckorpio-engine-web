@@ -461,22 +461,22 @@ class TransformComponent extends Component{
         this.scale = vec3.fromValues(1.0, 1.0, 1.0);
         this.rotation = vec3.fromValues(0.0, 0.0, 0.0);
         this.modelMatrix = mat4.create();
-        this.setModelMatrix();
+        this.setLocalTransform();
     }
 
     setPosition(x,y,z){
         this.position = vec3.fromValues(x,y,z);
-        this.setModelMatrix();
+        this.setLocalTransform();
     }
 
     setScale(sx,sy,sz){
         this.scale = vec3.fromValues(sx,sy,sz);
-        this.setModelMatrix();
+        this.setLocalTransform();
     }
 
     setRotation(rx,ry,rz){
         this.rotation = vec3.fromValues(rx,ry,rz);
-        this.setModelMatrix();
+        this.setLocalTransform();
     }
 
     calculateModelMatrix() {
