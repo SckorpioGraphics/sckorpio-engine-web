@@ -3,49 +3,65 @@ import { Component } from "../component/component.js";
 class TransformComponent extends Component{
     constructor(){
         super();
-        // Local Transform data (Source Mesh)
+        // Parent Transform
+        this.parentTransformComponent = null;
+
+        // Local Transform 
         this.position = vec3.fromValues(0.0, 0.0, 0.0);
         this.scale = vec3.fromValues(1.0, 1.0, 1.0);
         this.rotation = vec3.fromValues(0.0, 0.0, 0.0);
-        this.modelMatrix = mat4.create();
-        this.setModelMatrix();
+        this.localTransform = mat4.create();
+        this.worldTransform = mat4.create();
+        this.setLocalTransform();
+        this.setWorldTransform();
 
-        // Instances Transform data
+        // Instances Transform
         this.instanced = false;
-        this.instancesCount = 0;
-        this.instancesModelMatrices = [];
+        this.localInstancesCount = 0;
+        this.localInstancesTransforms = [];
+        this.worldInstancesCount = 0;
+        this.worldInstancesTransforms = [];
+        this.setWorldInstancesTransforms();
+    }
+
+    setParent(parentTransformComponent){
+        this.parentTransformComponent = parentTransformComponent;
     }
 
     setPosition(x,y,z){
         this.position = vec3.fromValues(x,y,z);
-        this.setModelMatrix();
+        this.setLocalTransform();
     }
 
     setScale(sx,sy,sz){
         this.scale = vec3.fromValues(sx,sy,sz);
-        this.setModelMatrix();
+        this.setLocalTransform();
     }
 
     setRotation(rx,ry,rz){
         this.rotation = vec3.fromValues(rx,ry,rz);
-        this.setModelMatrix();
+        this.setLocalTransform();
     }
 
-    setModelMatrix() {
-        this.modelMatrix = this.calculateModelMatrix();
+    getLocalTransform(){
+        return this.localTransform;
     }
 
-    getModelMatrix() {
-        return this.modelMatrix;
+    getWorldTransform(){
+        return this.worldTransform;
     }
 
-    calculateModelMatrix() {
+    getModelMatrix(){
+        return this.worldTransform;
+    }
+
+    setLocalTransform(){
         // Create translation, rotation, and scaling matrices
         // Start with an identity matrix
-        let modelMatrix = mat4.create();  
+        let localTransform = mat4.create();  
         
         // Apply translation
-        mat4.translate(modelMatrix, modelMatrix, this.position);
+        mat4.translate(localTransform, localTransform, this.position);
         
         // Create rotation matrix
         let rotationMatrix = mat4.create();
@@ -54,12 +70,27 @@ class TransformComponent extends Component{
         mat4.rotateZ(rotationMatrix, rotationMatrix, glMatrix.toRadian(this.rotation[2])); // Rotation around Z axis
 
         // Applt rotation
-        mat4.multiply(modelMatrix, modelMatrix, rotationMatrix);
+        mat4.multiply(localTransform, localTransform, rotationMatrix);
 
         // Apply scaling
-        mat4.scale(modelMatrix, modelMatrix, this.scale);
+        mat4.scale(localTransform, localTransform, this.scale);
+
+        this.localTransform = localTransform;
+    }
+
+    setWorldTransform(){
+        // Start with an identity matrix
+        let worldTransform = mat4.create(); 
         
-        return modelMatrix;
+        if(this.parentTransformComponent){
+            // Apply parent Transform
+            mat4.multiply(worldTransform, worldTransform, this.parentTransformComponent.getWorldTransform());
+        }
+
+        // Apply local Transform
+        mat4.multiply(worldTransform, worldTransform, this.localTransform);
+
+        this.worldTransform = worldTransform;
     }
 
     setInstanced(flag){
@@ -76,9 +107,9 @@ class TransformComponent extends Component{
         }
 
         // cretae Identity matrix
-        let instanceModelMatrix = mat4.create();
+        let localInstanceTransform = mat4.create();
         // Apply translation
-        mat4.translate(instanceModelMatrix, instanceModelMatrix, position);
+        mat4.translate(localInstanceTransform, localInstanceTransform, position);
         
         // Create rotation matrix
         let rotationMatrix = mat4.create();
@@ -87,16 +118,89 @@ class TransformComponent extends Component{
         mat4.rotateZ(rotationMatrix, rotationMatrix, glMatrix.toRadian(rotation[2])); // Rotation around Z axis
 
         // Apply rotation
-        mat4.multiply(instanceModelMatrix, instanceModelMatrix, rotationMatrix);
+        mat4.multiply(localInstanceTransform, localInstanceTransform, rotationMatrix);
 
         // Apply scaling
-        mat4.scale(instanceModelMatrix, instanceModelMatrix, scale);
+        mat4.scale(localInstanceTransform, localInstanceTransform, scale);
+
+        this.localInstancesTransforms.push(localInstanceTransform);
         
         // Push the 16 raw matrix floats directly into our loose CPU array
-        for (let i = 0; i < 16; i++) {
-            this.instancesModelMatrices.push(instanceModelMatrix[i]);
+        // for (let i = 0; i < 16; i++) {
+        //     this.localInstancesTransforms.push(localInstanceTransform[i]);
+        // }
+        this.localInstancesCount++;
+    }
+
+    setWorldInstancesTransforms(){
+        let worldInstanceTransform = mat4.create(); 
+        this.worldInstancesCount = 0;
+        this.worldInstancesTransforms = [];
+
+        // If No Parent Node
+        if(!this.parentTransformComponent){
+            this.worldInstancesTransforms = this.localInstancesTransforms;
+            this.worldInstancesCount = this.localInstancesCount;
+            return
         }
-        this.instancesCount++;
+
+        // If Parent is there..
+        let parentInstanced = false;
+        if(this.parentTransformComponent){
+            parentInstanced = this.parentTransformComponent.instanced;
+        }
+        // Case 1
+        if(!parentInstanced && !this.instanced){
+            this.setWorldTransform();
+        }
+        // Case 2
+        else if(!parentInstanced && this.instanced){
+            let parentWorldTransform = this.parentTransformComponent.getWorldTransform();
+            for(let i=0; i < this.localInstancesCount; i++){
+                worldInstanceTransform = mat4.create(); 
+                mat4.multiply(worldInstanceTransform, worldInstanceTransform, parentWorldTransform);
+                mat4.multiply(worldInstanceTransform, worldInstanceTransform, this.localInstancesTransforms[i]);
+                this.worldInstancesTransforms.push(worldInstanceTransform);
+                this.worldInstancesCount++;
+            }
+        }
+        // Case 3
+        else if(parentInstanced && !this.instanced){
+            for(let i=0; i < this.parentTransformComponent.worldInstancesCount; i++){
+                let parentWorldInstanceTransform = this.parentTransformComponent.worldInstancesTransforms[i];
+                worldInstanceTransform = mat4.create(); 
+                mat4.multiply(worldInstanceTransform, worldInstanceTransform, parentWorldInstanceTransform);
+                mat4.multiply(worldInstanceTransform, worldInstanceTransform, this.localTransform);
+                this.worldInstancesTransforms.push(worldInstanceTransform);
+                this.worldInstancesCount++;
+            }
+            this.instanced = true;
+        }
+        // Case 4
+        else if(parentInstanced && this.instanced){
+            for(let i=0; i < this.parentTransformComponent.worldInstancesCount; i++){
+                let parentWorldInstanceTransform = this.parentTransformComponent.worldInstancesTransforms[i];
+                for(let j=0; j < this.localInstancesCount; j++){
+                    let localInstanceTransform = this.localInstancesTransforms[j];
+                    worldInstanceTransform = mat4.create(); 
+                    mat4.multiply(worldInstanceTransform, worldInstanceTransform, parentWorldInstanceTransform);
+                    mat4.multiply(worldInstanceTransform, worldInstanceTransform, localInstanceTransform);
+                    this.worldInstancesTransforms.push(worldInstanceTransform);
+                    this.worldInstancesCount++;
+                }
+            }
+        }
+    }
+
+    getFlattenedWorldInstancesTransforms() {
+        const totalFloats = this.worldInstancesCount * 16;
+        let flattenedBuffer = new Float32Array(totalFloats);
+
+        for (let i = 0; i < this.worldInstancesCount; i++) {
+            flattenedBuffer.set(this.worldInstancesTransforms[i], i * 16);
+        }
+
+        return flattenedBuffer;
     }
 }
 
