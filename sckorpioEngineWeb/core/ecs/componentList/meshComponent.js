@@ -89,9 +89,9 @@ class MeshComponent extends Component{
         this.renderComponent.setData(this.layout,this.vertexData,this.indexData);
         // set Instances Data
         if(this.instanced){
-            const instancesCount = transformComponent.instancesCount;
+            const instancesCount = transformComponent.worldInstancesCount;
             if(instancesCount > 0){
-                this.renderComponent.setInstancedData(this.instanceLayout, transformComponent.instancesModelMatrices, instancesCount);
+                this.renderComponent.setInstancedData(this.instanceLayout, transformComponent.getFlattenedWorldInstancesTransforms(), instancesCount);
             }
         }
     }
