@@ -62,8 +62,8 @@ class TransformComponent extends Component{
         return modelMatrix;
     }
 
-    setInstanced(enabled){
-        this.instanced = enabled;
+    setInstanced(flag){
+        this.instanced = flag;
     }
 
     createInstance(

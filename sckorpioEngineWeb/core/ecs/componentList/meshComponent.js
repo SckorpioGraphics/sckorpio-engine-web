@@ -43,8 +43,8 @@ class MeshComponent extends Component{
         this.vertexLayout = layout;
     }
 
-    setInstanced(enabled){
-        if(enabled)
+    setInstanced(flag){
+        if(flag)
         {
             this.instanced = true;
             const defaultInstanceLayout = [
@@ -81,8 +81,6 @@ class MeshComponent extends Component{
     unloadGPUData(){
         this.renderComponent.unbind();
     }
-
-    
 
     loadGPUData(transformComponent){
         // set material

@@ -1,54 +1,15 @@
-import { Entity } from "../../entity/entity.js";
+import { Node } from "../node/node.js";
 import { TransformComponent } from "../../componentList/transformComponent.js";
 import { MeshComponent } from "../../componentList/meshComponent.js";
 import { MaterialBook } from "../../../../renderer/webgl/material/materialBook.js";
 import { TextureBook } from "../../../../renderer/webgl/texture/textureBook.js";
 
-class Shape extends Entity{
+class Shape extends Node{
     constructor(){
         super();
-        this.uid = 0;
-        this.components = [];
-        this.transformComponent = null;
         this.meshComponent = null;
-        this.addTransformComponent();
         this.addMeshComponent();
         this.instanced = false;
-    }
-
-    addTransformComponent(){
-        this.transformComponent = new TransformComponent();
-        this.components.push(this.transformComponent);
-    }
-
-    setPosition(x,y,z){
-        this.transformComponent.setPosition(x,y,z);
-    }
-
-    setScale(sx,sy,sz){
-        this.transformComponent.setScale(sx,sy,sz);
-    }
-
-    setRotation(rx,ry,rz){
-        this.transformComponent.setRotation(rx,ry,rz);
-    }
-
-    setInstanced(enabled = true) {
-        if(enabled && !this.instanced){
-            this.transformComponent.setInstanced(true);
-            this.meshComponent.setInstanced(true);
-            this.instanced = true;
-        }
-        if(!enabled && this.instanced){
-            this.transformComponent.setInstanced(false);
-            this.meshComponent.setInstanced(false);
-            this.instanced = false;
-        }
-    }
-
-    addInstance(position = [0,0,0], rotation = [0,0,0], scale = [1,1,1]) {
-        this.setInstanced(true);
-        this.transformComponent.createInstance(position, rotation, scale);
     }
 
     addMeshComponent() {
@@ -90,6 +51,15 @@ class Shape extends Entity{
 
     unloadGPUData(){
         this.meshComponent.unloadGPUData();
+    }
+
+    setInstanced(flag) {
+        const wasInstanced = this.instanced;
+        super.setInstanced(flag);
+        if(wasInstanced === flag) return; // Already Set
+        {
+            this.meshComponent.setInstanced(flag);
+        }
     }
 }
 
