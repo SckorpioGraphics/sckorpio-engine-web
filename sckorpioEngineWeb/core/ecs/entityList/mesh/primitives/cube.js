@@ -1,11 +1,11 @@
-import { Shape } from "./shape.js";
+import { Mesh } from "../mesh.js";
 
 const defaultBoxOptions = {
     mode: 'basic',
     uvRange: [0, 0, 1, 1]
 };
 
-class Cube extends Shape {
+class Cube extends Mesh {
     constructor(options) {
         super();
         options = Object.assign({}, defaultBoxOptions, options);

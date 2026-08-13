@@ -1,6 +1,6 @@
-import { Cube } from "../ecs/entityList/shape/cube.js";
+import { Cube } from "../ecs/entityList/mesh/primitives/cube.js";
 import { Camera } from "../ecs/entityList/camera/camera.js";
-import { Grid } from "../ecs/entityList/shape/grid.js";
+import { Grid } from "../ecs/entityList/mesh/primitives/grid.js";
 import { WebGLRenderer } from "../../renderer/webgl/webglRenderer.js";
 import { ShaderBook } from "../../renderer/webgl/shader/shaderBook.js";
 import { MaterialBook } from "../../renderer/webgl/material/materialBook.js";

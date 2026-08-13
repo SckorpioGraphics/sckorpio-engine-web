@@ -4,7 +4,7 @@ import { MeshComponent } from "../../componentList/meshComponent.js";
 import { MaterialBook } from "../../../../renderer/webgl/material/materialBook.js";
 import { TextureBook } from "../../../../renderer/webgl/texture/textureBook.js";
 
-class Shape extends Node{
+class Mesh extends Node{
     constructor(){
         super();
         this.meshComponent = null;
@@ -64,5 +64,5 @@ class Shape extends Node{
 }
 
 export{
-    Shape
+    Mesh
 }

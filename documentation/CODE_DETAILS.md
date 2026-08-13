@@ -410,12 +410,12 @@ These two files are deliberately minimal and are used as shared base types for a
 
 ---
 
-## 10. Shape hierarchy and transform logic
+## 10. Mesh hierarchy and transform logic
 
-### [sckorpioEngineWeb/core/ecs/entityList/shape/shape.js](sckorpioEngineWeb/core/ecs/entityList/shape/shape.js)
+### [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js)
 
 ```js
-class Shape extends Entity{
+class Mesh extends Entity{
     constructor(){
         super();
         this.uid = 0;
@@ -852,7 +852,7 @@ It stores them in a `Map` so lookup is fast and consistent.
 
 ## 20. Cube mesh data details
 
-### [sckorpioEngineWeb/core/ecs/entityList/shape/cube.js](sckorpioEngineWeb/core/ecs/entityList/shape/cube.js)
+### [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cube.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cube.js)
 
 This file defines the 3D cube geometry and several material modes.
 
@@ -877,7 +877,7 @@ this.meshComponent.vertexData = [
 
 ### Why this file matters
 
-It shows exactly how a shape defines geometry, layout, and material expectations for the renderer.
+It shows exactly how a mesh defines geometry, layout, and material expectations for the renderer.
 
 ---
 

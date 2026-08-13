@@ -1,7 +1,7 @@
-import { Shape } from "./shape.js";
-import { MeshComponent } from "../../componentList/meshComponent.js";
+import { Mesh } from "../mesh.js";
+import { MeshComponent } from "../../../componentList/meshComponent.js";
 
-class Grid extends Shape{
+class Grid extends Mesh{
     constructor(gridCount = 10.0, gridGap = 1.0){
         //constructor of Mesh Component
         super();

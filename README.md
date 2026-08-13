@@ -287,7 +287,7 @@ sckorpioEngineWeb/
 │   │   ├── component/        # Base component class
 │   │   ├── componentList/    # Specific components
 │   │   ├── entity/           # Base entity class
-│   │   ├── entityList/       # Specific entities (Camera, Shapes)
+│   │   ├── entityList/       # Specific entities (Camera, Meshs)
 │   │   └── system/           # Systems (Renderer)
 │   ├── scene/                # Scene management
 │   ├── webgl/                # WebGL infrastructure
@@ -336,7 +336,7 @@ initSckorpioWebEngine();
 
 #### Cube
 ```javascript
-import { Cube } from "../../sckorpioEngineWeb/ecs/entityList/shape/cube.js";
+import { Cube } from "../../sckorpioEngineWeb/ecs/entityList/mesh/primitives/cube.js";
 
 // Basic cube
 let cube = new Cube({ mode: 'basic' });
@@ -355,7 +355,7 @@ texturedBox.setTexture("woodCarton");
 
 #### Sphere
 ```javascript
-import { Sphere } from "../../sckorpioEngineWeb/ecs/entityList/shape/sphere.js";
+import { Sphere } from "../../sckorpioEngineWeb/ecs/entityList/mesh/primitives/sphere.js";
 
 let sphere = new Sphere(0.5, 36, 36); // radius, latitudeBands, longitudeBands
 sphere.setPosition(-2.0, 0.5, 0.0);
@@ -364,7 +364,7 @@ sphere.setColor(0, 1, 1); // Cyan
 
 #### Grid
 ```javascript
-import { Grid } from "../../sckorpioEngineWeb/ecs/entityList/shape/grid.js";
+import { Grid } from "../../sckorpioEngineWeb/ecs/entityList/mesh/primitives/grid.js";
 
 let grid = new Grid(100, 1.0); // gridCount, gridGap
 grid.setMaterial("basicGrey");
@@ -419,7 +419,7 @@ The camera supports multiple input methods:
 3. **Color Vertex Mode**: Vertex-based color interpolation
 4. **Texture Face Mode**: Texture mapping with UV coordinates
 
-### Built-in Shapes
+### Built-in Meshs
 
 - **Cube**: Configurable cube with multiple rendering modes
 - **Sphere**: Parametric sphere with configurable resolution
@@ -496,7 +496,7 @@ Requires a browser with WebGL 2.0 support:
 ## Architecture Benefits
 
 1. **Modularity**: Clear separation of concerns
-2. **Extensibility**: Easy to add new shapes, shaders, materials
+2. **Extensibility**: Easy to add new meshs, shaders, materials
 3. **Performance**: Efficient resource management and rendering
 4. **Usability**: Simple API for common operations
 5. **Maintainability**: Well-organized code structure
@@ -512,7 +512,7 @@ Potential areas for expansion:
 - Animation system
 - Physics integration
 - Model loading (OBJ, GLTF)
-- More primitive shapes (cylinder, plane, etc.)
+- More primitive meshs (cylinder, plane, etc.)
 - Advanced materials (PBR, normal mapping)
 - Particle systems
 

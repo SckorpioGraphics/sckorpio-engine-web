@@ -1,5 +1,5 @@
-import { Shape } from "./shape.js";
-import { MeshComponent } from "../../componentList/meshComponent.js";
+import { Mesh } from "../mesh.js";
+import { MeshComponent } from "../../../componentList/meshComponent.js";
 
 const defaultSphereOptions = {
     mode: 'basic',
@@ -7,7 +7,7 @@ const defaultSphereOptions = {
     latitudeBands: 36,
     longitudeBands: 36
 };
-class Sphere extends Shape{
+class Sphere extends Mesh{
     constructor(options) {
         super();
         options = Object.assign({}, defaultSphereOptions, options);

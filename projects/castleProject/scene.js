@@ -1,5 +1,5 @@
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entityList/shape/cube.js";
-import { Sphere } from "../../sckorpioEngineWeb/core/ecs/entityList/shape/sphere.js";
+import { Cube } from "../../sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cube.js";
+import { Sphere } from "../../sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/sphere.js";
 import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
 
 class Scene extends SckorpioScene{

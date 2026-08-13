@@ -1,4 +1,4 @@
-import { Shape } from "./shape.js";
+import { Mesh } from "../mesh.js";
 
 const defaultConeOptions = {
     mode: 'basic',
@@ -8,7 +8,7 @@ const defaultConeOptions = {
     uvRange: [0, 0, 1, 1]
 };
 
-class Cone extends Shape{
+class Cone extends Mesh{
     constructor(options) {
         super();
         options = Object.assign({}, defaultConeOptions, options);

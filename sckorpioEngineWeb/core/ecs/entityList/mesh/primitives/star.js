@@ -1,11 +1,11 @@
-import { Shape } from "./shape.js";
+import { Mesh } from "../mesh.js";
 
 const defaultStarOptions = {
     mode: 'basic',
     uvRange: [0, 0, 1, 1]
 };
 
-class Star extends Shape{
+class Star extends Mesh{
     constructor(options) {
         super();
         options = Object.assign({}, defaultStarOptions, options);

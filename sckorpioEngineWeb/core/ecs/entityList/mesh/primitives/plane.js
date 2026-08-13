@@ -1,11 +1,11 @@
-import { Shape } from "./shape.js";
+import { Mesh } from "../mesh.js";
 
 const defaultPlaneOptions = {
     mode: 'basic',
     uvRange: [0, 0, 1, 1]
 };
 
-class Plane extends Shape {
+class Plane extends Mesh {
     constructor(options) {
         super();
         options = Object.assign({}, defaultPlaneOptions, options);

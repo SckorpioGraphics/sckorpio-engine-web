@@ -1,4 +1,4 @@
-import { Shape } from "./shape.js";
+import { Mesh } from "../mesh.js";
 
 const defaultCyclinderOptions = {
     mode: 'basic',
@@ -8,7 +8,7 @@ const defaultCyclinderOptions = {
     uvRange: [0, 0, 1, 1]
 };
 
-class Cyclinder extends Shape{
+class Cyclinder extends Mesh{
     constructor(options) {
         super();
         options = Object.assign({}, defaultCyclinderOptions, options);

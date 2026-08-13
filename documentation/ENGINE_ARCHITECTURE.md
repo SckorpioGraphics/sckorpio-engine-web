@@ -195,11 +195,11 @@ It provides a shared `uid` field for every component, but the real behavior is i
 
 ## 7. Entity types and components
 
-### Shape entities
+### Mesh entities
 
-The engine uses `Shape` as a common base for mesh-like objects.
+The engine uses `Mesh` as a common base for mesh-like objects.
 
-The class in [sckorpioEngineWeb/core/ecs/entityList/shape/shape.js](sckorpioEngineWeb/core/ecs/entityList/shape/shape.js) adds:
+The class in [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js) adds:
 
 - `transformComponent`
 - `meshComponent`
@@ -480,7 +480,7 @@ It pre-creates standard materials such as:
 - `wood`
 - `brick`
 
-This centralization makes it easy for shapes and scenes to ask for a material by name.
+This centralization makes it easy for meshs and scenes to ask for a material by name.
 
 ---
 
@@ -539,8 +539,8 @@ A good way to understand the architecture is to trace one object.
 ### Example: a cube object
 
 1. A scene creates a `Cube` entity.
-2. `Cube` inherits from `Shape`.
-3. `Shape` adds:
+2. `Cube` inherits from `Mesh`.
+3. `Mesh` adds:
    - a transform component
    - a mesh component
 4. The cube’s mesh component is filled with:
@@ -627,7 +627,7 @@ If you are trying to understand the engine quickly, read in this order:
 2. [index.html](index.html)
 3. [sckorpioEngineWeb/core/scene/sckorpioScene.js](sckorpioEngineWeb/core/scene/sckorpioScene.js)
 4. [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
-5. [sckorpioEngineWeb/core/ecs/entityList/shape/shape.js](sckorpioEngineWeb/core/ecs/entityList/shape/shape.js)
+5. [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js)
 6. [sckorpioEngineWeb/core/ecs/componentList/meshComponent.js](sckorpioEngineWeb/core/ecs/componentList/meshComponent.js)
 7. [sckorpioEngineWeb/core/ecs/componentList/renderComponent.js](sckorpioEngineWeb/core/ecs/componentList/renderComponent.js)
 8. [sckorpioEngineWeb/renderer/webgl/shader/shader.js](sckorpioEngineWeb/renderer/webgl/shader/shader.js)
