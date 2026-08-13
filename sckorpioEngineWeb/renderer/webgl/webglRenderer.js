@@ -1,5 +1,6 @@
 import { logger } from "../../canvas/logger.js";
 import { gl } from "../../canvas/utils.js";
+import { Mesh } from "../../core/ecs/entityList/mesh/mesh.js"
 
 class WebGLRenderer {
     constructor() {
@@ -47,8 +48,10 @@ class WebGLRenderer {
 
     loadEntityDataToGPU() {
         this.entityList.forEach((entity)=>{
-            entity.loadGPUData();
-        })
+            if(entity instanceof Mesh){
+                entity.loadGPUData();
+            }
+        });
     }
 
     render() {
@@ -61,7 +64,7 @@ class WebGLRenderer {
         // Render each mesh from the mesh list
         this.entityList.forEach(async (entity) => {
             
-            if(entity.meshComponent.isVisible()){
+            if(entity.meshComponent && entity.meshComponent.isVisible()){
                 //get renderComponent
                 const renderComponent = entity.meshComponent.renderComponent;
                 //bind resources
