@@ -1,5 +1,6 @@
 import { Entity } from "../../entity.js";
 import { TransformComponent } from "../../../component/components/transformComponent.js";
+import { AnimationComponent } from "../../../component/components/animationComponent.js";
 
 class Node extends Entity{
     constructor(){
@@ -19,6 +20,11 @@ class Node extends Entity{
     addTransformComponent(){
         this.transformComponent = new TransformComponent();
         this.components.push(this.transformComponent);
+    }
+
+    addAnimationComponent(){
+        this.animationComponent = new AnimationComponent();
+        this.components.push(this.animationComponent);
     }
 
     setParent(parentNode){
