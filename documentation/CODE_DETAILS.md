@@ -9,12 +9,12 @@ The engine starts here.
 ```js
 import { verifyWebGLSupport } from "./sckorpioEngineWeb/canvas/utils.js";
 import { title } from "./sckorpioEngineWeb/canvas/title.js";
-import { Scene } from "./projects/sckorpioFIFA26/scene.js";
+import { Scene } from "./projects/projectFIFA26/scene.js";
 
 var initSckorpioWebEngine = async function () {
     verifyWebGLSupport();
 
-    var scene = new Scene("sckorpioFIFA26"); 
+    var scene = new Scene("projectFIFA26"); 
     await scene.init(); 
     await scene.initResources();
     await scene.createScene();
@@ -66,7 +66,108 @@ The engine relies on `gl-matrix` being available globally for matrix math and on
 
 ---
 
-## 3. Canvas utilities and WebGL context
+## 3. Folder structure and organization
+
+The engine was recently reorganized for better clarity and consistency. This section explains the new structure.
+
+### ECS Folder Layout
+
+**Component System** - [sckorpioEngineWeb/core/ecs/component/](sckorpioEngineWeb/core/ecs/component/)
+
+```
+component/
+├── component.js           // Base Component class
+└── components/            // Concrete component implementations
+    ├── transformComponent.js
+    ├── meshComponent.js
+    ├── renderComponent.js
+    └── cameraComponent.js
+```
+
+**Entity System** - [sckorpioEngineWeb/core/ecs/entity/](sckorpioEngineWeb/core/ecs/entity/)
+
+```
+entity/
+├── entity.js              // Base Entity class
+└── entities/              // Concrete entity implementations
+    ├── camera/
+    │   └── camera.js
+    ├── mesh/
+    │   ├── mesh.js
+    │   └── primitives/
+    │       ├── cube.js
+    │       ├── sphere.js
+    │       ├── cone.js
+    │       ├── cyclinder.js
+    │       ├── plane.js
+    │       ├── grid.js
+    │       └── star.js
+    └── node/
+        └── node.js        // Scene graph support
+```
+
+**System Architecture** - [sckorpioEngineWeb/core/ecs/system/](sckorpioEngineWeb/core/ecs/system/)
+
+```
+system/
+└── animation/             // Reserved for animation system
+```
+
+### Naming Convention Changes
+
+The reorganization improved naming consistency:
+
+- **`componentList/` → `components/`** - Clearer and more direct naming
+- **`entityList/` → `entities/`** - Clearer and more direct naming
+- **`system/` folder added** - For future game systems (animation, physics, etc.)
+
+### Project Naming Convention
+
+Projects now follow a consistent naming pattern:
+
+**Production/Demo Projects:**
+- `projectCastle/` - Castle scene demo
+- `projectChristmas/` - Christmas-themed scene
+- `projectFIFA26/` - FIFA 26 football demo
+
+**Testing Projects:**
+- `testing1Basic/` - Basic rendering tests (vertices, colors, basic shapes)
+- `testing2Instances/` - GPU instancing feature tests
+- `testing3SceneGraph/` - Scene graph hierarchy and parent-child relationships
+
+**Template:**
+- `templateProject/` - Template for creating new scenes
+
+### Renderer Structure
+
+**WebGL Renderer** - [sckorpioEngineWeb/renderer/webgl/](sckorpioEngineWeb/renderer/webgl/)
+
+```
+webgl/
+├── webglRenderer.js       // Main rendering pipeline
+├── buffer/                // GPU buffer management
+│   ├── vertexBuffer.js
+│   ├── indexBuffer.js
+│   ├── vertexArray.js
+│   ├── instanceBuffer.js
+│   └── bufferLayout.js
+├── shader/                // Shader compilation and binding
+│   ├── shader.js
+│   └── shaderBook.js
+├── material/              // Material definitions
+│   ├── material.js
+│   └── materialBook.js
+├── texture/               // Texture management
+│   ├── texture.js
+│   └── textureBook.js
+└── resources/
+    ├── shaders/           // GLSL shader source files
+    └── textures/          // Built-in texture assets
+```
+
+---
+
+## 4. Canvas utilities and WebGL context
 
 ### [sckorpioEngineWeb/canvas/utils.js](sckorpioEngineWeb/canvas/utils.js)
 
@@ -119,7 +220,7 @@ Most of the engine uses `gl` imported from this file instead of manually request
 
 ---
 
-## 4. Title overlay implementation
+## 5. Title overlay implementation
 
 ### [sckorpioEngineWeb/canvas/title.js](sckorpioEngineWeb/canvas/title.js)
 
@@ -161,7 +262,7 @@ export const title = new Title();
 
 ---
 
-## 5. Logger overlay implementation
+## 6. Logger overlay implementation
 
 ### [sckorpioEngineWeb/canvas/logger.js](sckorpioEngineWeb/canvas/logger.js)
 
@@ -226,7 +327,7 @@ window.addEventListener('keydown', (event) => {
 
 ---
 
-## 6. Scene orchestration code
+## 7. Scene orchestration code
 
 ### [sckorpioEngineWeb/core/scene/sckorpioScene.js](sckorpioEngineWeb/core/scene/sckorpioScene.js)
 
@@ -302,7 +403,7 @@ This method does the following in exact order:
 
 ---
 
-## 7. Default helper entities in the scene
+## 8. Default helper entities in the scene
 
 ### `createDefaultEntities()`
 
@@ -341,7 +442,7 @@ createDefaultEntities(){
 
 ---
 
-## 8. Input handling in the scene
+## 9. Input handling in the scene
 
 ### Keyboard toggles
 
@@ -381,7 +482,7 @@ toggleMode() {
 
 ---
 
-## 9. Entity base classes
+## 10. Entity base classes
 
 ### [sckorpioEngineWeb/core/ecs/entity/entity.js](sckorpioEngineWeb/core/ecs/entity/entity.js)
 
@@ -410,9 +511,9 @@ These two files are deliberately minimal and are used as shared base types for a
 
 ---
 
-## 10. Mesh hierarchy and transform logic
+## 11. Mesh hierarchy and transform logic
 
-### [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js)
+### [sckorpioEngineWeb/core/ecs/entity/entities/mesh/mesh.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/mesh.js)
 
 ```js
 class Mesh extends Entity{
@@ -449,7 +550,7 @@ This keeps object creation consistent.
 
 ---
 
-## 11. Transform component details
+## 12. Transform component details
 
 ### [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](sckorpioEngineWeb/core/ecs/component/components/transformComponent.js)
 
@@ -502,7 +603,7 @@ The engine does not use a separate math utility library for transformation; it d
 
 ---
 
-## 12. Node class and scene graph hierarchy
+## 13. Node class and scene graph hierarchy
 
 ### [sckorpioEngineWeb/core/ecs/entity/entities/node/node.js](sckorpioEngineWeb/core/ecs/entity/entities/node/node.js)
 
@@ -579,7 +680,7 @@ When you set a parent-child relationship:
 3. This means moving or rotating the parent automatically moves/rotates all children
 4. The hierarchy depth is tracked automatically for rendering order
 
-### Example usage from sckorpioTestingSceneGraph
+### Example usage from testing3SceneGraph
 
 ```js
 // Create a sphere and cylinder
@@ -604,7 +705,52 @@ sphere.setPosition(0, -2, 0);  // Position relative to cylinder
 
 ---
 
-## 14. Mesh component details
+## 14. Game systems architecture
+
+### [sckorpioEngineWeb/core/ecs/system/](sckorpioEngineWeb/core/ecs/system/)
+
+The system folder is reserved for implementing game systems that operate on entities and components. This follows a true ECS (Entity-Component-System) pattern where systems are independent logic processors.
+
+**Current status:**
+
+- **[animation/](sckorpioEngineWeb/core/ecs/system/animation/)** - Reserved for animation system
+  - Intended for keyframe animations, skeletal animations, and transform tweens
+  - Currently empty, available for future implementation
+
+**Future systems:**
+
+Potential systems that could be added:
+- Physics system - Collision detection and rigid body dynamics
+- Audio system - Sound effects and music management
+- Particle system - Particle emission and effects
+- AI system - Behavioral logic and pathfinding
+- Input system - Centralized input handling
+
+**System pattern:**
+
+A typical system would:
+1. Iterate through entities
+2. Filter for entities with specific components
+3. Apply logic/transformations to those components
+4. Update renderer or other systems as needed
+
+Example structure:
+```js
+class AnimationSystem {
+    update(entities, deltaTime) {
+        entities.forEach(entity => {
+            if (entity.hasComponent('animationComponent')) {
+                // Update animation state
+                // Modify transform component
+            }
+        });
+    }
+}
+```
+
+---
+
+## 16. Mesh component details
 
 ### [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](sckorpioEngineWeb/core/ecs/component/components/meshComponent.js)
 
@@ -645,7 +791,7 @@ This method is the point where mesh data becomes GPU data. It now accepts the `t
 
 ---
 
-## 15. Render component details
+## 17. Render component details
 
 ### [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](sckorpioEngineWeb/core/ecs/component/components/renderComponent.js)
 
@@ -711,7 +857,7 @@ The order is strict because WebGL state must be set correctly before draw calls 
 
 ---
 
-## 16. Shader implementation details
+## 18. Shader implementation details
 
 ### [sckorpioEngineWeb/renderer/webgl/shader/shader.js](sckorpioEngineWeb/renderer/webgl/shader/shader.js)
 
@@ -772,7 +918,7 @@ The parser looks for `#shader vertex` and `#shader fragment` markers, which is a
 
 ---
 
-## 17. Shader uniform helpers
+## 19. Shader uniform helpers
 
 The shader class includes helpers such as:
 
@@ -795,7 +941,7 @@ These are used by the renderer to pass the current camera and model transforms i
 
 ---
 
-## 18. Buffer layout implementation details
+## 20. Buffer layout implementation details
 
 ### [sckorpioEngineWeb/renderer/webgl/buffer/bufferLayout.js](sckorpioEngineWeb/renderer/webgl/buffer/bufferLayout.js)
 
@@ -846,7 +992,7 @@ This is what allows an instanced model matrix to be uploaded correctly.
 
 ---
 
-## 19. Vertex array behavior
+## 21. Vertex array behavior
 
 ### [sckorpioEngineWeb/renderer/webgl/buffer/vertexArray.js](sckorpioEngineWeb/renderer/webgl/buffer/vertexArray.js)
 
@@ -872,7 +1018,7 @@ This is where the engine links CPU layout data to actual GPU attribute slots.
 
 ---
 
-## 20. Camera implementation details
+## 22. Camera implementation details
 
 ### [sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js](sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js)
 
@@ -925,7 +1071,7 @@ updateProjectionMatrix() {
 
 ---
 
-## 21. Material and texture book details
+## 23. Material and texture book details
 
 ### [sckorpioEngineWeb/renderer/webgl/material/materialBook.js](sckorpioEngineWeb/renderer/webgl/material/materialBook.js)
 
@@ -952,7 +1098,7 @@ It stores them in a `Map` so lookup is fast and consistent.
 
 ---
 
-## 22. Cube mesh data details
+## 24. Cube mesh data details
 
 ### [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js)
 
@@ -983,7 +1129,7 @@ It shows exactly how a mesh defines geometry, layout, and material expectations 
 
 ---
 
-## 23. Renderer loop details
+## 25. Renderer loop details
 
 ### [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
 
@@ -1043,7 +1189,7 @@ The loop uses `forEach(async ...)` rather than awaiting each draw call. That mea
 
 ---
 
-## 24. Internal resource IDs
+## 26. Internal resource IDs
 
 ### [sckorpioEngineWeb/canvas/utils.js](sckorpioEngineWeb/canvas/utils.js)
 
@@ -1058,7 +1204,7 @@ This is used to generate unique IDs for WebGL resources.
 
 ---
 
-## 25. Summary of implementation flow
+## 27. Summary of implementation flow
 
 A practical sequence looks like this:
 
@@ -1075,7 +1221,7 @@ A practical sequence looks like this:
 
 ---
 
-## 26. Quick reference map
+## 28. Quick reference map
 
 | Area | Main file |
 |---|---|

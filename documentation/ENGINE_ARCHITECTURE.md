@@ -94,26 +94,59 @@ That staging is important because several WebGL objects are only valid once the 
 - [README.md](README.md)
   - project overview and usage information
 
-### Engine core
+### Engine core ([sckorpioEngineWeb/](sckorpioEngineWeb/))
 
-- [sckorpioEngineWeb/canvas](sckorpioEngineWeb/canvas)
-  - canvas access utilities
-  - user-facing overlays
-  - logger/title rendering helpers
+- **[canvas/](sckorpioEngineWeb/canvas/)**
+  - Canvas access utilities
+  - User-facing overlays (title, logger)
+  - WebGL context management
+  - Files: `utils.js`, `title.js`, `logger.js`
 
-- [sckorpioEngineWeb/core](sckorpioEngineWeb/core)
-  - ECS base classes
-  - scene orchestration
+- **[core/](sckorpioEngineWeb/core/)**
+  - **[ecs/](sckorpioEngineWeb/core/ecs/)** - Entity-Component-System architecture
+    - **[entity/](sckorpioEngineWeb/core/ecs/entity/)** - Base entity class and entity types
+      - `entity.js` - Base Entity class
+      - **[entities/](sckorpioEngineWeb/core/ecs/entity/entities/)** - Concrete entity implementations
+        - `camera/` - Camera entity
+        - `mesh/` - Mesh base class and primitive types (cube, sphere, cone, etc.)
+        - `node/` - Node entity with scene graph support
+    - **[component/](sckorpioEngineWeb/core/ecs/component/)** - Component system
+      - `component.js` - Base Component class
+      - **[components/](sckorpioEngineWeb/core/ecs/component/components/)** - Concrete components
+        - `transformComponent.js` - Transform/hierarchy data
+        - `meshComponent.js` - Mesh rendering data
+        - `renderComponent.js` - GPU render state
+        - `cameraComponent.js` - Camera data
+    - **[system/](sckorpioEngineWeb/core/ecs/system/)** - Game systems
+      - `animation/` - Animation system (reserved for future use)
+  - **[scene/](sckorpioEngineWeb/core/scene/)**
+    - `sckorpioScene.js` - Main scene orchestration class
 
-- [sckorpioEngineWeb/renderer](sckorpioEngineWeb/renderer)
-  - WebGL pipeline implementation
-  - buffers, shaders, materials, textures
+- **[renderer/](sckorpioEngineWeb/renderer/)**
+  - **[webgl/](sckorpioEngineWeb/renderer/webgl/)**
+    - `webglRenderer.js` - Main WebGL rendering pipeline
+    - **[buffer/](sckorpioEngineWeb/renderer/webgl/buffer/)** - GPU buffer management
+    - **[shader/](sckorpioEngineWeb/renderer/webgl/shader/)** - Shader compilation and binding
+    - **[material/](sckorpioEngineWeb/renderer/webgl/material/)** - Material definitions and book
+    - **[texture/](sckorpioEngineWeb/renderer/webgl/texture/)** - Texture loading and book
+    - **[resources/](sckorpioEngineWeb/renderer/webgl/resources/)**
+      - `shaders/` - GLSL shader files (.txt)
+      - `textures/` - Built-in texture resources
 
-### Scene projects
+### Scene projects ([projects/](projects/))
 
-- [projects](projects)
-  - contains demo scenes built on top of the engine
-  - each project defines its own scene logic and entities
+- Contains demo scenes and test scenes built on top of the engine
+- Each project defines its own scene logic and entities
+- Naming convention:
+  - **projectX/** - Main demonstration projects
+    - `projectCastle/` - Castle scene demo
+    - `projectChristmas/` - Christmas-themed scene
+    - `projectFIFA26/` - FIFA 26 football demo
+  - **testingX/** - Testing and experimentation scenes
+    - `testing1Basic/` - Basic rendering tests
+    - `testing2Instances/` - Instancing feature tests
+    - `testing3SceneGraph/` - Scene graph hierarchy tests
+  - `templateProject/` - Template for creating new scenes
 
 ---
 
@@ -270,7 +303,7 @@ child.setPosition(2, 0, 0);  // 2 units relative to parent
 
 **Testing and Demo:**
 
-The [projects/sckorpioTestingSceneGraph](projects/sckorpioTestingSceneGraph) scene demonstrates the scene graph feature with multiple parent-child relationships and instancing.
+The [projects/testing3SceneGraph](projects/testing3SceneGraph) scene demonstrates the scene graph feature with multiple parent-child relationships and instancing.
 
 ### Transform component
 
