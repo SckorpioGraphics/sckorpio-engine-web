@@ -1,6 +1,6 @@
-import { Cube } from "../ecs/entityList/mesh/primitives/cube.js";
-import { Camera } from "../ecs/entityList/camera/camera.js";
-import { Grid } from "../ecs/entityList/mesh/primitives/grid.js";
+import { Cube } from "../ecs/entity/entities/mesh/primitives/cube.js";
+import { Camera } from "../ecs/entity/entities/camera/camera.js";
+import { Grid } from "../ecs/entity/entities/mesh/primitives/grid.js";
 import { WebGLRenderer } from "../../renderer/webgl/webglRenderer.js";
 import { ShaderBook } from "../../renderer/webgl/shader/shaderBook.js";
 import { MaterialBook } from "../../renderer/webgl/material/materialBook.js";
@@ -23,7 +23,7 @@ class SckorpioScene {
         this.shaderBook;
         this.textureBook;
 
-        //ENTITIES
+        //entity/entities
         //meshes
         this.grid;
         this.xAxis;
@@ -172,8 +172,8 @@ class SckorpioScene {
 
     addEntitiesToRenderer(){
         //Add Meshes to list'
-        this.renderer.addEntityList(this.defaultEntitiesList);
-        this.renderer.addEntityList(this.entitiesList);
+        this.renderer.addentities(this.defaultEntitiesList);
+        this.renderer.addentities(this.entitiesList);
         // load Data of entities from CPU to GPU
         this.renderer.loadEntityDataToGPU();
     }

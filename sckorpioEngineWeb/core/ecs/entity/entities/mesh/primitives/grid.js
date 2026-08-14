@@ -1,5 +1,5 @@
 import { Mesh } from "../mesh.js";
-import { MeshComponent } from "../../../componentList/meshComponent.js";
+import { MeshComponent } from "../../../../component/components/meshComponent.js";
 
 class Grid extends Mesh{
     constructor(gridCount = 10.0, gridGap = 1.0){

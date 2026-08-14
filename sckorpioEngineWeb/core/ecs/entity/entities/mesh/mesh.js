@@ -1,8 +1,8 @@
 import { Node } from "../node/node.js";
-import { TransformComponent } from "../../componentList/transformComponent.js";
-import { MeshComponent } from "../../componentList/meshComponent.js";
-import { MaterialBook } from "../../../../renderer/webgl/material/materialBook.js";
-import { TextureBook } from "../../../../renderer/webgl/texture/textureBook.js";
+import { TransformComponent } from "../../../component/components/transformComponent.js";
+import { MeshComponent } from "../../../component/components/meshComponent.js";
+import { MaterialBook } from "../../../../../renderer/webgl/material/materialBook.js";
+import { TextureBook } from "../../../../../renderer/webgl/texture/textureBook.js";
 
 class Mesh extends Node{
     constructor(){

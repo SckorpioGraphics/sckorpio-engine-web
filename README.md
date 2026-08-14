@@ -103,7 +103,7 @@ Base class for all game objects. Contains:
 
 ### Components
 
-#### **TransformComponent** (`ecs/componentList/transformComponent.js`)
+#### **TransformComponent** (`ecs/component/components/transformComponent.js`)
 Manages spatial transformation:
 - **Position**: 3D position (vec3)
 - **Scale**: 3D scale (vec3)
@@ -111,7 +111,7 @@ Manages spatial transformation:
 - **Model Matrix**: Calculated 4x4 transformation matrix
 - Uses `gl-matrix` library for matrix operations
 
-#### **MeshComponent** (`ecs/componentList/meshComponent.js`)
+#### **MeshComponent** (`ecs/component/components/meshComponent.js`)
 Contains geometry data:
 - **Vertices Data**: Array of vertex positions/attributes
 - **Index Data**: Array of indices for indexed rendering
@@ -120,7 +120,7 @@ Contains geometry data:
 - **Visibility**: Controls whether mesh is rendered
 - **Texture UV**: UV coordinate range for texture mapping
 
-#### **RenderComponent** (`ecs/componentList/renderComponent.js`)
+#### **RenderComponent** (`ecs/component/components/renderComponent.js`)
 Handles GPU-side rendering:
 - **Vertex Array Object (VAO)**: WebGL vertex array
 - **Vertex Buffer**: GPU buffer for vertex data
@@ -130,7 +130,7 @@ Handles GPU-side rendering:
 - **Draw Calls**: Executes `gl.drawElements()` or `gl.drawArrays()`
 - **MVP Matrices**: Sets Model-View-Projection matrices
 
-#### **CameraComponent** (`ecs/componentList/cameraComponent.js`)
+#### **CameraComponent** (`ecs/component/components/cameraComponent.js`)
 Camera functionality:
 - **Camera Position**: 3D position vector
 - **Camera Front/Up**: Direction vectors
@@ -285,9 +285,9 @@ sckorpioEngineWeb/
 │   ├── canvas/               # Canvas and utility systems
 │   ├── ecs/                  # Entity Component System
 │   │   ├── component/        # Base component class
-│   │   ├── componentList/    # Specific components
+│   │   ├── components/    # Specific components
 │   │   ├── entity/           # Base entity class
-│   │   ├── entityList/       # Specific entities (Camera, Meshs)
+│   │   ├── entities/       # Specific entities (Camera, Meshs)
 │   │   └── system/           # Systems (Renderer)
 │   ├── scene/                # Scene management
 │   ├── webgl/                # WebGL infrastructure
@@ -336,7 +336,7 @@ initSckorpioWebEngine();
 
 #### Cube
 ```javascript
-import { Cube } from "../../sckorpioEngineWeb/ecs/entityList/mesh/primitives/cube.js";
+import { Cube } from "../../sckorpioEngineWeb/ecs/entity/entities/mesh/primitives/cube.js";
 
 // Basic cube
 let cube = new Cube({ mode: 'basic' });
@@ -355,7 +355,7 @@ texturedBox.setTexture("woodCarton");
 
 #### Sphere
 ```javascript
-import { Sphere } from "../../sckorpioEngineWeb/ecs/entityList/mesh/primitives/sphere.js";
+import { Sphere } from "../../sckorpioEngineWeb/ecs/entity/entities/mesh/primitives/sphere.js";
 
 let sphere = new Sphere(0.5, 36, 36); // radius, latitudeBands, longitudeBands
 sphere.setPosition(-2.0, 0.5, 0.0);
@@ -364,7 +364,7 @@ sphere.setColor(0, 1, 1); // Cyan
 
 #### Grid
 ```javascript
-import { Grid } from "../../sckorpioEngineWeb/ecs/entityList/mesh/primitives/grid.js";
+import { Grid } from "../../sckorpioEngineWeb/ecs/entity/entities/mesh/primitives/grid.js";
 
 let grid = new Grid(100, 1.0); // gridCount, gridGap
 grid.setMaterial("basicGrey");

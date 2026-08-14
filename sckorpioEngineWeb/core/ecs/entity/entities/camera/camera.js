@@ -1,5 +1,5 @@
-import { CameraComponent } from "../../componentList/cameraComponent.js";
-import { Entity } from "../../entity/entity.js";
+import { CameraComponent } from "../../../component/components/cameraComponent.js";
+import { Entity } from "../../entity.js";
 
 class Camera extends Entity{
     constructor(){

@@ -1,5 +1,5 @@
-import { Entity } from "../../entity/entity.js";
-import { TransformComponent } from "../../componentList/transformComponent.js";
+import { Entity } from "../../entity.js";
+import { TransformComponent } from "../../../component/components/transformComponent.js";
 
 class Node extends Entity{
     constructor(){

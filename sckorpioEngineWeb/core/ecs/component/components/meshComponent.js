@@ -1,4 +1,4 @@
-import { Component } from "../component/component.js";
+import { Component } from "../component.js";
 import { RenderComponent } from "./renderComponent.js";
 
 class MeshComponent extends Component{

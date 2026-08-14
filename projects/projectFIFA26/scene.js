@@ -1,8 +1,8 @@
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cube.js";
-import { Cone } from "../../sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cone.js";
-import { Cyclinder } from "../../sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cyclinder.js";
-import { Sphere } from "../../sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/sphere.js";
-import { Plane } from "../../sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/plane.js";
+import { Cube } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
+import { Cone } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cone.js";
+import { Cyclinder } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cyclinder.js";
+import { Sphere } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/sphere.js";
+import { Plane } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/plane.js";
 import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
 
 class Scene extends SckorpioScene {

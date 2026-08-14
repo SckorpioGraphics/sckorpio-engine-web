@@ -199,7 +199,7 @@ It provides a shared `uid` field for every component, but the real behavior is i
 
 The engine uses `Mesh` as a common base for mesh-like objects.
 
-The class in [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js) adds:
+The class in [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js) adds:
 
 - `transformComponent`
 - `meshComponent`
@@ -215,7 +215,7 @@ It also exposes helper methods like:
 
 ### Scene Graph (Node Hierarchy)
 
-The engine implements a scene graph through the `Node` class, defined in [sckorpioEngineWeb/core/ecs/entityList/node/node.js](sckorpioEngineWeb/core/ecs/entityList/node/node.js).
+The engine implements a scene graph through the `Node` class, defined in [sckorpioEngineWeb/core/ecs/entity/entities/node/node.js](sckorpioEngineWeb/core/ecs/entity/entities/node/node.js).
 
 **What is a Node?**
 
@@ -274,7 +274,7 @@ The [projects/sckorpioTestingSceneGraph](projects/sckorpioTestingSceneGraph) sce
 
 ### Transform component
 
-The transform logic is in [sckorpioEngineWeb/core/ecs/componentList/transformComponent.js](sckorpioEngineWeb/core/ecs/componentList/transformComponent.js).
+The transform logic is in [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](sckorpioEngineWeb/core/ecs/component/components/transformComponent.js).
 
 This component stores:
 
@@ -312,7 +312,7 @@ For instanced objects, the component stores both local and world instance matric
 
 ### Mesh component
 
-The mesh component is in [sckorpioEngineWeb/core/ecs/componentList/meshComponent.js](sckorpioEngineWeb/core/ecs/componentList/meshComponent.js).
+The mesh component is in [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](sckorpioEngineWeb/core/ecs/component/components/meshComponent.js).
 
 This is one of the most important components because it ties together:
 
@@ -335,7 +335,7 @@ The `loadGPUData(transformComponent)` method is especially important because it 
 
 ### Render component
 
-The render component is in [sckorpioEngineWeb/core/ecs/componentList/renderComponent.js](sckorpioEngineWeb/core/ecs/componentList/renderComponent.js).
+The render component is in [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](sckorpioEngineWeb/core/ecs/component/components/renderComponent.js).
 
 This component is the bridge between the ECS world and the GPU.
 
@@ -360,7 +360,7 @@ It is responsible for:
 
 ### Camera entity
 
-The camera entity is defined in [sckorpioEngineWeb/core/ecs/entityList/camera/camera.js](sckorpioEngineWeb/core/ecs/entityList/camera/camera.js).
+The camera entity is defined in [sckorpioEngineWeb/core/ecs/entity/entities/camera/camera.js](sckorpioEngineWeb/core/ecs/entity/entities/camera/camera.js).
 
 It contains a `CameraComponent` that stores:
 
@@ -697,9 +697,9 @@ If you are trying to understand the engine quickly, read in this order:
 2. [index.html](index.html)
 3. [sckorpioEngineWeb/core/scene/sckorpioScene.js](sckorpioEngineWeb/core/scene/sckorpioScene.js)
 4. [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
-5. [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js)
-6. [sckorpioEngineWeb/core/ecs/componentList/meshComponent.js](sckorpioEngineWeb/core/ecs/componentList/meshComponent.js)
-7. [sckorpioEngineWeb/core/ecs/componentList/renderComponent.js](sckorpioEngineWeb/core/ecs/componentList/renderComponent.js)
+5. [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js)
+6. [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](sckorpioEngineWeb/core/ecs/component/components/meshComponent.js)
+7. [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](sckorpioEngineWeb/core/ecs/component/components/renderComponent.js)
 8. [sckorpioEngineWeb/renderer/webgl/shader/shader.js](sckorpioEngineWeb/renderer/webgl/shader/shader.js)
 9. [sckorpioEngineWeb/renderer/webgl/material/materialBook.js](sckorpioEngineWeb/renderer/webgl/material/materialBook.js)
 10. [sckorpioEngineWeb/renderer/webgl/texture/textureBook.js](sckorpioEngineWeb/renderer/webgl/texture/textureBook.js)

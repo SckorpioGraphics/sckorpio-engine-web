@@ -1,12 +1,12 @@
 import { logger } from "../../canvas/logger.js";
 import { gl } from "../../canvas/utils.js";
-import { Mesh } from "../../core/ecs/entityList/mesh/mesh.js"
+import { Mesh } from "../../core/ecs/entity/entities/mesh/mesh.js"
 
 class WebGLRenderer {
     constructor() {
         this.uid = 0;
         this.cameraEntity;
-        this.entityList = [];
+        this.entities = [];
         this.clearColor = vec3.fromValues(0.14, 0.11, 0.26);
     }
 
@@ -39,15 +39,15 @@ class WebGLRenderer {
     }
 
     addEntity(entity) {
-        this.entityList.push(entity);
+        this.entities.push(entity);
     }
 
-    addEntityList(entityList) {
-        this.entityList = this.entityList.concat(entityList);
+    addentities(entities) {
+        this.entities = this.entities.concat(entities);
     }
 
     loadEntityDataToGPU() {
-        this.entityList.forEach((entity)=>{
+        this.entities.forEach((entity)=>{
             if(entity instanceof Mesh){
                 entity.loadGPUData();
             }
@@ -62,7 +62,7 @@ class WebGLRenderer {
         logger.resetFrameCounters();
 
         // Render each mesh from the mesh list
-        this.entityList.forEach(async (entity) => {
+        this.entities.forEach(async (entity) => {
             
             if(entity.meshComponent && entity.meshComponent.isVisible()){
                 //get renderComponent

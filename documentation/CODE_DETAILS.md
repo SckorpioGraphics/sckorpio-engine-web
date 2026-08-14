@@ -412,7 +412,7 @@ These two files are deliberately minimal and are used as shared base types for a
 
 ## 10. Mesh hierarchy and transform logic
 
-### [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/mesh.js)
+### [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js)
 
 ```js
 class Mesh extends Entity{
@@ -451,7 +451,7 @@ This keeps object creation consistent.
 
 ## 11. Transform component details
 
-### [sckorpioEngineWeb/core/ecs/componentList/transformComponent.js](sckorpioEngineWeb/core/ecs/componentList/transformComponent.js)
+### [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](sckorpioEngineWeb/core/ecs/component/components/transformComponent.js)
 
 ```js
 class TransformComponent extends Component{
@@ -504,7 +504,7 @@ The engine does not use a separate math utility library for transformation; it d
 
 ## 12. Node class and scene graph hierarchy
 
-### [sckorpioEngineWeb/core/ecs/entityList/node/node.js](sckorpioEngineWeb/core/ecs/entityList/node/node.js)
+### [sckorpioEngineWeb/core/ecs/entity/entities/node/node.js](sckorpioEngineWeb/core/ecs/entity/entities/node/node.js)
 
 The `Node` class extends the base `Entity` to support hierarchical scene graphs.
 
@@ -606,7 +606,7 @@ sphere.setPosition(0, -2, 0);  // Position relative to cylinder
 
 ## 14. Mesh component details
 
-### [sckorpioEngineWeb/core/ecs/componentList/meshComponent.js](sckorpioEngineWeb/core/ecs/componentList/meshComponent.js)
+### [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](sckorpioEngineWeb/core/ecs/component/components/meshComponent.js)
 
 This component is the bridge from CPU-side mesh data to GPU-ready render data.
 
@@ -647,7 +647,7 @@ This method is the point where mesh data becomes GPU data. It now accepts the `t
 
 ## 15. Render component details
 
-### [sckorpioEngineWeb/core/ecs/componentList/renderComponent.js](sckorpioEngineWeb/core/ecs/componentList/renderComponent.js)
+### [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](sckorpioEngineWeb/core/ecs/component/components/renderComponent.js)
 
 This is the main low-level renderer integration class.
 
@@ -874,7 +874,7 @@ This is where the engine links CPU layout data to actual GPU attribute slots.
 
 ## 20. Camera implementation details
 
-### [sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js](sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js)
+### [sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js](sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js)
 
 The camera component initializes with:
 
@@ -954,7 +954,7 @@ It stores them in a `Map` so lookup is fast and consistent.
 
 ## 22. Cube mesh data details
 
-### [sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cube.js](sckorpioEngineWeb/core/ecs/entityList/mesh/primitives/cube.js)
+### [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js)
 
 This file defines the 3D cube geometry and several material modes.
 
@@ -994,7 +994,7 @@ render() {
     this.init();
     logger.resetFrameCounters();
 
-    this.entityList.forEach(async (entity) => {
+    this.entities.forEach(async (entity) => {
         if(entity.meshComponent.isVisible()){
             const renderComponent = entity.meshComponent.renderComponent;
             renderComponent.bind();
@@ -1090,7 +1090,7 @@ A practical sequence looks like this:
 | Material system | [sckorpioEngineWeb/renderer/webgl/material/material.js](sckorpioEngineWeb/renderer/webgl/material/material.js) |
 | Texture system | [sckorpioEngineWeb/renderer/webgl/texture/texture.js](sckorpioEngineWeb/renderer/webgl/texture/texture.js) |
 | Buffer system | [sckorpioEngineWeb/renderer/webgl/buffer](sckorpioEngineWeb/renderer/webgl/buffer) |
-| Camera logic | [sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js](sckorpioEngineWeb/core/ecs/componentList/cameraComponent.js) |
-| Transform logic | [sckorpioEngineWeb/core/ecs/componentList/transformComponent.js](sckorpioEngineWeb/core/ecs/componentList/transformComponent.js) |
-| Mesh logic | [sckorpioEngineWeb/core/ecs/componentList/meshComponent.js](sckorpioEngineWeb/core/ecs/componentList/meshComponent.js) |
-| Render logic | [sckorpioEngineWeb/core/ecs/componentList/renderComponent.js](sckorpioEngineWeb/core/ecs/componentList/renderComponent.js) |
+| Camera logic | [sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js](sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js) |
+| Transform logic | [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](sckorpioEngineWeb/core/ecs/component/components/transformComponent.js) |
+| Mesh logic | [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](sckorpioEngineWeb/core/ecs/component/components/meshComponent.js) |
+| Render logic | [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](sckorpioEngineWeb/core/ecs/component/components/renderComponent.js) |

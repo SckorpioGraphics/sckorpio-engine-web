@@ -1,5 +1,5 @@
 import { Mesh } from "../mesh.js";
-import { MeshComponent } from "../../../componentList/meshComponent.js";
+import { MeshComponent } from "../../../../component/components/meshComponent.js";
 
 const defaultSphereOptions = {
     mode: 'basic',
