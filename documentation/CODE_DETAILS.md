@@ -750,7 +750,428 @@ class AnimationSystem {
 
 ---
 
-## 16. Mesh component details
+## 15. Animation system implementation
+
+The Animation System is a complete keyframe-based animation framework integrated into the ECS. It enables smooth property animations on entities through tracks and clips.
+
+### Architecture Overview
+
+The animation system consists of these key components:
+
+```
+AnimationClip (multiple properties animated over time)
+├── AnimationTrack (animates one property)
+│   ├── KeyFrames (time-value pairs)
+│   ├── Interpolators (lerp calculations)
+│   └── evaluate(time) → interpolated value
+└── evaluate(time) → all property values
+
+AnimationComponent (attached to entities)
+├── animationClip
+├── currentTime
+├── playing
+├── loop
+└── speed
+
+AnimationSystem (updates all animations)
+├── entities[]
+├── update(deltaTime)
+└── applies animation results to transform components
+```
+
+### 15.1 KeyFrame Class
+
+**[sckorpioEngineWeb/core/ecs/system/animation/keyFrame.js](sckorpioEngineWeb/core/ecs/system/animation/keyFrame.js)**
+
+```js
+class KeyFrame {
+    constructor(time, value) {
+        this.time = time;      // Time in seconds
+        this.value = value;    // Value at this time
+    }
+}
+```
+
+**Purpose:**
+- Simple data holder that stores a point in time and its corresponding value
+- Values can be scalars (float), or vectors (vec2, vec3, vec4)
+- Examples: `[0.0, 0.0, 0.0]` for position, `180.0` for rotation angle
+
+### 15.2 Interpolators Module
+
+**[sckorpioEngineWeb/core/ecs/system/animation/interpolators.js](sckorpioEngineWeb/core/ecs/system/animation/interpolators.js)**
+
+Provides Linear Interpolation (Lerp) functions for different data types:
+
+```js
+// Scalar interpolation: a + (b - a) * alpha
+scalarLerp(a, b, alpha)
+
+// Vector interpolation using gl-matrix
+vec2Lerp(a, b, alpha)
+vec3Lerp(a, b, alpha)
+vec4Lerp(a, b, alpha)
+```
+
+**Key concept:**
+- `alpha` ranges from 0 to 1
+- `alpha = 0` → returns value `a` (start keyframe)
+- `alpha = 1` → returns value `b` (end keyframe)
+- `0 < alpha < 1` → smooth interpolation between keyframes
+
+### 15.3 AnimationTrack Class
+
+**[sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js](sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js)**
+
+Manages animation of a single property (e.g., position, rotation, scale):
+
+```js
+class AnimationTrack {
+    constructor(property, valueType) {
+        this.property = property;      // "position", "rotation", "scale"
+        this.valueType = valueType;    // "float", "vec2", "vec3", "vec4"
+        this.keyFrames = [];           // Sorted by time
+    }
+
+    addKeyFrame(time, value) {
+        const keyFrame = new KeyFrame(time, value);
+        this.keyFrames.push(keyFrame);
+        this.keyFrames.sort((a, b) => a.time - b.time);  // Auto-sort
+    }
+
+    getDuration() {
+        if (this.keyFrames.length === 0) return 0;
+        return this.keyFrames[this.keyFrames.length - 1].time;
+    }
+
+    evaluate(time) {
+        // If time is before first keyframe → return first value
+        if (time <= firstKeyFrame.time) return firstKeyFrame.value;
+        
+        // If time is after last keyframe → return last value
+        if (time >= lastKeyFrame.time) return lastKeyFrame.value;
+        
+        // Find surrounding keyframes
+        const alpha = (time - prev.time) / (next.time - prev.time);
+        return this.interpolateValue(valueType, prev, next, alpha);
+    }
+}
+```
+
+**Features:**
+- Automatically sorts keyframes by time when added
+- Handles edge cases (before first, after last)
+- Performs linear interpolation between keyframes
+- Supports different value types (scalars and vectors)
+
+### 15.4 AnimationClip Class
+
+**[sckorpioEngineWeb/core/ecs/system/animation/animationClip.js](sckorpioEngineWeb/core/ecs/system/animation/animationClip.js)**
+
+Combines multiple animation tracks into a complete animation:
+
+```js
+class AnimationClip {
+    constructor(name) {
+        this.name = name;
+        this.tracks = [];      // Multiple AnimationTrack objects
+        this.duration = 0.0;
+    }
+
+    addTrack(track) {
+        this.tracks.push(track);
+        const trackDuration = track.getDuration();
+        if (trackDuration > this.duration) {
+            this.duration = trackDuration;
+        }
+    }
+
+    evaluate(time) {
+        const result = {};
+        for (const track of this.tracks) {
+            result[track.property] = track.evaluate(time);
+        }
+        return result;  // { position: [...], rotation: [...], scale: [...] }
+    }
+}
+```
+
+**Purpose:**
+- Groups related property animations together
+- Duration is the longest track duration
+- `evaluate()` returns all property values at a given time
+
+**Example usage:**
+```js
+// Create a clip with position and rotation animations
+const positionTrack = new AnimationTrack("position", "vec3");
+positionTrack.addKeyFrame(0.0, [0, 0, 0]);
+positionTrack.addKeyFrame(2.0, [5, 0, 0]);
+
+const rotationTrack = new AnimationTrack("rotation", "vec3");
+rotationTrack.addKeyFrame(0.0, [0, 0, 0]);
+rotationTrack.addKeyFrame(2.0, [0, 360, 0]);
+
+const clip = new AnimationClip("MyAnimation");
+clip.addTrack(positionTrack);
+clip.addTrack(rotationTrack);
+```
+
+### 15.5 AnimationComponent Class
+
+**[sckorpioEngineWeb/core/ecs/component/components/animationComponent.js](sckorpioEngineWeb/core/ecs/component/components/animationComponent.js)**
+
+Component that holds animation state and playback controls:
+
+```js
+class AnimationComponent extends Component {
+    constructor() {
+        super();
+        this.animationClip = null;    // The animation to play
+        this.currentTime = 0.0;       // Current playback time
+        this.playing = false;         // Is currently playing?
+        this.loop = true;             // Loop when reaching end?
+        this.speed = 1.0;             // Playback speed multiplier
+    }
+
+    setClip(clip) {
+        this.animationClip = clip;
+        this.currentTime = 0.0;
+    }
+
+    play() {
+        if (this.animationClip) {
+            this.playing = true;
+        }
+    }
+
+    pause() {
+        this.playing = false;
+    }
+
+    stop() {
+        this.playing = false;
+        this.currentTime = 0.0;
+    }
+
+    setSpeed(speed) {
+        this.speed = speed;
+    }
+
+    isPlaying() {
+        return this.playing;
+    }
+}
+```
+
+**Attached to entities via:**
+```js
+entity.addAnimationComponent();  // Adds component to entity.components[]
+```
+
+### 15.6 AnimationSystem Class
+
+**[sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js](sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js)**
+
+The main update system that processes all animations each frame:
+
+```js
+class AnimationSystem {
+    constructor() {
+        this.entities = [];
+    }
+
+    addEntity(entity) {
+        this.entities.push(entity);
+    }
+
+    addEntities(entityList) {
+        for (const entity of entityList) {
+            this.addEntity(entity);
+        }
+    }
+
+    update(deltaTime) {
+        for (const entity of this.entities) {
+            const animationComponent = entity.animationComponent;
+            const animationClip = animationComponent.animationClip;
+
+            // Update time if playing
+            if (animationComponent.playing) {
+                animationComponent.currentTime += deltaTime * animationComponent.speed;
+
+                // Handle loop/end
+                if (animationComponent.currentTime >= animationClip.duration) {
+                    if (animationComponent.loop) {
+                        animationComponent.currentTime %= animationClip.duration;
+                    } else {
+                        animationComponent.currentTime = animationClip.duration;
+                        animationComponent.playing = false;
+                    }
+                }
+            }
+
+            // Evaluate animation and apply to transform
+            const animationResult = animationClip.evaluate(animationComponent.currentTime);
+            entity.transformComponent.applyAnimation(animationResult);
+        }
+    }
+}
+```
+
+**Workflow:**
+1. Iterate through all animated entities
+2. Update `currentTime` based on delta time and speed
+3. Handle looping and end conditions
+4. Evaluate the animation clip at current time
+5. Apply results to the entity's transform component
+
+### 15.7 Transform Component Animation Support
+
+**[sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](sckorpioEngineWeb/core/ecs/component/components/transformComponent.js)**
+
+The transform component applies animation results to both the source entity and instances:
+
+```js
+applyAnimation(animationResult) {
+    this.applyAnimationToSource(animationResult);
+    this.applyAnimationToInstances(animationResult);
+}
+
+// Apply to main entity
+applyAnimationToSource(animationResult) {
+    if (animationResult.position) {
+        this.currentPosition = vec3.add(this.localPosition, animationResult.position);
+    }
+    if (animationResult.rotation) {
+        this.currentRotation = vec3.add(this.localRotation, animationResult.rotation);
+    }
+    if (animationResult.scale) {
+        this.currentScale = vec3.mul(this.localScale, animationResult.scale);
+    }
+    this.setCurrentTransform();
+}
+
+// Apply to all instances
+applyAnimationToInstances(animationResult) {
+    for (let i = 0; i < this.localInstancesCount; i++) {
+        // Position: apply with respect to instance's local rotation
+        if (animationResult.position) {
+            // Rotate animation position by instance rotation
+            // Then add to instance position
+        }
+        
+        // Rotation: add to current rotation
+        if (animationResult.rotation) {
+            rotation[0] += animationResult.rotation[0];
+            rotation[1] += animationResult.rotation[1];
+            rotation[2] += animationResult.rotation[2];
+        }
+        
+        // Scale: multiply with current scale
+        if (animationResult.scale) {
+            scale[0] *= animationResult.scale[0];
+            scale[1] *= animationResult.scale[1];
+            scale[2] *= animationResult.scale[2];
+        }
+        
+        this.currentInstancesTransforms[i] = this.createTRSMatrix(...);
+    }
+}
+```
+
+### 15.8 Scene Integration
+
+In [sckorpioEngineWeb/core/scene/sckorpioScene.js](sckorpioEngineWeb/core/scene/sckorpioScene.js):
+
+```js
+class SckorpioScene {
+    async init() {
+        this.animationSystem = new AnimationSystem();  // Create system
+        // ... other initialization
+    }
+
+    load() {
+        this.addEntitiesToAnimationSystem();    // Register entities
+        this.addEntitiesToRendererSystem();
+    }
+
+    addEntitiesToAnimationSystem() {
+        this.animationSystem.addEntities(this.entitiesList);
+    }
+
+    update(timestamp) {
+        const deltaTime = (timestamp - this.previousTime) / 1000.0;
+        this.previousTime = timestamp;
+
+        this.animationSystem.update(deltaTime);  // Update animations
+        this.renderer.render();
+        requestAnimationFrame(this.play.bind(this));
+    }
+}
+```
+
+### 15.9 Typical Animation Workflow
+
+```js
+// 1. Create animation tracks
+const positionTrack = new AnimationTrack("position", "vec3");
+positionTrack.addKeyFrame(0.0, [0.0, 0.0, 0.0]);
+positionTrack.addKeyFrame(2.0, [5.0, 0.0, 0.0]);
+
+// 2. Create animation clip
+const clip = new AnimationClip("Move");
+clip.addTrack(positionTrack);
+
+// 3. Add component to entity
+entity.addAnimationComponent();
+
+// 4. Set clip and play
+entity.animationComponent.setClip(clip);
+entity.animationComponent.play();
+
+// 5. System automatically updates every frame
+```
+
+### 15.10 Advanced Features
+
+**Speed Control:**
+```js
+entity.animationComponent.setSpeed(0.5);  // Half speed
+entity.animationComponent.setSpeed(2.0);  // Double speed
+```
+
+**Looping:**
+```js
+entity.animationComponent.loop = true;   // Default: loops
+entity.animationComponent.loop = false;  // Play once, then stop
+```
+
+**Multiple Tracks:**
+```js
+const clip = new AnimationClip("Complex");
+clip.addTrack(positionTrack);
+clip.addTrack(rotationTrack);
+clip.addTrack(scaleTrack);
+// All tracks evaluate simultaneously
+```
+
+**Instanced Animation:**
+- Works seamlessly with GPU instancing
+- Each instance applies animations respecting its local rotation
+- Position animations are rotated to align with instance orientation
+
+### 15.11 Testing Projects
+
+Three new testing projects demonstrate animation features:
+
+- **testing4Animations/** - Individual property animations (position, rotation, scale)
+- **testing5AnimationsInstances/** - Animation applied to GPU instances
+- **testing6AnimationsCombo/** - Complex scene graph with animated parent/child relationships
+
+---
+
+## 17. Mesh component details
 
 ### [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](sckorpioEngineWeb/core/ecs/component/components/meshComponent.js)
 
@@ -791,7 +1212,7 @@ This method is the point where mesh data becomes GPU data. It now accepts the `t
 
 ---
 
-## 17. Render component details
+## 18. Render component details
 
 ### [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](sckorpioEngineWeb/core/ecs/component/components/renderComponent.js)
 
@@ -857,7 +1278,7 @@ The order is strict because WebGL state must be set correctly before draw calls 
 
 ---
 
-## 18. Shader implementation details
+## 19. Shader implementation details
 
 ### [sckorpioEngineWeb/renderer/webgl/shader/shader.js](sckorpioEngineWeb/renderer/webgl/shader/shader.js)
 
@@ -918,7 +1339,7 @@ The parser looks for `#shader vertex` and `#shader fragment` markers, which is a
 
 ---
 
-## 19. Shader uniform helpers
+## 20. Shader uniform helpers
 
 The shader class includes helpers such as:
 
@@ -941,7 +1362,7 @@ These are used by the renderer to pass the current camera and model transforms i
 
 ---
 
-## 20. Buffer layout implementation details
+## 21. Buffer layout implementation details
 
 ### [sckorpioEngineWeb/renderer/webgl/buffer/bufferLayout.js](sckorpioEngineWeb/renderer/webgl/buffer/bufferLayout.js)
 
@@ -992,7 +1413,7 @@ This is what allows an instanced model matrix to be uploaded correctly.
 
 ---
 
-## 21. Vertex array behavior
+## 22. Vertex array behavior
 
 ### [sckorpioEngineWeb/renderer/webgl/buffer/vertexArray.js](sckorpioEngineWeb/renderer/webgl/buffer/vertexArray.js)
 
@@ -1018,7 +1439,7 @@ This is where the engine links CPU layout data to actual GPU attribute slots.
 
 ---
 
-## 22. Camera implementation details
+## 23. Camera implementation details
 
 ### [sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js](sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js)
 
@@ -1071,7 +1492,7 @@ updateProjectionMatrix() {
 
 ---
 
-## 23. Material and texture book details
+## 24. Material and texture book details
 
 ### [sckorpioEngineWeb/renderer/webgl/material/materialBook.js](sckorpioEngineWeb/renderer/webgl/material/materialBook.js)
 
@@ -1098,7 +1519,7 @@ It stores them in a `Map` so lookup is fast and consistent.
 
 ---
 
-## 24. Cube mesh data details
+## 25. Cube mesh data details
 
 ### [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js)
 
@@ -1129,7 +1550,7 @@ It shows exactly how a mesh defines geometry, layout, and material expectations 
 
 ---
 
-## 25. Renderer loop details
+## 26. Renderer loop details
 
 ### [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
 
@@ -1189,7 +1610,7 @@ The loop uses `forEach(async ...)` rather than awaiting each draw call. That mea
 
 ---
 
-## 26. Internal resource IDs
+## 27. Internal resource IDs
 
 ### [sckorpioEngineWeb/canvas/utils.js](sckorpioEngineWeb/canvas/utils.js)
 
@@ -1204,7 +1625,7 @@ This is used to generate unique IDs for WebGL resources.
 
 ---
 
-## 27. Summary of implementation flow
+## 28. Summary of implementation flow
 
 A practical sequence looks like this:
 
@@ -1221,7 +1642,7 @@ A practical sequence looks like this:
 
 ---
 
-## 28. Quick reference map
+## 29. Quick reference map
 
 | Area | Main file |
 |---|---|

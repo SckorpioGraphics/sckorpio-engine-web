@@ -113,12 +113,18 @@ That staging is important because several WebGL objects are only valid once the 
     - **[component/](sckorpioEngineWeb/core/ecs/component/)** - Component system
       - `component.js` - Base Component class
       - **[components/](sckorpioEngineWeb/core/ecs/component/components/)** - Concrete components
-        - `transformComponent.js` - Transform/hierarchy data
+        - `transformComponent.js` - Transform/hierarchy data with animation support
         - `meshComponent.js` - Mesh rendering data
         - `renderComponent.js` - GPU render state
         - `cameraComponent.js` - Camera data
+        - `animationComponent.js` - Animation playback state and controls
     - **[system/](sckorpioEngineWeb/core/ecs/system/)** - Game systems
-      - `animation/` - Animation system (reserved for future use)
+      - **[animation/](sckorpioEngineWeb/core/ecs/system/animation/)** - Animation system for keyframe-based animations
+        - `keyFrame.js` - Keyframe data holder (time + value)
+        - `animationTrack.js` - Track for animating a single property with interpolation
+        - `animationClip.js` - Complete animation with multiple tracks
+        - `interpolators.js` - Interpolation functions (lerp) for different data types
+        - `animationSystem.js` - Main animation update system
   - **[scene/](sckorpioEngineWeb/core/scene/)**
     - `sckorpioScene.js` - Main scene orchestration class
 
@@ -146,6 +152,9 @@ That staging is important because several WebGL objects are only valid once the 
     - `testing1Basic/` - Basic rendering tests
     - `testing2Instances/` - Instancing feature tests
     - `testing3SceneGraph/` - Scene graph hierarchy tests
+    - `testing4Animations/` - Animation system tests (position, rotation, scale)
+    - `testing5AnimationsInstances/` - Animation combined with GPU instancing
+    - `testing6AnimationsCombo/` - Complex animations with scene graph hierarchy
   - `templateProject/` - Template for creating new scenes
 
 ---
