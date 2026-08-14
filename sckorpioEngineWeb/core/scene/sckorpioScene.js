@@ -5,6 +5,7 @@ import { WebGLRenderer } from "../../renderer/webgl/webglRenderer.js";
 import { ShaderBook } from "../../renderer/webgl/shader/shaderBook.js";
 import { MaterialBook } from "../../renderer/webgl/material/materialBook.js";
 import { TextureBook } from "../../renderer/webgl/texture/textureBook.js";
+import { AnimationSystem } from "../ecs/system/animation/animationSystem.js";
 import { logger } from "../../canvas/logger.js";
 
 class SckorpioScene {
@@ -14,6 +15,8 @@ class SckorpioScene {
         //SYSTEMS
         //renderer
         this.renderer;
+        //annimation
+        this.animationSystem;
 
         //camera 
         this.camera;
@@ -45,6 +48,9 @@ class SckorpioScene {
         this.darkModeClearColor = vec3.fromValues(0.14, 0.11, 0.26);
         this.darkModeGridColor = vec3.fromValues(0.45, 0.40, 0.65);
 
+        //time
+        this.previousTime = 0.0;
+
         this.logger = logger;
     }
 
@@ -53,6 +59,11 @@ class SckorpioScene {
         RENDERER
         */
         this.renderer = new WebGLRenderer();
+
+        /*
+        ANIMATION
+        */
+        this.animationSystem = new AnimationSystem();
 
         /*
         CAMERA
@@ -164,18 +175,25 @@ class SckorpioScene {
         // update Scene Graph
         this.updateSceneGraph();
         // load systems with entities according to components
-        this.addEntitiesToRenderer();
+        this.addEntitiesToAnimationSystem();    // Renderer System
+        this.addEntitiesToRendererSystem();     // Animation System
 
         console.log("DefaultEntities:",this.defaultEntitiesList);
         console.log("customEntities:",this.entitiesList);
     }
 
-    addEntitiesToRenderer(){
-        //Add Meshes to list'
-        this.renderer.addentities(this.defaultEntitiesList);
-        this.renderer.addentities(this.entitiesList);
+    addEntitiesToRendererSystem(){
+        // Add default Entities to Renderer System
+        this.renderer.addEntities(this.defaultEntitiesList);
+        // Add custom Entities to Renderer System
+        this.renderer.addEntities(this.entitiesList);
         // load Data of entities from CPU to GPU
         this.renderer.loadEntityDataToGPU();
+    }
+
+    addEntitiesToAnimationSystem(){
+        // Add custom Meshes to Animation System
+        this.animationSystem.addEntities(this.entitiesList);
     }
 
     updateSceneGraph(){
@@ -198,14 +216,43 @@ class SckorpioScene {
         }
     }
 
-    play(){
-        /*
-        RENDERER render()
-        */
+    // =====================================================
+    // PLAY
+    // =====================================================
+    update(timestamp) {
+    
+        // Calculate Delta Time
+        if(this.previousTime === 0.0){
+            this.previousTime = timestamp;
+        }
+
+        // Delta Time
+        const deltaTime = (timestamp - this.previousTime) / 1000.0;
+        this.previousTime = timestamp;
+
+        // Animation
+        this.animationSystem.update(deltaTime);
+
+        // Scene Graph
+        this.updateSceneGraph();
+
+        // load Data of entities from CPU to GPU
+        this.renderer.loadEntityDataToGPU();
+
+        // Renderer
         this.renderer.render();
 
-        //loop
-        requestAnimationFrame(this.play.bind(this));
+        // Loop
+        requestAnimationFrame(
+            this.play.bind(this)
+        );
+    }
+
+    play() {
+        // Start the render loop
+        requestAnimationFrame(
+            this.update.bind(this)
+        );
     }
 }
 

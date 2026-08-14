@@ -42,7 +42,7 @@ class WebGLRenderer {
         this.entities.push(entity);
     }
 
-    addentities(entities) {
+    addEntities(entities) {
         this.entities = this.entities.concat(entities);
     }
 
