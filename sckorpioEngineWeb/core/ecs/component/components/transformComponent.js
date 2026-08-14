@@ -287,24 +287,35 @@ class TransformComponent extends Component{
         let worldInstanceTransform = mat4.create(); 
         this.worldInstancesCount = 0;
         this.worldInstancesTransforms = [];
+
+        const parentWorldInstancesCount = this.parentTransformComponent
+            ? this.parentTransformComponent.worldInstancesCount
+            : 0;
+        const hasParentWorldInstances = parentWorldInstancesCount > 0;
+        const hasLocalInstances = this.localInstancesCount > 0;
+
         // If No Parent Node
         if(!this.parentTransformComponent){
-            this.worldInstancesTransforms = this.currentInstancesTransforms;
-            this.worldInstancesCount = this.currentInstancesCount;
-            return
+            if(hasLocalInstances){
+                this.worldInstancesTransforms = this.currentInstancesTransforms;
+                this.worldInstancesCount = this.currentInstancesCount;
+                this.instanced = this.worldInstancesCount > 0;
+            } else {
+                this.setWorldTransform();
+                this.instanced = false;
+            }
+            return;
         }
 
-        // If Parent is there..
-        let parentInstanced = false;
-        if(this.parentTransformComponent){
-            parentInstanced = this.parentTransformComponent.instanced;
-        }
-        // Case 1
-        if(!parentInstanced && !this.instanced){
+        // Case 1: parent has no world instances, this node has no local instances
+        if(!hasParentWorldInstances && !hasLocalInstances){
             this.setWorldTransform();
+            this.instanced = false;
+            return;
         }
-        // Case 2
-        else if(!parentInstanced && this.instanced){
+
+        // Case 2: parent has no world instances, this node has local instances
+        if(!hasParentWorldInstances && hasLocalInstances){
             let parentWorldTransform = this.parentTransformComponent.getWorldTransform();
             for(let i=0; i < this.localInstancesCount; i++){
                 worldInstanceTransform = mat4.create(); 
@@ -313,9 +324,12 @@ class TransformComponent extends Component{
                 this.worldInstancesTransforms.push(worldInstanceTransform);
                 this.worldInstancesCount++;
             }
+            this.instanced = true;
+            return;
         }
-        // Case 3
-        else if(parentInstanced && !this.instanced){
+
+        // Case 3: parent has world instances, this node has no local instances
+        if(hasParentWorldInstances && !hasLocalInstances){
             for(let i=0; i < this.parentTransformComponent.worldInstancesCount; i++){
                 let parentWorldInstanceTransform = this.parentTransformComponent.worldInstancesTransforms[i];
                 worldInstanceTransform = mat4.create(); 
@@ -325,9 +339,11 @@ class TransformComponent extends Component{
                 this.worldInstancesCount++;
             }
             this.instanced = true;
+            return;
         }
-        // Case 4
-        else if(parentInstanced && this.instanced){
+
+        // Case 4: parent has world instances and this node has local instances
+        if(hasParentWorldInstances && hasLocalInstances){
             for(let i=0; i < this.parentTransformComponent.worldInstancesCount; i++){
                 let parentWorldInstanceTransform = this.parentTransformComponent.worldInstancesTransforms[i];
                 for(let j=0; j < this.localInstancesCount; j++){
@@ -339,6 +355,7 @@ class TransformComponent extends Component{
                     this.worldInstancesCount++;
                 }
             }
+            this.instanced = true;
         }
     }
 
