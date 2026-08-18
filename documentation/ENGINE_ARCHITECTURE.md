@@ -1,761 +1,490 @@
 # SckorpioWebEngine Architecture Guide
 
-## 1. What this engine is
+## 1. Engine purpose and philosophy
 
-SckorpioWebEngine is a lightweight, browser-based 3D rendering engine written in JavaScript and built on top of WebGL 2.0. Its design is inspired by a hybrid approach of:
+SckorpioWebEngine is a small, explicit browser 3D engine built on top of WebGL. It is not a large game-engine framework, and it does not try to hide WebGL behind a heavy abstraction layer. Instead, it exposes the core rendering flow very directly:
 
-- **Entity-Component-System (ECS)** ideas for scene objects
-- **Resource books** for shaders, materials, and textures
-- **Manual GPU buffer management** for geometry and instancing
-- **A scene-based execution model** that mirrors a game engine loop
+- objects are represented as entities and nodes
+- data is stored on components
+- transforms and animation flow through the scene graph
+- geometry and instance data are staged into GPU buffers
+- the renderer binds shaders, textures, and uniforms and performs draw calls
 
-The engine is intentionally small and explicit: instead of hiding WebGL complexity behind a large framework, it exposes the main pipeline clearly through simple classes and helper systems.
-
----
-
-## 2. High-level architecture
-
-The engine can be thought of as a layered stack:
-
-1. **Application layer**
-   - User-defined scenes live inside the `projects/` folder.
-   - Each scene decides what entities exist and how they are configured.
-
-2. **Scene orchestration layer**
-   - `SckorpioScene` initializes the engine, loads resources, builds scene entities, and starts rendering.
-
-3. **Core ECS layer**
-   - Entities store components.
-   - Components hold data.
-   - The renderer consumes entity/component data and sends it to the GPU.
-
-4. **Renderer layer**
-   - WebGL renderer handles the draw loop, camera updates, clear state, depth testing, blending, and draw calls.
-
-5. **GPU resource layer**
-   - Shaders, materials, textures, and buffers are created and managed in a centralized way.
-
-6. **Canvas layer**
-   - The HTML canvas setup, title overlay, and FPS/logger overlays are handled here.
+The architectural idea is simple: keep the engine readable and traceable. Each major concept remains close to the underlying WebGL concepts, which makes the engine easier to reason about and easier to extend for demos, experiments, and custom visual systems.
 
 ---
 
-## 3. Startup flow
+## 2. High-level architecture overview
 
-The application begins in [index.html](index.html) and [main.js](main.js).
+The engine is organized into a layered structure that follows the lifecycle of a runtime 3D scene.
 
-### Boot sequence
+### Layer 1: Scene orchestration
+This is the runtime shell of the engine. The main scene class coordinates the whole system:
 
-1. `index.html` loads:
-   - the WebGL canvas
-   - the title canvas
-   - the logger canvas
-   - the external `gl-matrix` library
-   - the module script `main.js`
+- creates the renderer
+- creates the camera
+- initializes resource books
+- creates helper objects such as the grid and axes
+- adds entities to the render/update lists
+- starts the frame loop
 
-2. `main.js` calls `initSckorpioWebEngine()`.
+The primary class here is the scene object in [sckorpioEngineWeb/core/scene/sckorpioScene.js](../sckorpioEngineWeb/core/scene/sckorpioScene.js).
 
-3. `initSckorpioWebEngine()` does the following:
-   - verifies that WebGL is available
-   - creates a scene object using the selected project scene
-   - awaits `scene.init()`
-   - awaits `scene.initResources()`
-   - awaits `scene.createScene()`
-   - calls `scene.load()`
-   - calls `scene.play()`
+### Layer 2: ECS-style entity and component model
+The engine uses an ECS-inspired structure, but it is intentionally lightweight and flexible rather than strict.
 
-### Important runtime idea
+- entities are the world objects
+- components store data
+- nodes participate in hierarchy and transform composition
+- the renderer reads component state and converts it to draw commands
 
-The engine is not “instant-on” in the sense of preloading everything at page load. Instead, it performs a staged startup:
+The core pieces live in:
 
-- setup runtime context
-- initialize renderer/camera
-- load shader and texture resources
-- create scene entities
-- transfer geometry to GPU
-- start the frame loop
+- [sckorpioEngineWeb/core/ecs/entity](../sckorpioEngineWeb/core/ecs/entity)
+- [sckorpioEngineWeb/core/ecs/component](../sckorpioEngineWeb/core/ecs/component)
+- [sckorpioEngineWeb/core/ecs/system](../sckorpioEngineWeb/core/ecs/system)
 
-That staging is important because several WebGL objects are only valid once the WebGL context is ready and the DOM is fully loaded.
+### Layer 3: Scene graph and transform system
+The engine has a real hierarchical transform model. Nodes can parent to other nodes, and the transform system propagates world transforms down the hierarchy. This is what makes composite meshes and grouped structures possible.
 
----
+This is one of the most significant architectural features of the engine.
 
-## 4. Project layout and responsibilities
+### Layer 4: Render data and WebGL bindings
+The mesh and render components hold the visible geometry and GPU-facing state. They prepare vertex data, index data, material references, and instance transforms before handing them to the renderer.
 
-### Root files
+### Layer 5: Resource books and WebGL subsystem
+The engine manages resources through singleton books:
 
-- [index.html](index.html)
-  - defines the three canvases
-  - loads the engine entry point
+- shader book
+- material book
+- texture book
 
-- [main.js](main.js)
-  - bootstraps the application
-  - chooses the scene to run
+These resource books are central to the architecture because they provide a clean lookup layer between authored scene objects and actual GPU resources.
 
-- [README.md](README.md)
-  - project overview and usage information
-
-### Engine core ([sckorpioEngineWeb/](sckorpioEngineWeb/))
-
-- **[canvas/](sckorpioEngineWeb/canvas/)**
-  - Canvas access utilities
-  - User-facing overlays (title, logger)
-  - WebGL context management
-  - Files: `utils.js`, `title.js`, `logger.js`
-
-- **[core/](sckorpioEngineWeb/core/)**
-  - **[ecs/](sckorpioEngineWeb/core/ecs/)** - Entity-Component-System architecture
-    - **[entity/](sckorpioEngineWeb/core/ecs/entity/)** - Base entity class and entity types
-      - `entity.js` - Base Entity class
-      - **[entities/](sckorpioEngineWeb/core/ecs/entity/entities/)** - Concrete entity implementations
-        - `camera/` - Camera entity
-        - `mesh/` - Mesh base class and primitive types (cube, sphere, cone, etc.)
-        - `node/` - Node entity with scene graph support
-    - **[component/](sckorpioEngineWeb/core/ecs/component/)** - Component system
-      - `component.js` - Base Component class
-      - **[components/](sckorpioEngineWeb/core/ecs/component/components/)** - Concrete components
-        - `transformComponent.js` - Transform/hierarchy data with animation support
-        - `meshComponent.js` - Mesh rendering data
-        - `renderComponent.js` - GPU render state
-        - `cameraComponent.js` - Camera data
-        - `animationComponent.js` - Animation playback state and controls
-    - **[system/](sckorpioEngineWeb/core/ecs/system/)** - Game systems
-      - **[animation/](sckorpioEngineWeb/core/ecs/system/animation/)** - Animation system for keyframe-based animations
-        - `keyFrame.js` - Keyframe data holder (time + value)
-        - `animationTrack.js` - Track for animating a single property with interpolation
-        - `animationClip.js` - Complete animation with multiple tracks
-        - `interpolators.js` - Interpolation functions (lerp) for different data types
-        - `animationSystem.js` - Main animation update system
-  - **[scene/](sckorpioEngineWeb/core/scene/)**
-    - `sckorpioScene.js` - Main scene orchestration class
-
-- **[renderer/](sckorpioEngineWeb/renderer/)**
-  - **[webgl/](sckorpioEngineWeb/renderer/webgl/)**
-    - `webglRenderer.js` - Main WebGL rendering pipeline
-    - **[buffer/](sckorpioEngineWeb/renderer/webgl/buffer/)** - GPU buffer management
-    - **[shader/](sckorpioEngineWeb/renderer/webgl/shader/)** - Shader compilation and binding
-    - **[material/](sckorpioEngineWeb/renderer/webgl/material/)** - Material definitions and book
-    - **[texture/](sckorpioEngineWeb/renderer/webgl/texture/)** - Texture loading and book
-    - **[resources/](sckorpioEngineWeb/renderer/webgl/resources/)**
-      - `shaders/` - GLSL shader files (.txt)
-      - `textures/` - Built-in texture resources
-
-### Scene projects ([projects/](projects/))
-
-- Contains demo scenes and test scenes built on top of the engine
-- Each project defines its own scene logic and entities
-- Naming convention:
-  - **projectX/** - Main demonstration projects
-    - `projectCastle/` - Castle scene demo
-    - `projectChristmas/` - Christmas-themed scene
-    - `projectFIFA26/` - FIFA 26 football demo
-  - **testingX/** - Testing and experimentation scenes
-    - `testing1Basic/` - Basic rendering tests
-    - `testing2Instances/` - Instancing feature tests
-    - `testing3SceneGraph/` - Scene graph hierarchy tests
-    - `testing4Animations/` - Animation system tests (position, rotation, scale)
-    - `testing5AnimationsInstances/` - Animation combined with GPU instancing
-    - `testing6AnimationsCombo/` - Complex animations with scene graph hierarchy
-  - `templateProject/` - Template for creating new scenes
+### Layer 6: Browser integration and debug overlays
+The canvas layer provides WebGL context access, logger output, and UI overlays. This keeps the engine display/debug infrastructure separate from the core render path.
 
 ---
 
-## 5. Scene system
+## 3. Runtime bootstrap flow
 
-The scene layer is the engine’s main coordinator.
+The engine starts from the page bootstrap and then builds up the runtime in stages.
 
-The central class is `SckorpioScene`, defined in [sckorpioEngineWeb/core/scene/sckorpioScene.js](sckorpioEngineWeb/core/scene/sckorpioScene.js).
+### Startup sequence
 
-### Responsibilities
+1. The page creates the WebGL canvas and debug overlay canvases.
+2. The main entry script initializes the selected scene.
+3. The scene calls `init()` to create the renderer, camera, and resource books.
+4. It loads default resources and creates helper objects.
+5. The scene creates user objects and custom meshes.
+6. The scene calls `load()` to add entities and upload entity data to the GPU.
+7. The scene starts the render loop with `play()`.
 
-`SckorpioScene` is responsible for:
+### Why this staged flow matters
 
-- creating the renderer
-- creating the camera
-- wiring camera to renderer
-- initializing shader, material, and texture books
-- creating default helper objects like grid/axes
-- attaching keyboard listeners for mode toggles and visibility toggles
-- adding entities to the renderer
-- starting the render loop
+The engine does not assume all GPU resources are immediately available. Many objects depend on the WebGL context, compiled shaders, loaded textures, and valid canvas sizing. The runtime therefore intentionally separates:
 
-### Scene lifecycle
+- setup
+- resource generation
+- entity creation
+- GPU transfer
+- render loop
 
-The lifecycle is essentially:
-
-1. `init()`
-   - creates renderer
-   - creates camera
-   - configures renderer clear color
-   - loads default shader resources
-   - loads default textures
-   - generates default materials
-   - creates helper entities
-   - sets event listeners
-
-2. `load()`
-   - adds default entities and user entities to the renderer
-   - calls `loadEntityDataToGPU()`
-
-3. `play()`
-   - calls `renderer.render()`
-   - schedules the next frame with `requestAnimationFrame()`
-
-### Why this matters
-
-The scene object is the “game/application shell.” It is the one place where the engine is assembled into a runnable world.
+This stage-based startup is a key part of the engine’s architecture.
 
 ---
 
-## 6. ECS model in this engine
+## 4. Scene class as the engine coordinator
 
-Although the implementation is not a full formal ECS framework, it follows ECS patterns closely.
+The scene object is the main composition root of the engine.
 
-### Core idea
+In the current implementation, the scene owns the following responsibilities:
 
-- **Entities** represent objects in the scene.
-- **Components** store data about those objects.
-- **The renderer** uses the entity/component data to issue draw calls.
+- renderer instance
+- camera instance
+- animation system
+- shader/material/texture books
+- default helper entities like grid and axes
+- toggle logic for theme and visibility
+- entity registry for render and animation
+- frame update loop
+
+The scene does not render itself directly. Instead, it orchestrates other systems and hands execution to the renderer and animation system.
+
+This is important: the scene is not just a container. It is the engine assembly point.
+
+---
+
+## 5. Entity and component model
+
+The engine is built around a very lightweight ECS approach.
 
 ### Base entity
 
-The base entity class is [sckorpioEngineWeb/core/ecs/entity/entity.js](sckorpioEngineWeb/core/ecs/entity/entity.js).
+The base entity in [sckorpioEngineWeb/core/ecs/entity/entity.js](../sckorpioEngineWeb/core/ecs/entity/entity.js) is intentionally minimal:
 
-It holds:
+- unique id
+- list of attached components
 
-- `uid`: an identifier
-- `components`: a list of attached components
-
-This is intentionally simple and generic.
+This gives every world object a common identity and a container for component data.
 
 ### Base component
 
-The base component class is [sckorpioEngineWeb/core/ecs/component/component.js](sckorpioEngineWeb/core/ecs/component/component.js).
+The base component in [sckorpioEngineWeb/core/ecs/component/component.js](../sckorpioEngineWeb/core/ecs/component/component.js) is also intentionally simple, with a shared `uid` field. The real logic is implemented in derived components.
 
-It provides a shared `uid` field for every component, but the real behavior is implemented in specialized subclasses.
+### Core component responsibilities
+
+The main concrete components reflect the engine’s architecture closely:
+
+- `TransformComponent`
+  - stores position, rotation, scale, local matrix, world matrix
+  - manages instance transforms and hierarchical updates
+
+- `MeshComponent`
+  - stores mesh geometry, material, visibility, texture UVs
+  - prepares data for GPU upload
+
+- `RenderComponent`
+  - owns WebGL buffers, VAO, shader/material state, and draw settings
+
+- `CameraComponent`
+  - owns camera vectors, projection matrix, view matrix, mouse/keyboard controls
+
+This is the engine’s functional data model: any object in the scene can be meaningfully described by a transform, a mesh, and/or a camera.
 
 ---
 
-## 7. Entity types and components
+## 6. Scene graph and hierarchy
 
-### Mesh entities
+The scene graph is one of the core architectural features of the engine.
 
-The engine uses `Mesh` as a common base for mesh-like objects.
+### Node as the hierarchy primitive
 
-The class in [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js) adds:
+The hierarchy root is the `Node` class in [sckorpioEngineWeb/core/ecs/entity/entities/node/node.js](../sckorpioEngineWeb/core/ecs/entity/entities/node/node.js).
 
-- `transformComponent`
-- `meshComponent`
+A node can:
 
-It also exposes helper methods like:
+- have a parent
+- contain child nodes
+- update its depth in the hierarchy
+- own a transform component
+- compose local and world transforms
+- serve as the base for mesh objects
 
-- `setPosition()`
-- `setScale()`
-- `setRotation()`
-- `setMaterial()`
-- `setVisible()`
-- `addInstance()`
+The `setParent`, `addChild`, and `updateDepth` methods are central to this model. They allow the engine to construct composite object trees instead of treating every mesh as a flat independent object.
 
-### Scene Graph (Node Hierarchy)
+### Why this matters architecturally
 
-The engine implements a scene graph through the `Node` class, defined in [sckorpioEngineWeb/core/ecs/entity/entities/node/node.js](sckorpioEngineWeb/core/ecs/entity/entities/node/node.js).
+The hierarchy is not just a convenience. It is how the engine supports:
 
-**What is a Node?**
+- grouped objects
+- assembled models
+- parent-driven motion
+- child-local transforms
+- instanced object generation
 
-A `Node` is an entity that can have parent-child relationships, forming a hierarchical tree structure. All visual mesh entities extend from `Node` to support this hierarchy.
+This is the engine’s structural backbone for complex scenes.
 
-**Scene graph features:**
+---
 
-- **Parent-child relationships**: Each node can have one parent and multiple children
-- **Hierarchical transforms**: Child transforms are automatically composed with parent transforms
-- **Depth tracking**: The hierarchy depth is maintained and updated automatically
-- **Transform propagation**: When a parent moves/rotates/scales, all children inherit those transformations
+## 7. Transform system design
 
-**Key methods:**
+The transform layer is the most important data flow in the engine.
 
-```js
-setParent(parentNode)
-  // Set this node's parent
-  // Automatically adds this node as a child to the parent
-  // Updates the transform hierarchy
+The `TransformComponent` in [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](../sckorpioEngineWeb/core/ecs/component/components/transformComponent.js) stores:
 
-addChild(childNode)
-  // Add a child node
-  // Automatically calls childNode.setParent(this)
+- local position, rotation, scale
+- current animation-driven transforms
+- world transform matrix
+- parent transform reference
+- instance transforms for instanced rendering
 
-updateDepth(newDepth)
-  // Updates this node's depth and recursively updates all children
-  // Ensures hierarchy consistency
-```
-
-**How transforms work in the hierarchy:**
-
-- **Local transform**: Position, rotation, and scale relative to the parent
-- **World transform**: Position, rotation, and scale in world space, computed by multiplying parent's world transform with this node's local transform
-- **Automatic propagation**: Changing a parent's transform automatically affects all descendants
-
-**Example usage:**
-
-```js
-// Create entities
-let parent = new Cube({mode: 'basic'});
-let child = new Sphere({mode: 'basic'});
-
-// Position parent at origin
-parent.setPosition(5, 0, 0);
-
-// Set child to be relative to parent
-child.setParent(parent);
-
-// Now child's world position is parent's position + child's local position
-child.setPosition(2, 0, 0);  // 2 units relative to parent
-```
-
-**Testing and Demo:**
-
-The [projects/testing3SceneGraph](projects/testing3SceneGraph) scene demonstrates the scene graph feature with multiple parent-child relationships and instancing.
-
-### Transform component
-
-The transform logic is in [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](sckorpioEngineWeb/core/ecs/component/components/transformComponent.js).
-
-This component stores:
-
-**Local transform data:**
-- position
-- scale
-- rotation
-- local transform matrix
-
-**World transform data:**
-- world transform matrix (computed by combining parent's world transform with local transform)
-- parent transform reference (for hierarchical transforms)
-
-**Instance transform data:**
-- `isInstanced` - flag to enable/disable instancing
-- `localInstancesCount` - number of local instances
-- `localInstancesTransforms` - array of local instance transformation matrices
-- `worldInstancesCount` - number of world instances
-- `worldInstancesTransforms` - array of world instance transformation matrices
-
-It computes matrices using `gl-matrix` by combining:
+It creates TRS matrices using gl-matrix operations based on:
 
 1. translation
 2. rotation
 3. scaling
 
-**Hierarchical transform calculation:**
-- **Local transform**: computed from local position, rotation, and scale
-- **World transform**: computed by multiplying the parent's world transform with the local transform
-- This allows child entities to inherit parent transformations automatically
+The transform system supports both source objects and per-instance transforms. The same logic is used for standard meshes and for instanced copies.
 
-The matrices are regenerated whenever the object's transform changes or when parent relationships are established.
+This means the architecture is built around the idea that all renderable objects ultimately produce a valid model/world transform before drawing.
 
-For instanced objects, the component stores both local and world instance matrices, applying the same hierarchical logic.
+### Deep update flow
+
+Before rendering, the scene performs a graph refresh:
+
+- sort entities by depth
+- recompute world transforms for each entity
+- recompute instance transforms if needed
+- mark instanced state when instance count is present
+
+That step ensures the GPU sees consistent transforms before any draw call is issued.
+
+---
+
+## 8. Mesh data and render data pipeline
+
+### Mesh entity
+
+The mesh class in [sckorpioEngineWeb/core/ecs/entity/entities/mesh/mesh.js](../sckorpioEngineWeb/core/ecs/entity/entities/mesh/mesh.js) adds the concrete visual behavior expected by the engine:
+
+- mesh component
+- visibility toggling
+- material assignment
+- color and texture helpers
+- GPU upload calls
+- instancing support
 
 ### Mesh component
 
-The mesh component is in [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](sckorpioEngineWeb/core/ecs/component/components/meshComponent.js).
+The `MeshComponent` in [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](../sckorpioEngineWeb/core/ecs/component/components/meshComponent.js) is the CPU-side data container for a mesh. It stores:
 
-This is one of the most important components because it ties together:
+- vertex data
+- index data
+- vertex layout
+- instance layout
+- material reference
+- visibility flag
+- texture UV state
+- the render component object
 
-- CPU-side geometry data
-- GPU-side render data
-- material/reference information
-- visibility state
-
-It stores:
-
-- `vertexData`
-- `indexData`
-- `vertexLayout`
-- `instanceLayout`
-- `textureUV`
-- `renderComponent`
-- `isInstanced` - flag to enable/disable instancing
-
-The `loadGPUData(transformComponent)` method is especially important because it moves CPU geometry into WebGL buffers. It accepts the `transformComponent` as a parameter to access instance data stored there.
+The most important method here is `loadGPUData(transformComponent)`. This is the handoff point where CPU mesh data becomes GPU-ready state.
 
 ### Render component
 
-The render component is in [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](sckorpioEngineWeb/core/ecs/component/components/renderComponent.js).
+The `RenderComponent` in [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](../sckorpioEngineWeb/core/ecs/component/components/renderComponent.js) is the bridge between the engine and WebGL. It owns:
 
-This component is the bridge between the ECS world and the GPU.
+- VertexArray
+- VertexBuffer
+- IndexBuffer
+- InstanceBuffer
+- buffer layouts
+- shader/material assignment
+- draw topology and count
 
-It owns:
+This component is where the engine finally binds a shader, texture, and uniforms, then emits the draw call. It is the crucial point where ECS data turns into actual GPU commands.
 
-- `vertexArray`
-- `vertexBuffer`
-- `indexBuffer`
-- `instanceBuffer`
-- `buffer layouts`
-- shader/material binding
-- draw configuration
+---
 
-It is responsible for:
+## 9. Camera architecture
 
-- creating VAOs and buffers
-- setting attribute layouts
-- configuring instancing
-- binding shader and texture resources
-- applying uniform values for MVP matrices and color
-- issuing `gl.drawElements()` or `gl.drawArrays()` calls
+The camera is implemented as an entity with a camera component, not as a global singleton. This is a good match for the engine’s ECS-like composition model.
 
-### Camera entity
+The camera component in [sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js](../sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js) owns:
 
-The camera entity is defined in [sckorpioEngineWeb/core/ecs/entity/entities/camera/camera.js](sckorpioEngineWeb/core/ecs/entity/entities/camera/camera.js).
-
-It contains a `CameraComponent` that stores:
-
-- position
-- front vector
-- up vector
-- yaw/pitch/roll
+- camera position
+- front/up vectors
+- yaw, pitch, and roll
 - view matrix
 - projection matrix
+- input listeners and resize logic
 
-The camera component also manages:
+The architecture is intentionally direct:
 
-- keyboard controls
-- mouse dragging
-- mouse wheel zooming
-- window resize behavior
+- movement comes from keyboard and mouse events
+- view matrix is computed via `mat4.lookAt(...)`
+- projection is recomputed with the canvas aspect ratio
+- the renderer consumes the camera’s matrices every frame
 
-The view matrix is computed through `mat4.lookAt(...)`, and the projection matrix is computed using a perspective projection.
+This is a classical real-time rendering camera setup expressed in a component-based form.
 
 ---
 
-## 8. Renderer pipeline
+## 10. Animation architecture
 
-The renderer implementation is in [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js).
+The animation system is a separate subsystem built around keyframes and tracks.
 
-### Core role
+### Classes involved
 
-The renderer is the engine’s main execution system for drawing everything in a scene.
+- [sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js](../sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js)
+- [sckorpioEngineWeb/core/ecs/system/animation/animationClip.js](../sckorpioEngineWeb/core/ecs/system/animation/animationClip.js)
+- [sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js](../sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js)
+- [sckorpioEngineWeb/core/ecs/system/animation/keyFrame.js](../sckorpioEngineWeb/core/ecs/system/animation/keyFrame.js)
+- [sckorpioEngineWeb/core/ecs/system/animation/interpolators.js](../sckorpioEngineWeb/core/ecs/system/animation/interpolators.js)
 
-### Responsibilities
+### Runtime model
 
-- store a camera reference
-- store all scene entities to be rendered
-- clear the screen each frame
-- enable WebGL state (`DEPTH_TEST`, blending)
-- upload entity geometry to GPU if needed
-- loop through entities and draw them
-- update frame statistics for the logger
+At runtime, the animation system does this:
 
-### Render process per frame
+1. finds entities with an animation component
+2. checks whether a clip is active
+3. advances time using delta time and speed
+4. evaluates the active clip
+5. applies the result to transform data
 
-The `render()` method does this:
+The engine currently applies animation to transform values, not to arbitrary material or light properties. This is enough for the engine’s use cases and keeps the system lightweight.
 
-1. call `init()`
-   - clear buffer
-   - enable depth testing
-   - enable blending
+### Why this is important
 
+The animation system is a major example of the engine’s architecture philosophy: small subsystems, clear responsibilities, direct data flow, and no hidden abstraction layer.
+
+---
+
+## 11. Resource books and data centralization
+
+The engine centralizes its GPU resources in singleton resource books.
+
+### Shader book
+
+[shaderBook.js](../sckorpioEngineWeb/renderer/webgl/shader/shaderBook.js) loads and stores built-in shaders such as:
+
+- basic
+- basic3D
+- colorVertex3D
+- textureVertex3D
+- uvVertex3D
+
+### Material book
+
+[materialBook.js](../sckorpioEngineWeb/renderer/webgl/material/materialBook.js) creates the engine’s named materials and attaches a shader to each one.
+
+### Texture book
+
+[textureBook.js](../sckorpioEngineWeb/renderer/webgl/texture/textureBook.js) manages the asset pool used by materials and meshes.
+
+### Architectural impact
+
+These resource books create a simple but effective pattern:
+
+- scene objects ask for a material by name
+- material points to a shader and optional texture
+- draw code binds those resources without scene code having to manually rebuild them
+
+This is one of the engine’s clearest architectural design patterns.
+
+---
+
+## 12. Renderer pipeline and draw loop
+
+The actual render loop is in [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](../sckorpioEngineWeb/renderer/webgl/webglRenderer.js).
+
+### What the renderer does every frame
+
+1. clear the screen and enable depth testing/blending
 2. reset logger counters
+3. iterate over all entities in the scene
+4. skip hidden meshes
+5. bind VAO, shader, texture, and uniforms
+6. issue draw calls
+7. unbind the state
+8. update log overlays
 
-3. iterate through all entities
+### Normal draw path
 
-4. for each visible entity:
-   - get the entity’s render component
-   - bind VAO, buffers, shader, and texture
-   - set shader uniforms
-   - issue draw call
-   - unbind resources
+For non-instanced meshes, the renderer sets:
 
-5. display logger overlay
+- model matrix
+- view matrix
+- projection matrix
+- color uniform if needed
 
-### Draw call logic
+Then it calls `gl.drawArrays()` or `gl.drawElements()`.
 
-There are two cases:
+### Instanced draw path
 
-- **normal mesh**
-  - sets model/view/projection uniforms
-  - uses `gl.drawArrays()` or `gl.drawElements()`
+For instanced meshes, it uses the same mesh geometry but distinct instance transforms. In that case it:
 
-- **instanced mesh**
-  - sets view/projection uniforms only
-  - uses `gl.drawArraysInstanced()` or `gl.drawElementsInstanced()`
-  - increments triangle count using instance count
+- sets view and projection only
+- enables instancing in the shader
+- calls `gl.drawArraysInstanced()` or `gl.drawElementsInstanced()`
 
-The logic is intentionally explicit rather than abstracted into a full shader/material pipeline.
+This is a very direct and practical architecture for efficient repeated objects.
 
 ---
 
-## 9. WebGL resource system
+## 13. WebGL buffer and GPU state layer
 
-The engine manually creates and manages several GPU resources.
+This is the lowest level of the engine architecture.
 
-### Buffer architecture
+### Buffer classes
 
-The buffer system is in [sckorpioEngineWeb/renderer/webgl/buffer](sckorpioEngineWeb/renderer/webgl/buffer).
+The buffer system is intentionally manual and explicit:
 
-#### `VertexBuffer`
+- `VertexBuffer`
+- `IndexBuffer`
+- `InstanceBuffer`
+- `VertexArray`
+- `BufferLayout`
 
-- stores vertex attribute data
-- uses `gl.ARRAY_BUFFER`
-- uploads `Float32Array` data
-
-#### `IndexBuffer`
-
-- stores index data for indexed geometry
-- uses `gl.ELEMENT_ARRAY_BUFFER`
-- uploads `Uint16Array` data
-
-#### `VertexArray`
-
-- creates VAOs
-- binds buffers and configures attribute pointers
-- enables attributes
-- configures divisors for instancing
-
-#### `BufferLayout`
-
-- describes the layout of each attribute in a buffer
-- tracks stride and offsets
-- supports:
-  - float
-  - unsigned int
-  - unsigned byte
-  - 4x4 matrices
+Each class maps directly to a WebGL concept and is responsible for either data upload or attribute specification.
 
 ### Why this matters
 
-The engine uses a low-level WebGL approach, so the buffer layout is extremely important. If the shader expects a particular attribute layout, the renderer must match it exactly.
+The engine is designed so the GPU layout remains visible and understandable. Instead of depending on a high-level abstraction, it chooses explicit state transitions and layout matching. That makes it easy to debug issues where the shader layout and the buffer layout do not match.
 
----
-
-## 10. Shader system
-
-The shader system is in [sckorpioEngineWeb/renderer/webgl/shader](sckorpioEngineWeb/renderer/webgl/shader).
-
-### `Shader` class
-
-The shader class handles:
-
-- loading shader text files
-- splitting shader source into vertex and fragment sections
-- compiling shader code
-- linking the shader program
-- validating the program
-- binding/unbinding the program
-- setting uniforms
-
-The shader loader expects files in this format:
-
-- `#shader vertex`
-- `#shader fragment`
-
-This is a simple custom parser rather than a modern build-step shader compiler.
-
-### `ShaderBook`
-
-The shader book is a singleton manager for default shaders.
-
-It loads these built-in shaders:
-
-- `basic`
-- `basic3D`
-- `colorVertex3D`
-- `textureVertex3D`
-- `uvVertex3D`
-
-This is the engine’s first “resource book” pattern.
-
----
-
-## 11. Material system
-
-Materials are defined in [sckorpioEngineWeb/renderer/webgl/material](sckorpioEngineWeb/renderer/webgl/material).
-
-### `Material`
-
-A material contains:
-
-- a shader reference
-- an optional texture reference
-- a color value
-
-### `MaterialBook`
-
-The material book is another singleton resource manager.
-
-It pre-creates standard materials such as:
-
-- `basicRed`
-- `basicGreen`
-- `basicBlue`
-- `basicWhite`
-- `basicGrey`
-- `colorVertex`
-- `colorFace`
-- `uvVertex3D`
-- `wood`
-- `brick`
-
-This centralization makes it easy for meshs and scenes to ask for a material by name.
-
----
-
-## 12. Texture system
-
-The texture system is in [sckorpioEngineWeb/renderer/webgl/texture](sckorpioEngineWeb/renderer/webgl/texture).
-
-### `Texture`
-
-The texture class:
-
-- creates a WebGL texture object
-- loads an image asynchronously
-- sets wrap parameters
-- generates mipmaps
-- binds/unbinds the texture
-
-### `TextureBook`
-
-The texture book manages built-in and project-specific textures.
-
-It looks for assets under the engine resource folder by default and under the project resources folder when needed.
-
-This gives the engine a clean separation between:
-
-- engine defaults
-- scene/project content
-
----
-
-## 13. Canvas and overlay system
-
-The canvas utilities are in [sckorpioEngineWeb/canvas/utils.js](sckorpioEngineWeb/canvas/utils.js).
-
-These utility functions provide access to:
-
-- the main WebGL canvas
-- the title canvas
-- the logger canvas
-- width/height/aspect ratio helpers
-- WebGL context access
-
-### Overlay roles
-
-- **Title overlay**: draws branding / display text
-- **Logger overlay**: shows FPS, draw call count, and triangle count
-
-The title and logger logic is intentionally separate from the WebGL scene so the engine can show debug information without interfering with the main render pass.
+This is one of the clearest signs that the engine is intentionally low-level and educational in nature.
 
 ---
 
 ## 14. Data flow from scene to GPU
 
-A good way to understand the architecture is to trace one object.
+The complete runtime path is simple and traceable:
 
-### Example: a cube object
+1. A scene object creates a node or mesh.
+2. The mesh gets a transform and a mesh description.
+3. Geometry and material data are attached to the mesh component.
+4. The mesh’s `loadGPUData()` method uploads CPU data to GPU buffers.
+5. The renderer binds the mesh’s render state and shader/material resources.
+6. The renderer sets uniforms and emits the draw call.
+7. The logger records frame statistics and draw counts.
 
-1. A scene creates a `Cube` entity.
-2. `Cube` inherits from `Mesh`.
-3. `Mesh` adds:
-   - a transform component
-   - a mesh component
-4. The cube’s mesh component is filled with:
-   - positions
-   - normals/colors/UVs
-   - indices
-5. The mesh component attaches a `RenderComponent`.
-6. `loadGPUData()` uploads the geometry to the GPU.
-7. During the render loop, the renderer:
-   - binds the shader
-   - sets uniforms
-   - issues the draw call
-
-This flow is the heart of the engine.
+This is the heart of the engine architecture: transform and scene data become GPU commands in a very direct pipeline.
 
 ---
 
-## 15. Why the engine is organized this way
+## 15. Architectural strengths
 
-The architecture is designed to keep responsibilities separate:
+This engine has several strong design characteristics:
 
-- **Scene** decides what exists
-- **Entity** represents an object in the world
-- **Component** stores data about that object
-- **Renderer** converts data into visible output
-- **Books** centralize resource reuse
-- **Canvas utilities** handle browser integration and debug overlays
+- clear lifecycle from scene assembly to draw call
+- readable scene graph transform model
+- direct mapping to WebGL concepts
+- explicit resource management via books
+- simple animation system with keyframe evaluation
+- lightweight ECS-like composition
+- good fit for experiments and learning real-time rendering
 
-This separation makes the engine easier to understand and extend, even if it is still fairly low-level.
-
----
-
-## 16. Strengths of the architecture
-
-### Clear layering
-
-You can follow the full path from a scene class to a GPU draw call.
-
-### Reusable resource management
-
-Shaders, materials, and textures are loaded once and reused.
-
-### Good fit for demo scenes
-
-The design is good for small interactive WebGL examples and visual experiments.
-
-### Easy to inspect
-
-Compared to larger engines, the code is readable and explicit.
+In other words, the engine is intentionally understandable rather than abstract.
 
 ---
 
-## 17. Limitations / caveats
+## 16. Architectural caveats
 
-The engine is a legacy-style prototype rather than a fully polished production engine.
+The design is also intentionally simple and has some prototype characteristics:
 
-A few architectural caveats are worth noting:
+- the scene object mixes orchestration and setup responsibilities
+- some browser state is handled explicitly
+- the ECS model is lightweight, not full formal ECS
+- the renderer is not deeply layered into modern frame graph or render passes
+- the engine is more educational and demo-oriented than production-engine grade
 
-- some parts rely on manual global state
-- resource management is centralized but still fairly simple
-- the renderer does not yet look like a fully modern ECS system with separate update and render phases
-- the codebase mixes scene logic, rendering logic, and resource management in places
-- the implementation is more “educational / experimental” than “production-grade” architecture
-
-These are not flaws in the concept; they are just signs that the engine is a focused, learning-oriented rendering framework.
+These caveats are important to keep in mind, but they do not weaken the core architecture. They simply reflect the engine’s focused design goal.
 
 ---
 
-## 18. Mental model for understanding the engine
+## 17. Most important takeaway
 
-If you want one sentence to remember the architecture, it is this:
+The most accurate mental model for this engine is:
 
-> A scene creates entities, entities carry transform/mesh/camera data, the renderer reads that data, binds resources, and sends commands to WebGL.
+> A scene assembles objects, a node hierarchy drives transforms, components hold render data, the renderer binds GPU resources, and WebGL executes the final draw calls.
 
-That is the essence of how the engine works.
+That is the central architectural idea of the engine.
 
----
-
-## 19. Suggested reading order
-
-If you are trying to understand the engine quickly, read in this order:
-
-1. [main.js](main.js)
-2. [index.html](index.html)
-3. [sckorpioEngineWeb/core/scene/sckorpioScene.js](sckorpioEngineWeb/core/scene/sckorpioScene.js)
-4. [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
-5. [sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js](sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/mesh.js)
-6. [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](sckorpioEngineWeb/core/ecs/component/components/meshComponent.js)
-7. [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](sckorpioEngineWeb/core/ecs/component/components/renderComponent.js)
-8. [sckorpioEngineWeb/renderer/webgl/shader/shader.js](sckorpioEngineWeb/renderer/webgl/shader/shader.js)
-9. [sckorpioEngineWeb/renderer/webgl/material/materialBook.js](sckorpioEngineWeb/renderer/webgl/material/materialBook.js)
-10. [sckorpioEngineWeb/renderer/webgl/texture/textureBook.js](sckorpioEngineWeb/renderer/webgl/texture/textureBook.js)
+The animation system, camera, and resource books all fit into this same model: data flows through the engine in a clear, direct, and inspectable way.
 
 ---
 
-## 20. Summary
+## 18. Suggested reading order
 
-SckorpioWebEngine is a lightweight WebGL-based engine that combines:
+To understand the engine in the right order, read these in sequence:
 
-- scene orchestration
-- entity/component-driven object modeling
-- explicit GPU buffer handling
-- resource books for shaders/materials/textures
-- a simple frame loop for 3D rendering
+1. [sckorpioEngineWeb/core/scene/sckorpioScene.js](../sckorpioEngineWeb/core/scene/sckorpioScene.js)
+2. [sckorpioEngineWeb/core/ecs/entity/entities/node/node.js](../sckorpioEngineWeb/core/ecs/entity/entities/node/node.js)
+3. [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](../sckorpioEngineWeb/core/ecs/component/components/transformComponent.js)
+4. [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](../sckorpioEngineWeb/core/ecs/component/components/meshComponent.js)
+5. [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](../sckorpioEngineWeb/core/ecs/component/components/renderComponent.js)
+6. [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](../sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
+7. [sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js](../sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js)
+8. [sckorpioEngineWeb/renderer/webgl/material/materialBook.js](../sckorpioEngineWeb/renderer/webgl/material/materialBook.js)
 
-It is a great example of a small custom engine where the core architecture is visible and understandable from the source code itself.
+This order follows the actual architecture rather than the project folder layout.
