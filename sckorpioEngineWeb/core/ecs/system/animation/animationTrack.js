@@ -9,13 +9,17 @@ import {
 
 class AnimationTrack {
 
-    constructor(property, valueType){
+    constructor(property, valueType, keyFrames = []){
         // property: "position", "rotation", "scale", "opacity", "color", etc...
         this.property = property;
         // type: "float", "vec2", "vec3", "vec4"
         this.valueType = valueType;
         // keyFrames
         this.keyFrames = [];
+        // add initial keyFrames
+        for(const keyFrame of keyFrames) {
+            this.addKeyFrame(keyFrame.time, keyFrame.value);
+        }
     }
 
     addKeyFrame(time, value){
