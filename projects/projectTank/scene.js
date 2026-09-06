@@ -1,12 +1,5 @@
-import { Node } from "../../sckorpioEngineWeb/core/ecs/entity/entities/node/node.js";
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
-import { Cyclinder } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cyclinder.js";
-import { Plane } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/plane.js";
-import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
-import { AnimationClip } from "../../sckorpioEngineWeb/core/ecs/system/animation/animationClip.js";
-import { AnimationTrack } from "../../sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js";
-
-class Scene extends SckorpioScene {
+import { Sckorpio } from "../../sckorpioEngine.js";
+class Scene extends Sckorpio.Scene {
     constructor(projectName) {
         super();
         this.projectName = projectName;
@@ -17,7 +10,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createClip(name, tracks) {
-        const clip = new AnimationClip(name);
+        const clip = new Sckorpio.AnimationClip(name);
         for(const track of tracks) {
             clip.addTrack(track);
         }
@@ -57,7 +50,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createGround() {
-        const ground = new Cube({mode:"basic"});
+        const ground = new Sckorpio.Cube({mode:"basic"});
         ground.setPosition(0.0,-1.0,0.0);
         ground.setScale(22.0,0.10,16.0);
         ground.setColor(0.045,0.060,0.035);
@@ -69,7 +62,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createTank() {
-        const tank = new Node();
+        const tank = new Sckorpio.Node();
 
         // Tank instances
         tank.addInstance([-20,3,0],[0,0,0],[1,1,1]);
@@ -83,7 +76,7 @@ class Scene extends SckorpioScene {
         // Tank movement
         // -----------------------------------------------------
 
-        const movement = new AnimationTrack("position","vec3",[
+        const movement = new Sckorpio.AnimationTrack("position","vec3",[
             {time:0.0,value:[0.0,0.0,0.0]},
             {time:20.0,value:[40.0,0.0,0.0]},
             {time:40.0,value:[0.0,0.0,0.0]}
@@ -98,7 +91,7 @@ class Scene extends SckorpioScene {
         // Hull group
         // -----------------------------------------------------
 
-        const hullGroup = new Node();
+        const hullGroup = new Sckorpio.Node();
 
         tank.addChild(hullGroup);
         this.entitiesList.push(hullGroup);
@@ -119,7 +112,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createLowerHull(parent) {
-        const hull = new Cube({mode:"basic"});
+        const hull = new Sckorpio.Cube({mode:"basic"});
 
         hull.setPosition(0.0,0.0,0.0);
         hull.setScale(4.65,0.8,3.0);
@@ -134,7 +127,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createUpperHull(parent) {
-        const upper = new Cube({mode:"basic"});
+        const upper = new Sckorpio.Cube({mode:"basic"});
 
         upper.setPosition(0.0,0.62,0.0);
         upper.setScale(2.75,0.4,2.8);
@@ -144,7 +137,7 @@ class Scene extends SckorpioScene {
         parent.addChild(upper);
         this.entitiesList.push(upper);
 
-        const top = new Cube({mode:"basic"});
+        const top = new Sckorpio.Cube({mode:"basic"});
 
         top.setPosition(-0.20,0.90,0.0);
         top.setScale(2.35,0.10,2.15);
@@ -159,7 +152,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createFrontArmor(parent) {
-        const glacis = new Cube({mode:"basic"});
+        const glacis = new Sckorpio.Cube({mode:"basic"});
 
         glacis.setPosition(2.55,0.20,0.0);
         glacis.setScale(0.72,0.10,2.80);
@@ -169,7 +162,7 @@ class Scene extends SckorpioScene {
         parent.addChild(glacis);
         this.entitiesList.push(glacis);
 
-        const lowerFront = new Cube({mode:"basic"});
+        const lowerFront = new Sckorpio.Cube({mode:"basic"});
 
         lowerFront.setPosition(2.5,-0.15,0.0);
         lowerFront.setScale(0.7,0.50,2.8);
@@ -179,7 +172,7 @@ class Scene extends SckorpioScene {
         parent.addChild(lowerFront);
         this.entitiesList.push(lowerFront);
 
-        const bumper = new Cube({mode:"basic"});
+        const bumper = new Sckorpio.Cube({mode:"basic"});
 
         bumper.setPosition(2.85,-0.15,0.0);
         bumper.setScale(0.18,0.16,2.48);
@@ -188,7 +181,7 @@ class Scene extends SckorpioScene {
         parent.addChild(bumper);
         this.entitiesList.push(bumper);
 
-        const hook = new Cyclinder({
+        const hook = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.15,
             height:0.25
@@ -207,7 +200,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createRearArmor(parent) {
-        const rear = new Cube({mode:"basic"});
+        const rear = new Sckorpio.Cube({mode:"basic"});
 
         rear.setPosition(-2.40,0.0,0.0);
         rear.setScale(0.60,0.68,2.38);
@@ -217,7 +210,7 @@ class Scene extends SckorpioScene {
         parent.addChild(rear);
         this.entitiesList.push(rear);
 
-        const exhaust = new Cube({mode:"basic"});
+        const exhaust = new Sckorpio.Cube({mode:"basic"});
 
         exhaust.setColor(0.035,0.045,0.020);
         exhaust.addInstance([-2.55,0.32,-0.72],[0,0,0],[0.18,0.28,0.38]);
@@ -232,7 +225,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createEngineDeck(parent) {
-        const deck = new Cube({mode:"basic"});
+        const deck = new Sckorpio.Cube({mode:"basic"});
 
         deck.setPosition(-1.55,0.72,0.0);
         deck.setScale(1.0,0.42,1.58);
@@ -241,7 +234,7 @@ class Scene extends SckorpioScene {
         parent.addChild(deck);
         this.entitiesList.push(deck);
 
-        const grille = new Cube({mode:"basic"});
+        const grille = new Sckorpio.Cube({mode:"basic"});
 
         grille.setScale(0.045,0.035,0.82);
         grille.setColor(0.020,0.025,0.010);
@@ -263,7 +256,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createSideArmor(parent,z) {
-        const armor = new Cube({mode:"basic"});
+        const armor = new Sckorpio.Cube({mode:"basic"});
 
         armor.setPosition(0.0,-0.08,z);
         armor.setScale(3.05,0.42,0.12);
@@ -272,7 +265,7 @@ class Scene extends SckorpioScene {
         parent.addChild(armor);
         this.entitiesList.push(armor);
 
-        const panel = new Cube({mode:"basic"});
+        const panel = new Sckorpio.Cube({mode:"basic"});
 
         panel.setScale(0.38,0.28,0.08);
         panel.setColor(0.12,0.19,0.055);
@@ -294,7 +287,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createTrack(parent,z) {
-        const trackGroup = new Node();
+        const trackGroup = new Sckorpio.Node();
 
         trackGroup.addInstance([0.0,-0.62,z],[0,0,0],[1,1,1]);
         trackGroup.addInstance([0.0,-0.62,-z],[0,180,0],[1,1,1]);
@@ -302,7 +295,7 @@ class Scene extends SckorpioScene {
         parent.addChild(trackGroup);
         this.entitiesList.push(trackGroup);
 
-        const trackBody = new Cube({mode:"basic"});
+        const trackBody = new Sckorpio.Cube({mode:"basic"});
 
         trackBody.setPosition(0.0,0.0,0.0);
         trackBody.setScale(3.45,0.82,0.32);
@@ -311,7 +304,7 @@ class Scene extends SckorpioScene {
         trackGroup.addChild(trackBody);
         this.entitiesList.push(trackBody);
 
-        const fender = new Cube({mode:"basic"});
+        const fender = new Sckorpio.Cube({mode:"basic"});
 
         fender.setPosition(0.0,0.72,0.0);
         fender.setScale(5.18,0.12,0.42);
@@ -320,7 +313,7 @@ class Scene extends SckorpioScene {
         trackGroup.addChild(fender);
         this.entitiesList.push(fender);
 
-        const wheels = new Cyclinder({
+        const wheels = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.50,
             height:0.36
@@ -342,7 +335,7 @@ class Scene extends SckorpioScene {
         trackGroup.addChild(wheels);
         this.entitiesList.push(wheels);
 
-        const hubs = new Cyclinder({
+        const hubs = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.23,
             height:0.40
@@ -362,7 +355,7 @@ class Scene extends SckorpioScene {
         trackGroup.addChild(hubs);
         this.entitiesList.push(hubs);
 
-        const rollers = new Cyclinder({
+        const rollers = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.20,
             height:0.38
@@ -384,7 +377,7 @@ class Scene extends SckorpioScene {
         trackGroup.addChild(rollers);
         this.entitiesList.push(rollers);
 
-        const wheelRotation = new AnimationTrack("rotation","vec3",[
+        const wheelRotation = new Sckorpio.AnimationTrack("rotation","vec3",[
             {time:0.0,value:[0.0,0.0,0.0]},
             {time:2.0,value:[0.0,360.0,0.0]},
             {time:4.0,value:[0.0,720.0,0.0]}
@@ -401,14 +394,14 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createTurret(parent) {
-        const turretPivot = new Node();
+        const turretPivot = new Sckorpio.Node();
 
         turretPivot.setPosition(0.0,1.0,0.0);
 
         parent.addChild(turretPivot);
         this.entitiesList.push(turretPivot);
 
-        const turretRotation = new AnimationTrack("rotation","vec3",[
+        const turretRotation = new Sckorpio.AnimationTrack("rotation","vec3",[
             {time:0.0,value:[0.0,-38.0,0.0]},
             {time:4.0,value:[0.0,38.0,0.0]},
             {time:8.0,value:[0.0,-38.0,0.0]}
@@ -419,7 +412,7 @@ class Scene extends SckorpioScene {
             this.createClip("TurretScan",[turretRotation])
         );
 
-        const turretBase = new Cyclinder({
+        const turretBase = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:1.4,
             height:0.40
@@ -431,7 +424,7 @@ class Scene extends SckorpioScene {
         turretPivot.addChild(turretBase);
         this.entitiesList.push(turretBase);
 
-        const turret = new Cube({mode:"basic"});
+        const turret = new Sckorpio.Cube({mode:"basic"});
 
         turret.setPosition(-0.05,0.25,0.0);
         turret.setScale(1.60,0.62,1.12);
@@ -441,7 +434,7 @@ class Scene extends SckorpioScene {
         turretPivot.addChild(turret);
         this.entitiesList.push(turret);
 
-        const turretFront = new Cube({mode:"basic"});
+        const turretFront = new Sckorpio.Cube({mode:"basic"});
 
         turretFront.setPosition(1.20,0.20,0.0);
         turretFront.setScale(0.38,0.48,1.00);
@@ -451,7 +444,7 @@ class Scene extends SckorpioScene {
         turretPivot.addChild(turretFront);
         this.entitiesList.push(turretFront);
 
-        const bustle = new Cube({mode:"basic"});
+        const bustle = new Sckorpio.Cube({mode:"basic"});
 
         bustle.setPosition(-1.05,0.12,0.0);
         bustle.setScale(0.62,0.42,0.92);
@@ -460,7 +453,7 @@ class Scene extends SckorpioScene {
         turretPivot.addChild(bustle);
         this.entitiesList.push(bustle);
 
-        const roof = new Cube({mode:"basic"});
+        const roof = new Sckorpio.Cube({mode:"basic"});
 
         roof.setPosition(-0.05,0.58,0.0);
         roof.setScale(1.45,0.10,1.00);
@@ -469,7 +462,7 @@ class Scene extends SckorpioScene {
         turretPivot.addChild(roof);
         this.entitiesList.push(roof);
 
-        const cupola = new Cyclinder({
+        const cupola = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.42,
             height:0.30
@@ -481,7 +474,7 @@ class Scene extends SckorpioScene {
         turretPivot.addChild(cupola);
         this.entitiesList.push(cupola);
 
-        const hatch = new Cyclinder({
+        const hatch = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.30,
             height:0.07
@@ -493,7 +486,7 @@ class Scene extends SckorpioScene {
         cupola.addChild(hatch);
         this.entitiesList.push(hatch);
 
-        const periscopes = new Cube({mode:"basic"});
+        const periscopes = new Sckorpio.Cube({mode:"basic"});
 
         periscopes.setPosition(0.18,-0.3,0.0);
         periscopes.setScale(0.08,0.12,0.08);
@@ -505,14 +498,14 @@ class Scene extends SckorpioScene {
         cupola.addChild(periscopes);
         this.entitiesList.push(periscopes);
 
-        const gunPivot = new Node();
+        const gunPivot = new Sckorpio.Node();
 
         gunPivot.setPosition(0.8,0.2,0.0);
 
         turretPivot.addChild(gunPivot);
         this.entitiesList.push(gunPivot);
 
-        const gunRotation = new AnimationTrack("rotation","vec3",[
+        const gunRotation = new Sckorpio.AnimationTrack("rotation","vec3",[
             {time:0.0,value:[0.0,0.0,-4.0]},
             {time:2.0,value:[0.0,0.0,5.0]},
             {time:4.0,value:[0.0,0.0,-4.0]}
@@ -523,7 +516,7 @@ class Scene extends SckorpioScene {
             this.createClip("GunElevation",[gunRotation])
         );
 
-        const mantlet = new Cube({mode:"basic"});
+        const mantlet = new Sckorpio.Cube({mode:"basic"});
 
         mantlet.setPosition(0.0,0.0,0.0);
         mantlet.setScale(0.98,0.42,0.72);
@@ -532,7 +525,7 @@ class Scene extends SckorpioScene {
         gunPivot.addChild(mantlet);
         this.entitiesList.push(mantlet);
 
-        const barrel = new Cube({mode:"basic"});
+        const barrel = new Sckorpio.Cube({mode:"basic"});
 
         barrel.setPosition(1.60,0.0,0.0);
         barrel.setScale(2.65,0.13,0.13);
@@ -541,7 +534,7 @@ class Scene extends SckorpioScene {
         gunPivot.addChild(barrel);
         this.entitiesList.push(barrel);
 
-        const collar = new Cyclinder({
+        const collar = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.30,
             height:0.34
@@ -554,7 +547,7 @@ class Scene extends SckorpioScene {
         gunPivot.addChild(collar);
         this.entitiesList.push(collar);
 
-        const muzzle = new Cube({mode:"basic"});
+        const muzzle = new Sckorpio.Cube({mode:"basic"});
 
         muzzle.setPosition(3.0,0.0,0.0);
         muzzle.setScale(0.25,0.21,0.21);
@@ -563,7 +556,7 @@ class Scene extends SckorpioScene {
         gunPivot.addChild(muzzle);
         this.entitiesList.push(muzzle);
 
-        const coax = new Cube({mode:"basic"});
+        const coax = new Sckorpio.Cube({mode:"basic"});
 
         coax.setPosition(1.15,-0.23,0.58);
         coax.setScale(1.0,0.055,0.055);
@@ -581,7 +574,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createSmokeLauncher(parent) {
-        const launcher = new Cyclinder({
+        const launcher = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.12,
             height:0.36
@@ -600,7 +593,7 @@ class Scene extends SckorpioScene {
     // =========================================================
 
     createAntenna(parent) {
-        const antenna = new Cyclinder({
+        const antenna = new Sckorpio.Cyclinder({
             mode:"basic",
             radius:0.025,
             height:1.80
@@ -613,7 +606,7 @@ class Scene extends SckorpioScene {
         parent.addChild(antenna);
         this.entitiesList.push(antenna);
 
-        const flagNode = new Node();
+        const flagNode = new Sckorpio.Node();
 
         flagNode.setPosition(0.0,1.5,0.0);
         flagNode.setRotation(0.0,180.0,0.0);
@@ -621,7 +614,7 @@ class Scene extends SckorpioScene {
         antenna.addChild(flagNode);
         this.entitiesList.push(flagNode);
 
-        const flagTexture = new Plane({mode:"texture"});
+        const flagTexture = new Sckorpio.Plane({mode:"texture"});
 
         flagTexture.setTexture("sckorpioLogoTransparent");
         flagTexture.addInstance([0.5,0,0],[0,0,0],[0.9,0.6,1]);

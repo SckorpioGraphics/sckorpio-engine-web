@@ -1,8 +1,5 @@
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
-import { Sphere } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/sphere.js";
-import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
-
-class Scene extends SckorpioScene{
+import { Sckorpio } from "../../sckorpioEngine.js";
+class Scene extends Sckorpio.Scene{
     constructor(projectName) {
         super();
         this.projectName = projectName;
@@ -27,7 +24,7 @@ class Scene extends SckorpioScene{
         */
         
         // Ground
-        let ground = new Cube({mode: 'texture', uvRange: [0, 0, 50, 50]});
+        let ground = new Sckorpio.Cube({mode: 'texture', uvRange: [0, 0, 50, 50]});
         ground.setPosition(0.0,-0.1,0.0);
         ground.setScale(100.0,0.02,100.0);
         ground.setTexture("grass");
@@ -35,14 +32,14 @@ class Scene extends SckorpioScene{
 
     
         // wall
-        let wall1 = new Cube({mode: 'texture', uvRange: [0, 0, 5, 1]});
+        let wall1 = new Sckorpio.Cube({mode: 'texture', uvRange: [0, 0, 5, 1]});
         wall1.setPosition(0.0,2.5,0.0);
         wall1.setScale(20.0,5.0,20);
         wall1.setTexture("brick");
         this.entitiesList.push(wall1);
 
         // wood Cube
-        let box2 = new Cube({mode: 'texture', uvRange: [0, 0, 2, 2]});
+        let box2 = new Sckorpio.Cube({mode: 'texture', uvRange: [0, 0, 2, 2]});
         box2.setPosition(11.0,1.0,0.0);
         box2.setScale(2.0,2.0,2.0);
         box2.setTexture("woodCarton");

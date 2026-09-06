@@ -1,11 +1,5 @@
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
-import { Cone } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cone.js";
-import { Cyclinder } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cyclinder.js";
-import { Sphere } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/sphere.js";
-import { Plane } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/plane.js";
-import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
-
-class Scene extends SckorpioScene {
+import { Sckorpio } from "../../sckorpioEngine.js";
+class Scene extends Sckorpio.Scene {
     constructor(projectName) {
         super();
         this.projectName = projectName;
@@ -72,21 +66,21 @@ class Scene extends SckorpioScene {
     }
 
     buildPitch() {
-        let site = new Plane({ mode: 'basic', uvRange: [0, 0, 4, 4] });
+        let site = new Sckorpio.Plane({ mode: 'basic', uvRange: [0, 0, 4, 4] });
         site.setPosition(0.0, -0.05, 0.0);
         site.setRotation(90, 0, 0);
         site.setColor(0.3,0.3,0.3);
         site.setScale(200.0, 150.0, 1.0);
         this.entitiesList.push(site);
 
-        let ground = new Plane({ mode: 'texture', uvRange: [0, 0, 40, 20] });
+        let ground = new Sckorpio.Plane({ mode: 'texture', uvRange: [0, 0, 40, 20] });
         ground.setPosition(0.0, 0.0, 0.0);
         ground.setRotation(90, 0, 0);
         ground.setScale(110.0, 80.0, 1.0);
         ground.setTexture("pitch_grass");
         this.entitiesList.push(ground);
 
-        let markings = new Plane({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let markings = new Sckorpio.Plane({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         markings.setPosition(0.0, 0.1, 0.0);
         markings.setRotation(90, 0, 0);
         markings.setScale(100.0, 80.0, 1.0);
@@ -95,7 +89,7 @@ class Scene extends SckorpioScene {
     }
 
     buildBalls() {
-        let football = new Sphere({ mode:'texture', radius: 0.2 });
+        let football = new Sckorpio.Sphere({ mode:'texture', radius: 0.2 });
         football.setPosition(-36.0, 0.3, 0.0);
         football.setColor(0, 1, 1);
         football.setTexture('adidas_trionda');
@@ -107,7 +101,7 @@ class Scene extends SckorpioScene {
         
         this.entitiesList.push(football);
 
-        let football2 = new Sphere({ mode: 'texture', radius: 0.2 });
+        let football2 = new Sckorpio.Sphere({ mode: 'texture', radius: 0.2 });
         football2.setPosition(-30.0, 0.3, 0.0);
         football2.setColor(0, 1, 1);
         football2.setTexture('football');
@@ -115,7 +109,7 @@ class Scene extends SckorpioScene {
     }
 
     buildGoalPosts() {
-        let postPole = new Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
+        let postPole = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
         postPole.setPosition(-45.0, 0.0, 0.0);
         postPole.setColor(0.8, 0.8, 0.8);
         
@@ -127,7 +121,7 @@ class Scene extends SckorpioScene {
         postPole.addInstance([ 45.0, 4.0, -7.0], [90, 0, 0], [0.5, 14.0, 0.5]);
         this.entitiesList.push(postPole);
 
-        let postNet = new Plane({ mode: 'texture', uvRange: [0, 0, 4, 1.3] });
+        let postNet = new Sckorpio.Plane({ mode: 'texture', uvRange: [0, 0, 4, 1.3] });
         postNet.setTexture("goal_post_net");
         postNet.addInstance([-49.0, 2.0, 0.0], [0, 90, 0], [14, 4.0, 1.0]);
         postNet.addInstance([-47.0, 4.0, 0.0], [90, 0, 90], [14, 4.0, 1.0]);
@@ -135,7 +129,7 @@ class Scene extends SckorpioScene {
         postNet.addInstance([ 47.0, 4.0, 0.0], [90, 0, 90], [14, 4.0, 1.0]);
         this.entitiesList.push(postNet);
 
-        let postNetSide = new Plane({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let postNetSide = new Sckorpio.Plane({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         postNetSide.setTexture("goal_post_net");
         postNetSide.addInstance([-47.0, 2.0, -7.0], [0, 0, 0], [4.0, 4.0, 1.0]);
         postNetSide.addInstance([-47.0, 2.0,  7.0], [0, 0, 0], [4.0, 4.0, 1.0]);
@@ -146,26 +140,26 @@ class Scene extends SckorpioScene {
 
     buildStadiumScreen() {
         // Shifting coordinates safely past the exterior wing grandstand layer (from X=-55 out to X=-82)
-        let screenSupport = new Cyclinder({ mode: 'basic', radius: 0.6, height: 25.0 });
+        let screenSupport = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.6, height: 25.0 });
         screenSupport.setColor(0.4, 0.4, 0.4);
         screenSupport.addInstance([-82.0, 0.0, 0.0], [0, 90, 0], [1.0, 1.0, 1.0]); 
         this.entitiesList.push(screenSupport);
 
         // Scoreboard Housing Sits atop the tall support post outside the seating rim bounds
-        let screenHousing = new Cube({ mode: 'basic' });
+        let screenHousing = new Sckorpio.Cube({ mode: 'basic' });
         screenHousing.setColor(0.15, 0.15, 0.15);
         screenHousing.addInstance([-82.0, 20.0, 0.0], [0, 90, 0], [25.0, 12.0, 1.5]);
         this.entitiesList.push(screenHousing);
 
         // Display Face oriented cleanly over the structural rim to capture maximum visibility
-        let screenDisplay = new Plane({ mode: 'texture' });
+        let screenDisplay = new Sckorpio.Plane({ mode: 'texture' });
         screenDisplay.setTexture("stadium_screen");
         screenDisplay.addInstance([-81.0, 20.0, 0.0], [0, 90, 0], [24.5, 11.5, 1.0]);
         this.entitiesList.push(screenDisplay);
     }
 
     buildAdvertisementBoards() {
-        let adBoard = new Plane({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let adBoard = new Sckorpio.Plane({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         adBoard.setTexture("ad_boards");
 
         // West
@@ -192,7 +186,7 @@ class Scene extends SckorpioScene {
     }
 
     buildGrandstandRoof() {
-        let roofPillar = new Cyclinder({ mode: 'basic', radius: 0.4, height: 18.0 }); 
+        let roofPillar = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.4, height: 18.0 }); 
         roofPillar.setColor(0.4, 0.4, 0.4);
         roofPillar.addInstance([-60.0, 0.0, 60.0], [0, 0, 0], [1, 1, 1]); 
         roofPillar.addInstance([  -7.0, 0.0, 60.0], [0, 0, 0], [1, 1, 1]);
@@ -203,7 +197,7 @@ class Scene extends SckorpioScene {
 
         this.entitiesList.push(roofPillar);
 
-        let roofSlab = new Cube({ mode: 'texture', uvRange: [0, 0, 10, 2] });
+        let roofSlab = new Sckorpio.Cube({ mode: 'texture', uvRange: [0, 0, 10, 2] });
         roofSlab.setTexture("roof_material");
         roofSlab.addInstance([0.0, 12.0, 52.0], [-5, 0, 0], [130.0, 0.8, 22.0]); 
         this.entitiesList.push(roofSlab);
@@ -211,11 +205,11 @@ class Scene extends SckorpioScene {
 
     buildStadiumGateBoards() {
         // Main board
-        let mainBoard = new Cube({ mode: 'basic' });
+        let mainBoard = new Sckorpio.Cube({ mode: 'basic' });
         mainBoard.setColor(0.15, 0.15, 0.15);
 
         // Main Title
-        let screenDisplay = new Plane({ mode: 'texture' });
+        let screenDisplay = new Sckorpio.Plane({ mode: 'texture' });
         screenDisplay.setTexture("stadium_title");
         
         // Board 1
@@ -233,13 +227,13 @@ class Scene extends SckorpioScene {
     }
 
     buildStandsAndSeats() {
-        this.seatBottom = new Plane({ mode: 'texture' });
+        this.seatBottom = new Sckorpio.Plane({ mode: 'texture' });
         this.seatBottom.setTexture('seat_bottom');
 
-        this.seatRest = new Plane({ mode: 'texture' });
+        this.seatRest = new Sckorpio.Plane({ mode: 'texture' });
         this.seatRest.setTexture('seat_rest');
 
-        this.standRow = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        this.standRow = new Sckorpio.Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         this.standRow.setTexture('concrete2');
 
         for (let r = 0; r < 9; r++) {
@@ -266,7 +260,7 @@ class Scene extends SckorpioScene {
     }
 
     buildExteriorWalls() {
-        let outerWall = new Cube({ mode: 'texture', uvRange: [0, 0, 6, 2] });
+        let outerWall = new Sckorpio.Cube({ mode: 'texture', uvRange: [0, 0, 6, 2] });
         outerWall.setTexture("brick_wall"); 
 
         // --- NORTH GRANDSTAND BACK WALLS (Aligned precisely with your 2 North seat blocks) ---
@@ -326,7 +320,7 @@ class Scene extends SckorpioScene {
     }
 
     buildFloodlights() {
-        let floodLightPole = new Cyclinder({ mode: 'basic', radius: 1.0, height: 30.0, radialSegments: 5 });
+        let floodLightPole = new Sckorpio.Cyclinder({ mode: 'basic', radius: 1.0, height: 30.0, radialSegments: 5 });
         floodLightPole.setColor(0.5, 0.5, 0.5);
         floodLightPole.addInstance([-75, 0,  55], [0, 0, 0], [1, 1, 1]);
         floodLightPole.addInstance([ 75, 0,  55], [0, 0, 0], [1, 1, 1]);
@@ -334,7 +328,7 @@ class Scene extends SckorpioScene {
         floodLightPole.addInstance([ 75, 0, -55], [0, 0, 0], [1, 1, 1]);
         this.entitiesList.push(floodLightPole);
 
-        let floodLightPanel = new Cube({ mode: 'basic' });
+        let floodLightPanel = new Sckorpio.Cube({ mode: 'basic' });
         floodLightPanel.setColor(0.5, 0.5, 0.5);
         floodLightPanel.addInstance([-75, 30,  55], [0, -45, 0], [10, 8, 2]);
         floodLightPanel.addInstance([ 75, 30,  55], [0,  45, 0], [10, 8, 2]);
@@ -342,7 +336,7 @@ class Scene extends SckorpioScene {
         floodLightPanel.addInstance([ 75, 30, -55], [0, -45, 0], [10, 8, 2]);
         this.entitiesList.push(floodLightPanel);
 
-        let floodLightLED = new Plane({ mode: 'texture' });
+        let floodLightLED = new Sckorpio.Plane({ mode: 'texture' });
         floodLightLED.setTexture('flood_light_led');
         floodLightLED.addInstance([-74, 30,  54], [0, -45, 0], [10, 8, 2]);
         floodLightLED.addInstance([ 74, 30,  54], [0,  45, 0], [10, 8, 2]);
@@ -352,14 +346,14 @@ class Scene extends SckorpioScene {
     }
 
     buildFIFAPlayersFinal(){
-        let player1 = new Plane({ mode: 'texture' });
+        let player1 = new Sckorpio.Plane({ mode: 'texture' });
         player1.setTexture('player_messi');
         player1.setPosition(-38.0, 1.5, 2.0);
         player1.setScale(2.0, 2.5, 1.0);
         player1.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player1);
 
-        let player2 = new Plane({ mode: 'texture' });
+        let player2 = new Sckorpio.Plane({ mode: 'texture' });
         player2.setTexture('player_rodri');
         player2.setPosition(-38.0, 1.5, -2.0);
         player2.setScale(2.0, 2.5, 1.0);
@@ -369,63 +363,63 @@ class Scene extends SckorpioScene {
 
     buildFIFAPlayers() {
         
-        let player1 = new Plane({ mode: 'texture' });
+        let player1 = new Sckorpio.Plane({ mode: 'texture' });
         player1.setTexture('player_messi');
         player1.setPosition(-30.0, 1.0, 8.0);
         player1.setScale(2.0, 2.5, 1.0);
         player1.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player1);
 
-        let player_sckorpio1 = new Plane({ mode: 'texture' });
+        let player_sckorpio1 = new Sckorpio.Plane({ mode: 'texture' });
         player_sckorpio1.setTexture('player_sckorpio1');
         player_sckorpio1.setPosition(-30.0, 1.0, 6.0);
         player_sckorpio1.setScale(2.0, 2.0, 1.0);
         player_sckorpio1.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio1);
 
-        let player2 = new Plane({ mode: 'texture' });
+        let player2 = new Sckorpio.Plane({ mode: 'texture' });
         player2.setTexture('player_ronaldo');
         player2.setPosition(-25.0, 1.3, -8.0);
         player2.setScale(2.0, 2.7, 1.0);
         player2.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player2);
 
-        let player_sckorpio2 = new Plane({ mode: 'texture' });
+        let player_sckorpio2 = new Sckorpio.Plane({ mode: 'texture' });
         player_sckorpio2.setTexture('player_sckorpio2');
         player_sckorpio2.setPosition(-25.0, 1.0, -6.0);
         player_sckorpio2.setScale(2.0, 2.0, 1.0);
         player_sckorpio2.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio2);
 
-        let player3 = new Plane({ mode: 'texture' });
+        let player3 = new Sckorpio.Plane({ mode: 'texture' });
         player3.setTexture('player_mbappe');
         player3.setPosition(-15.0, 1.0, -5.0);
         player3.setScale(2.0, 2.0, 1.0);
         player3.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player3);
 
-        let player_sckorpio3 = new Plane({ mode: 'texture' });
+        let player_sckorpio3 = new Sckorpio.Plane({ mode: 'texture' });
         player_sckorpio3.setTexture('player_sckorpio3');
         player_sckorpio3.setPosition(-15.0, 1.0, -3.0);
         player_sckorpio3.setScale(2.0, 2.0, 1.0);
         player_sckorpio3.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio3);
 
-        let player4 = new Plane({ mode: 'texture' });
+        let player4 = new Sckorpio.Plane({ mode: 'texture' });
         player4.setTexture('player_neymar');
         player4.setPosition(-10.0, 1.0, 5.0);
         player4.setScale(2.0, 2.0, 1.0);
         player4.setRotation(0.0, 270.0, 0.0);
         this.entitiesList.push(player4);
 
-        let player_sckorpio4 = new Plane({ mode: 'texture' });
+        let player_sckorpio4 = new Sckorpio.Plane({ mode: 'texture' });
         player_sckorpio4.setTexture('player_sckorpio4');
         player_sckorpio4.setPosition(-10.0, 1.0, 3.0);
         player_sckorpio4.setScale(2.0, 2.0, 1.0);
         player_sckorpio4.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_sckorpio4);
 
-        let player_sckorpio5 = new Plane({ mode: 'texture' });
+        let player_sckorpio5 = new Sckorpio.Plane({ mode: 'texture' });
         player_sckorpio5.setTexture('player_sckorpio5');
         player_sckorpio5.setPosition(-43.0, 1.0, 0.0);
         player_sckorpio5.setScale(3.0, 3.0, 1.0);
@@ -437,28 +431,28 @@ class Scene extends SckorpioScene {
     }
 
     buildFIFACeremony() {
-        let player_sckorpio = new Plane({ mode: 'texture' });
+        let player_sckorpio = new Sckorpio.Plane({ mode: 'texture' });
         player_sckorpio.setTexture('player_sckorpio');
         player_sckorpio.setPosition(4.0, 1.0, 2.0);
         player_sckorpio.setScale(2.0, 2.0, 1.0);
         player_sckorpio.setRotation(0.0, 270.0, 0.0);
         this.entitiesList.push(player_sckorpio);
 
-        let player_shakira = new Plane({ mode: 'texture' });
+        let player_shakira = new Sckorpio.Plane({ mode: 'texture' });
         player_shakira.setTexture('player_shakira');
         player_shakira.setPosition(4.0, 1.5, -2.0);
         player_shakira.setScale(1.5, 3.0, 1.0);
         player_shakira.setRotation(0.0, 90.0, 0.0);
         this.entitiesList.push(player_shakira);
 
-        let trophyBox = new Cube({mode : 'texture'});
+        let trophyBox = new Sckorpio.Cube({mode : 'texture'});
         //trophyBox.setColor(100/255.0,85/255.0,150/255.0);
         trophyBox.setTexture('trophy_box2');
         trophyBox.setPosition(4.0, 0.6, 0.0);
         trophyBox.setScale(0.6, 1.3, 0.6);
         this.entitiesList.push(trophyBox);
 
-        let fifaTrophy = new Plane({ mode : 'texture'});
+        let fifaTrophy = new Sckorpio.Plane({ mode : 'texture'});
         fifaTrophy.setTexture('fifa_trophy');
         fifaTrophy.setPosition(4.0, 1.7, 0.0);
         fifaTrophy.setScale(0.5, 1.0, 0.5);
@@ -468,58 +462,58 @@ class Scene extends SckorpioScene {
     }
 
     buildEnginePrimitiveShowcase() {
-        let sphere = new Sphere({ mode: 'basic', radius: 0.5 });
+        let sphere = new Sckorpio.Sphere({ mode: 'basic', radius: 0.5 });
         sphere.setPosition(-6.0, 0.5, 0.0);
         sphere.setColor(0, 1, 1);
         this.entitiesList.push(sphere);
 
-        let cyclinder = new Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
+        let cyclinder = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
         cyclinder.setPosition(-4.0, 0.0, 0.0);
         cyclinder.setColor(1, 0, 0);
         this.entitiesList.push(cyclinder);
 
-        let cone = new Cone({ mode: 'basic', radius: 0.5, height: 1.0 });
+        let cone = new Sckorpio.Cone({ mode: 'basic', radius: 0.5, height: 1.0 });
         cone.setPosition(-2.0, 0.0, 0.0);
         cone.setColor(0, 1, 0);
         this.entitiesList.push(cone);
 
-        let basicBox = new Cube({ mode: 'basic' });
+        let basicBox = new Sckorpio.Cube({ mode: 'basic' });
         basicBox.setPosition(0.0, 0.5, 0.0);
         basicBox.setColor(1, 0, 1);
         this.entitiesList.push(basicBox);
 
-        let colorFaceBox = new Cube({ mode: 'colorFace' });
+        let colorFaceBox = new Sckorpio.Cube({ mode: 'colorFace' });
         colorFaceBox.setPosition(2.0, 0.5, 0.0);
         this.entitiesList.push(colorFaceBox);
 
-        let colorVertexBox = new Cube({ mode: 'colorVertex' });
+        let colorVertexBox = new Sckorpio.Cube({ mode: 'colorVertex' });
         colorVertexBox.setPosition(4.0, 0.5, 0.0);
         this.entitiesList.push(colorVertexBox);
 
-        let uvFaceBox = new Cube({ mode: 'texture' });
+        let uvFaceBox = new Sckorpio.Cube({ mode: 'texture' });
         uvFaceBox.setPosition(6.0, 0.5, 0.0);
         uvFaceBox.setMaterial('uvVertex3D');
         this.entitiesList.push(uvFaceBox);
 
-        let box1 = new Cube({ mode: 'texture' });
+        let box1 = new Sckorpio.Cube({ mode: 'texture' });
         box1.setPosition(8.0, 0.5, 0.0);
         box1.setScale(1.0, 1.0, 1.0);
         this.entitiesList.push(box1);
 
-        let box2 = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let box2 = new Sckorpio.Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         box2.setPosition(10.0, 0.5, 0.0);
         box2.setTexture("woodCarton");
         this.entitiesList.push(box2);
 
-        let plane1 = new Plane({ mode: 'basic' });
+        let plane1 = new Sckorpio.Plane({ mode: 'basic' });
         plane1.setPosition(12.0, 0.5, 0.0);
         this.entitiesList.push(plane1);
 
-        let plane2 = new Plane({ mode: 'colorVertex' });
+        let plane2 = new Sckorpio.Plane({ mode: 'colorVertex' });
         plane2.setPosition(14.0, 0.5, 0.0);
         this.entitiesList.push(plane2);
 
-        let plane3 = new Plane({ mode: 'texture' });
+        let plane3 = new Sckorpio.Plane({ mode: 'texture' });
         plane3.setPosition(16.0, 0.5, 0.0);
         this.entitiesList.push(plane3);
     }

@@ -1,11 +1,5 @@
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
-import { Cone } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cone.js";
-import { Cyclinder } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cyclinder.js";
-import { Sphere } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/sphere.js";
-import { Star } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/star.js";
-import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
-
-class Scene extends SckorpioScene {
+import { Sckorpio } from "../../sckorpioEngine.js";
+class Scene extends Sckorpio.Scene {
     constructor(projectName) {
         super();
         this.projectName = projectName;
@@ -57,7 +51,7 @@ class Scene extends SckorpioScene {
             radius *= (0.95 + Math.random() * 0.1);
             height *= (0.9 + Math.random() * 0.2);
 
-            let cone = new Cone({ mode: "texture" });
+            let cone = new Sckorpio.Cone({ mode: "texture" });
 
             cone.setPosition(
                 basePos[0],
@@ -102,7 +96,7 @@ class Scene extends SckorpioScene {
             // ----------------------------------
             if (typeRand < 0.25) {
 
-                let star = new Star({ mode: "basic" });
+                let star = new Sckorpio.Star({ mode: "basic" });
 
                 star.setPosition(x, ornamentY, z);
 
@@ -126,7 +120,7 @@ class Scene extends SckorpioScene {
             // ----------------------------------
             else if (typeRand < 0.7) {
 
-                let orb = new Sphere();
+                let orb = new Sckorpio.Sphere();
                 const orbScale = 0.15 + Math.random() * 0.05;
 
                 orb.setScale(orbScale, orbScale, orbScale);
@@ -146,7 +140,7 @@ class Scene extends SckorpioScene {
             // ----------------------------------
             else {
 
-                let smallGift = new Cube({ mode: "texture" });
+                let smallGift = new Sckorpio.Cube({ mode: "texture" });
                 smallGift.setPosition(
                     x * 0.97,
                     ornamentY - 0.15,
@@ -173,7 +167,7 @@ class Scene extends SckorpioScene {
         SKY
         ------------------------------------------------------
         */
-        let sky = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let sky = new Sckorpio.Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         sky.setPosition(0.0, 40.0, 0.0);
         sky.setScale(200.0, 100.0, 200.0);
         sky.setTexture("sky");
@@ -184,7 +178,7 @@ class Scene extends SckorpioScene {
         ------------------------------------------------------
         */
 
-        let ground = new Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
+        let ground = new Sckorpio.Cube({ mode: 'texture', uvRange: [0, 0, 1, 1] });
         ground.setPosition(0.0, -0.1, 0.0);
         ground.setScale(200.0, 0.02, 200.0);
         ground.setTexture("snowGround2");
@@ -208,7 +202,7 @@ class Scene extends SckorpioScene {
 
 
         // trunk
-        let trunk = new Cyclinder({ mode: 'basic' });
+        let trunk = new Sckorpio.Cyclinder({ mode: 'basic' });
         trunk.setPosition(0.0, -2.0, 0.0);
         trunk.setScale(1.0, 8.0, 1.0);
         trunk.setColor(0.4, 0.2, 0.05);
@@ -216,7 +210,7 @@ class Scene extends SckorpioScene {
 
 
         // ⭐ STAR TOPPER
-        let star = new Star({ mode: 'basic' });
+        let star = new Sckorpio.Star({ mode: 'basic' });
         star.setPosition(0.0, 18.0, 0.0);
         star.setScale(1.6, 1.6, 1.6);
         star.setRotation(-90.0, 0.0, 0.0);
@@ -238,7 +232,7 @@ class Scene extends SckorpioScene {
         ];
 
         gifts.forEach(g => {
-            let cube = new Cube({ mode: 'texture' });
+            let cube = new Sckorpio.Cube({ mode: 'texture' });
             cube.setPosition(...g.pos);
             cube.setScale(...g.scale);
             cube.setTexture(g.tex);
@@ -251,23 +245,23 @@ class Scene extends SckorpioScene {
         ------------------------------------------------------
         */
 
-        // let snowBottom = new Sphere(1.2);
+        // let snowBottom = new Sckorpio.Sphere(1.2);
         // snowBottom.setPosition(-6.0, 1.2, 3.0);
         // snowBottom.setColor(1, 1, 1);
         // this.entitiesList.push(snowBottom);
 
-        // let snowMid = new Sphere(0.9);
+        // let snowMid = new Sckorpio.Sphere(0.9);
         // snowMid.setPosition(-6.0, 2.6, 3.0);
         // snowMid.setColor(1, 1, 1);
         // this.entitiesList.push(snowMid);
 
-        // let snowHead = new Sphere(0.6);
+        // let snowHead = new Sckorpio.Sphere(0.6);
         // snowHead.setPosition(-6.0, 3.6, 3.0);
         // snowHead.setColor(1, 1, 1);
         // this.entitiesList.push(snowHead);
 
         // // carrot (tiny cone)
-        // let nose = new Cone({ mode: 'basic' });
+        // let nose = new Sckorpio.Cone({ mode: 'basic' });
         // nose.setPosition(-6.0, 3.6, 3.6);
         // nose.setScale(0.2, 0.6, 0.2);
         // nose.setColor(1, 0.4, 0);
