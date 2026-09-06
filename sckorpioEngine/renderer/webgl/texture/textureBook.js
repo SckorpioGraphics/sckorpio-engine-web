@@ -42,7 +42,7 @@ class TextureBook {
 
     async generateCustomTextures(projectName,customTextureNames) {
         this.customTextureNames = customTextureNames;
-        this.customTexturesPath = "projects/"+projectName+"/resources/textures/";
+        this.customTexturesPath = projectName+"/resources/textures/";
         for (const textureName of this.customTextureNames) {
             //Using Texture class
             let texture = new Texture(textureName);

@@ -1,13 +1,18 @@
+//######## PROJECT ####################
+const project = "./sckorpioProject";
+//#####################################
+// Default: project = "./sckorpioProject";
+
 import { verifyWebGLSupport } from "./sckorpioEngine/canvas/utils.js";
 import { title } from "./sckorpioEngine/canvas/title.js";
-import { Scene } from "./projects/projectFIFA26/scene.js";
+const { Scene } = await import(project + "/scene.js");
 
-var initSckorpioWebEngine = async function () {
+var initSckorpioEngine = async function () {
     //Verify WebGL Support
     verifyWebGLSupport();
 
     // Initialize the scene
-    var scene = new Scene("projectFIFA26"); 
+    var scene = new Scene(project); 
     await scene.init(); 
     await scene.initResources();
     await scene.createScene();
@@ -15,4 +20,4 @@ var initSckorpioWebEngine = async function () {
     scene.play();
 }
 
-initSckorpioWebEngine();
+initSckorpioEngine();
