@@ -1,4 +1,4 @@
-import { Sckorpio } from "../../sckorpioEngine/sckorpioEngine.js";
+import { Sckorpio } from "../sckorpioEngine/sckorpioEngine.js";
 
 class Scene extends Sckorpio.Scene{
     constructor(projectName) {
