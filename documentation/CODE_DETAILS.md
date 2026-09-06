@@ -412,17 +412,17 @@ createDefaultEntities(){
     this.grid = new Grid(100,1.0);
     this.grid.setMaterial("basicGrey");
 
-    this.xAxis = new Cube();
+    this.xAxis = new Sckorpio.Cube();
     this.xAxis.setPosition(50.0, 0.0, 0.0);
     this.xAxis.setScale(100.0, 0.02, 0.02);
     this.xAxis.setMaterial("basicRed");
 
-    this.yAxis = new Cube();
+    this.yAxis = new Sckorpio.Cube();
     this.yAxis.setPosition(0.0, 50.0, 0.0);
     this.yAxis.setScale(0.02, 100.0, 0.02);
     this.yAxis.setMaterial("basicGreen");
 
-    this.zAxis = new Cube();
+    this.zAxis = new Sckorpio.Cube();
     this.zAxis.setPosition(0.0, 0.0, 50.0);
     this.zAxis.setScale(0.02, 0.02, 100.0);
     this.zAxis.setMaterial("basicBlue");
@@ -684,8 +684,8 @@ When you set a parent-child relationship:
 
 ```js
 // Create a sphere and cylinder
-let sphere = new Sphere({ mode: 'basic' , radius: 0.5});
-let cyclinder = new Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
+let sphere = new Sckorpio.Sphere({ mode: 'basic' , radius: 0.5});
+let cyclinder = new Sckorpio.Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
 
 // Position the cylinder
 cyclinder.setPosition(-5.0, 5.0, -5.0);
@@ -904,15 +904,15 @@ class AnimationClip {
 **Example usage:**
 ```js
 // Create a clip with position and rotation animations
-const positionTrack = new AnimationTrack("position", "vec3");
+const positionTrack = new Sckorpio.AnimationTrack("position", "vec3");
 positionTrack.addKeyFrame(0.0, [0, 0, 0]);
 positionTrack.addKeyFrame(2.0, [5, 0, 0]);
 
-const rotationTrack = new AnimationTrack("rotation", "vec3");
+const rotationTrack = new Sckorpio.AnimationTrack("rotation", "vec3");
 rotationTrack.addKeyFrame(0.0, [0, 0, 0]);
 rotationTrack.addKeyFrame(2.0, [0, 360, 0]);
 
-const clip = new AnimationClip("MyAnimation");
+const clip = new Sckorpio.AnimationClip("MyAnimation");
 clip.addTrack(positionTrack);
 clip.addTrack(rotationTrack);
 ```
@@ -1115,12 +1115,12 @@ class SckorpioScene {
 
 ```js
 // 1. Create animation tracks
-const positionTrack = new AnimationTrack("position", "vec3");
+const positionTrack = new Sckorpio.AnimationTrack("position", "vec3");
 positionTrack.addKeyFrame(0.0, [0.0, 0.0, 0.0]);
 positionTrack.addKeyFrame(2.0, [5.0, 0.0, 0.0]);
 
 // 2. Create animation clip
-const clip = new AnimationClip("Move");
+const clip = new Sckorpio.AnimationClip("Move");
 clip.addTrack(positionTrack);
 
 // 3. Add component to entity
@@ -1149,7 +1149,7 @@ entity.animationComponent.loop = false;  // Play once, then stop
 
 **Multiple Tracks:**
 ```js
-const clip = new AnimationClip("Complex");
+const clip = new Sckorpio.AnimationClip("Complex");
 clip.addTrack(positionTrack);
 clip.addTrack(rotationTrack);
 clip.addTrack(scaleTrack);
