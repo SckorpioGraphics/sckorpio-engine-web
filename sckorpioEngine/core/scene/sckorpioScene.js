@@ -6,27 +6,36 @@ import { ShaderBook } from "../../renderer/webgl/shader/shaderBook.js";
 import { MaterialBook } from "../../renderer/webgl/material/materialBook.js";
 import { TextureBook } from "../../renderer/webgl/texture/textureBook.js";
 import { AnimationSystem } from "../ecs/system/animation/animationSystem.js";
+import { verifyWebGLSupport } from "../../canvas/utils.js";
 import { logger } from "../../canvas/logger.js";
+import { title } from "../../canvas/title.js";
 
 class SckorpioScene {
     constructor(){
+        // PROJECT
+        //----------------------------------
         this.uid = 0;
+        this.projectName;
 
-        //SYSTEMS
+        // SYSTEMS
+        //----------------------------------
         //renderer
         this.renderer;
         //annimation
         this.animationSystem;
 
-        //camera 
-        this.camera;
+        // RESOURCES
+        //----------------------------------
+        this.customTextureList = [];
 
-        //RESOURCES
         this.materialBook;
         this.shaderBook;
         this.textureBook;
 
-        //entity/entities
+        // ENTITY
+        //----------------------------------
+        //camera 
+        this.camera;
         //meshes
         this.grid;
         this.xAxis;
@@ -35,6 +44,8 @@ class SckorpioScene {
         this.defaultEntitiesList = [];
         this.entitiesList = [];
         
+        // SCENE SETTINGS
+        //----------------------------------
         //visibility
         this.isGridVisible = true;
         this.isAxisVisible = true;
@@ -48,57 +59,114 @@ class SckorpioScene {
         this.darkModeClearColor = vec3.fromValues(0.14, 0.11, 0.26);
         this.darkModeGridColor = vec3.fromValues(0.45, 0.40, 0.65);
 
-        //time
+        // TIME
+        //----------------------------------
+        // time
         this.previousTime = 0.0;
 
-        this.logger = logger;
+        // CANVAS
+        //----------------------------------
+        // title 
+        this.title;
+        // logger
+        this.logger;
     }
 
     async init(){
-        /*
-        RENDERER
-        */
+        // Verify WebGL Support
+        verifyWebGLSupport();
+        // Init Canvas
+        this.initCanvas();
+        // Init Engine (Systems/Books/Events)
+        await this.initEngine();
+        // Init Default Resources
+        await this.initDefaultResources();
+        // Init Resources (textures/images etc)
+        await this.initResources();
+        // Create Default Scene
+        await this.createDefaultScene();
+        // Create User Scene
+        await this.createScene();
+        // Load
+        this.load();
+        // Play
+        this.play();
+    }
+
+    initCanvas(){
+        // title icon
+        this.title = title;
+        // logger
+        this.logger = logger;
+    }
+
+    async initEngine(){
+        //Renderer
         this.renderer = new WebGLRenderer();
-
-        /*
-        ANIMATION
-        */
+        //Animation
         this.animationSystem = new AnimationSystem();
+        //Shader Book
+        this.shaderBook = ShaderBook.getInstance();
+        //Texture Book
+        this.textureBook = TextureBook.getInstance();
+        //Material Book
+        this.materialBook = MaterialBook.getInstance();
+        //Events Listener
+        this.setEventlisteners();
+    }
 
-        /*
-        CAMERA
-        */
-        this.camera = new Camera();
-        this.renderer.setCamera(this.camera);
+    async initDefaultResources(){
+        //generate default shaders
+        await this.shaderBook.generateDefaultShaders();
+        //generate default textures
+        await this.textureBook.generateDefaultTextures();
+        //generate default materials
+        this.materialBook.generateDefaultMaterials();
+    }
+
+    async initResources(){
+        //generate custom textures
+        await this.textureBook.generateCustomTextures(
+            this.projectName,
+            this.customTextureList
+        );
+    }
+
+    createDefaultScene(){
+        // Set Renderer Clear Color
         this.renderer.setClearColor(this.lightModeClearColor);
 
-        /*
-        SHADER_BOOK
-        */
-        this.shaderBook = ShaderBook.getInstance();
-        await this.shaderBook.generateDefaultShaders();
+        // Main Camera
+        this.camera = new Camera();
+        this.renderer.setCamera(this.camera);
 
-        /*
-        TEXTURE_BOOK
-        */
-        this.textureBook = TextureBook.getInstance();
-        await this.textureBook.generateDefaultTextures();
+        //Grid
+        this.grid = new Grid(100,1.0);
+        this.grid.setMaterial("basicGrey");
 
-        /*
-        MATERIAL_BOOK
-        */
-        this.materialBook = MaterialBook.getInstance();
-        this.materialBook.generateDefaultMaterials();
-    
-        /*
-        ENTITIES
-        */
-        this.createDefaultEntities();
+        //x-Axis
+        this.xAxis = new Cube();
+        this.xAxis.setPosition(50.0, 0.0, 0.0);
+        this.xAxis.setScale(100.0, 0.02, 0.02);
+        this.xAxis.setMaterial("basicRed");
 
-        /*
-        EVENT_LISTENERS
-        */
-        this.setEventlisteners();
+        //y-Axis
+        this.yAxis = new Cube();
+        this.yAxis.setPosition(0.0, 50.0, 0.0);
+        this.yAxis.setScale(0.02, 100.0, 0.02);
+        this.yAxis.setMaterial("basicGreen");
+
+        //z-Axis
+        this.zAxis = new Cube();
+        this.zAxis.setPosition(0.0, 0.0, 50.0);
+        this.zAxis.setScale(0.02, 0.02, 100.0);
+        this.zAxis.setMaterial("basicBlue");
+
+        //add meshes to default list
+        this.defaultEntitiesList.push(this.grid);
+        this.defaultEntitiesList.push(this.xAxis);
+        this.defaultEntitiesList.push(this.yAxis);
+        this.defaultEntitiesList.push(this.zAxis);
     }
 
     setEventlisteners() {
@@ -129,36 +197,6 @@ class SckorpioScene {
             this.logger.setThemeMode("light");
         }
 
-    }
-
-    createDefaultEntities(){
-        //Grid
-        this.grid = new Grid(100,1.0);
-        this.grid.setMaterial("basicGrey");
-
-        //x-Axis
-        this.xAxis = new Cube();
-        this.xAxis.setPosition(50.0, 0.0, 0.0);
-        this.xAxis.setScale(100.0, 0.02, 0.02);
-        this.xAxis.setMaterial("basicRed");
-
-        //y-Axis
-        this.yAxis = new Cube();
-        this.yAxis.setPosition(0.0, 50.0, 0.0);
-        this.yAxis.setScale(0.02, 100.0, 0.02);
-        this.yAxis.setMaterial("basicGreen");
-
-        //z-Axis
-        this.zAxis = new Cube();
-        this.zAxis.setPosition(0.0, 0.0, 50.0);
-        this.zAxis.setScale(0.02, 0.02, 100.0);
-        this.zAxis.setMaterial("basicBlue");
-
-        //add meshes to default list
-        this.defaultEntitiesList.push(this.grid);
-        this.defaultEntitiesList.push(this.xAxis);
-        this.defaultEntitiesList.push(this.yAxis);
-        this.defaultEntitiesList.push(this.zAxis);
     }
 
     setGridVisibility(isVisible){
@@ -216,9 +254,6 @@ class SckorpioScene {
         }
     }
 
-    // =====================================================
-    // PLAY
-    // =====================================================
     update(timestamp) {
     
         // Calculate Delta Time
