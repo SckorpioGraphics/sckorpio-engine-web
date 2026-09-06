@@ -10,7 +10,7 @@
 
 ## Overview
 
-**SckorpioWebEngine** is a WebGL 2.0-based 3D graphics library built with JavaScript. It provides a modern, component-based architecture for creating 3D scenes and rendering graphics in the browser. The library uses an Entity Component System (ECS) pattern, making it modular, extensible, and easy to use.
+**SckorpioWebEngine** is a WebGL 2.0-based 3D graphics library built with JavaScript. It provides a lightweight, component-based architecture for creating 3D scenes and rendering graphics in the browser.
 
 ## Table of Contents
 
@@ -267,9 +267,9 @@ The scene coordinator provides:
 - **Render Loop**: Implements the main rendering loop using `requestAnimationFrame`
 - **Event Listeners**: Keyboard shortcuts for grid/axis visibility
 
-### Project Scenes (`projects/*/scene.js`)
+### Project Scenes (`sckorpioProject/scene.js` and `projects/*/scene.js`)
 
-User-defined scenes that extend `SckorpioScene`:
+User-defined scenes extend `SckorpioScene`:
 - **Custom Resource Loading**: Loads project-specific textures
 - **Scene Creation**: Defines custom entities and their arrangements
 - **Project Organization**: Each project has its own directory with resources
@@ -288,6 +288,9 @@ User-defined scenes that extend `SckorpioScene`:
 │   │   ├── ecs/                # Entities, components, and systems
 │   │   └── scene/              # SckorpioScene coordinator
 │   └── renderer/webgl/         # Buffers, shaders, materials, textures
+├── sckorpioProject/            # Additional showcase project
+│   ├── scene.js                # Project scene definition
+│   └── resources/textures/     # Project-specific textures
 └── projects/                 # User projects
     └── [projectName]/
         ├── scene.js          # Project scene definition
@@ -306,27 +309,30 @@ User-defined scenes that extend `SckorpioScene`:
 <canvas id="SckorpioEngine-webgl-surface"></canvas>
 ```
 
-2. **Initialize a project scene**:
+2. **Select and initialize a project scene**:
 ```javascript
-import { Scene } from "./projects/projectFIFA26/scene.js";
+const project = "./projects/testing1Basic";
+const { Scene } = await import(project + "/scene.js");
 
-var initSckorpioWebEngine = async function () {
-    var scene = new Scene("projectFIFA26");
-    await scene.init(); 
-    await scene.initResources();
-    await scene.createScene();
-    scene.load();
-    scene.play();
+var setProject = async function () {
+    var scene = new Scene(project);
+  await scene.init();
 }
 
-initSckorpioWebEngine();
+setProject();
 ```
+
+The default entry point currently selects `./projects/testing1Basic` and passes
+that path to the scene constructor. Change the `project` constant in `main.js`
+to select another project. Full project startup continues through
+`initResources()`, `createScene()`, `load()`, and `play()` when those lifecycle
+steps are called by an application.
 
 ### Creating Entities
 
 #### Cube
 ```javascript
-import { Cube } from "../../sckorpioEngine/core/ecs/entity/entities/mesh/primitives/cube.js";
+import { Sckorpio } from "./sckorpioEngine/sckorpioEngine.js";
 
 // Basic cube
 let cube = new Sckorpio.Cube({ mode: 'basic' });
@@ -345,20 +351,23 @@ texturedBox.setTexture("woodCarton");
 
 #### Sphere
 ```javascript
-import { Sphere } from "../../sckorpioEngine/core/ecs/entity/entities/mesh/primitives/sphere.js";
+import { Sckorpio } from "./sckorpioEngine/sckorpioEngine.js";
 
-let sphere = new Sckorpio.Sphere(0.5, 36, 36); // radius, latitudeBands, longitudeBands
+let sphere = new Sckorpio.Sphere({
+  radius: 0.5,
+  latitudeBands: 36,
+  longitudeBands: 36
+});
 sphere.setPosition(-2.0, 0.5, 0.0);
 sphere.setColor(0, 1, 1); // Cyan
 ```
 
 #### Grid
-```javascript
-import { Grid } from "../../sckorpioEngine/core/ecs/entity/entities/mesh/primitives/grid.js";
+The base `SckorpioScene` creates a `Grid` helper automatically. It is available
+through the scene's default entities rather than the public `Sckorpio` facade.
 
-let grid = new Grid(100, 1.0); // gridCount, gridGap
-grid.setMaterial("basicGrey");
-```
+The public `Sckorpio` facade also exposes `Cone`, `Cylinder`, `Plane`, and
+`Star` primitives, along with `Node`, `AnimationClip`, and `AnimationTrack`.
 
 ### Transformations
 
@@ -413,6 +422,7 @@ The camera supports multiple input methods:
 
 - **Cube**: Configurable cube with multiple rendering modes
 - **Sphere**: Parametric sphere with configurable resolution
+- **Cone**, **Cylinder**, **Plane**, and **Star**: Additional mesh primitives
 - **Grid**: Reference grid for scene visualization
 - **Axis Helpers**: X (red), Y (green), Z (blue) axis lines
 
