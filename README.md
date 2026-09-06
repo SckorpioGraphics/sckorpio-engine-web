@@ -339,16 +339,16 @@ initSckorpioWebEngine();
 import { Cube } from "../../sckorpioEngineWeb/ecs/entity/entities/mesh/primitives/cube.js";
 
 // Basic cube
-let cube = new Cube({ mode: 'basic' });
+let cube = new Sckorpio.Cube({ mode: 'basic' });
 cube.setPosition(0.0, 0.5, 0.0);
 cube.setColor(1, 0, 1); // Magenta
 
 // Colored cube (vertex colors)
-let colorBox = new Cube({ mode: 'colorVertex' });
+let colorBox = new Sckorpio.Cube({ mode: 'colorVertex' });
 colorBox.setPosition(2.0, 0.5, 0.0);
 
 // Textured cube
-let texturedBox = new Cube({ mode: 'texture', uvRange: [0, 0, 2, 2] });
+let texturedBox = new Sckorpio.Cube({ mode: 'texture', uvRange: [0, 0, 2, 2] });
 texturedBox.setPosition(4.0, 0.5, 0.0);
 texturedBox.setTexture("woodCarton");
 ```
@@ -357,7 +357,7 @@ texturedBox.setTexture("woodCarton");
 ```javascript
 import { Sphere } from "../../sckorpioEngineWeb/ecs/entity/entities/mesh/primitives/sphere.js";
 
-let sphere = new Sphere(0.5, 36, 36); // radius, latitudeBands, longitudeBands
+let sphere = new Sckorpio.Sphere(0.5, 36, 36); // radius, latitudeBands, longitudeBands
 sphere.setPosition(-2.0, 0.5, 0.0);
 sphere.setColor(0, 1, 1); // Cyan
 ```
