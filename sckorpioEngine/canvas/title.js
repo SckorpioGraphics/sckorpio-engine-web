@@ -1,6 +1,7 @@
 import { getTitleCanvas, getTitleContext } from "./utils.js";
 class Title {
     constructor() {
+        this.setIconTitle();
         this.setEventlisteners();
     }
 

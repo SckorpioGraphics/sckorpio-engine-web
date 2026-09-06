@@ -2,10 +2,9 @@ import { Sckorpio } from "../../sckorpioEngine/sckorpioEngine.js";
 class Scene extends Sckorpio.Scene {
     constructor(projectName) {
         super();
+        // Set Project name
         this.projectName = projectName;
-    }
-
-    async initResources() {
+        // Set Project Resources/Textures
         this.customTextureList = [
             "christmasTree",
             "christmasTree2",
@@ -20,6 +19,10 @@ class Scene extends Sckorpio.Scene {
             "snowGround",
             "snowGround2"
         ];
+    }
+
+    async initResources() {
+        
 
         await this.textureBook.generateCustomTextures(
             this.projectName,

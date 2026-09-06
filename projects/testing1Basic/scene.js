@@ -3,21 +3,14 @@ import { Sckorpio } from "../../sckorpioEngine/sckorpioEngine.js";
 class Scene extends Sckorpio.Scene{
     constructor(projectName) {
         super();
+        // Set Project name
         this.projectName = projectName;
-    }
-
-    async initResources(){
-        //generate custom textures
+        // Set Project Resources/Textures
         this.customTextureList = [
             "sckorpioLogoTransparent",
             "football",
             "fifa26football"
         ];
-
-        await this.textureBook.generateCustomTextures(
-            this.projectName,
-            this.customTextureList
-        );
     }
 
     async createScene(){

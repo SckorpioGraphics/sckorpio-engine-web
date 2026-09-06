@@ -2,20 +2,13 @@ import { Sckorpio } from "../../sckorpioEngine/sckorpioEngine.js";
 class Scene extends Sckorpio.Scene{
     constructor(projectName) {
         super();
+        // Set Project name
         this.projectName = projectName;
-    }
-
-    async initResources(){
-        //generate custom textures
+        // Set Project Resources/Textures
         this.customTextureList = [
             "tile1",
             "tile2"
         ];
-
-        await this.textureBook.generateCustomTextures(
-            this.projectName,
-            this.customTextureList
-        );
     }
 
     async createScene(){

@@ -3,35 +3,19 @@ import { Sckorpio } from "../sckorpioEngine/sckorpioEngine.js";
 class Scene extends Sckorpio.Scene{
     constructor(projectName) {
         super();
+        // Project name
         this.projectName = projectName;
-    }
-
-    async initResources(){
-        //generate custom textures
+        // Set Resources Textures
         this.customTextureList = [
             "sckorpioLogoTransparent",
             "football",
             "fifa26football"
         ];
-
-        await this.textureBook.generateCustomTextures(
-            this.projectName,
-            this.customTextureList
-        );
     }
 
     async createScene(){
         /*
         MESHES
-        */
-        
-        // Ground
-        /*
-        let ground = new Sckorpio.Cube({mode: 'texture', uvRange: [0, 0, 50, 50]});
-        ground.setPosition(0.0,-0.1,0.0);
-        ground.setScale(100.0,0.02,100.0);
-        ground.setTexture("grass");
-        this.entitiesList.push(ground);
         */
 
         // Texture Sphere FIF26
@@ -106,7 +90,6 @@ class Scene extends Sckorpio.Scene{
         let plane1 = new Sckorpio.Plane({mode: 'basic'});
         plane1.setPosition(12.0, 0.5, 0.0);
         this.entitiesList.push(plane1);
-
 
         // Plane Mesh ColorVertex
         let plane2 = new Sckorpio.Plane({mode: 'colorVertex'});

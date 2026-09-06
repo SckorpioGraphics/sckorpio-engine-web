@@ -2,15 +2,9 @@ import { Sckorpio } from "../../sckorpioEngine/sckorpioEngine.js";
 class Scene extends Sckorpio.Scene {
     constructor(projectName) {
         super();
+        // Set Project name
         this.projectName = projectName;
-        
-        // Structural instancing references
-        this.standRow = null;
-        this.seatBottom = null;
-        this.seatRest = null;
-    }
-
-    async initResources() {
+        // Set Project Resources/Textures
         this.customTextureList = [
             "football", 
             "adidas_trionda", 
@@ -44,8 +38,10 @@ class Scene extends Sckorpio.Scene {
             "trophy_box2"
             
         ];
-
-        await this.textureBook.generateCustomTextures(this.projectName, this.customTextureList);
+        // Structural instancing references
+        this.standRow = null;
+        this.seatBottom = null;
+        this.seatRest = null;
     }
 
     async createScene() {
