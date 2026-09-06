@@ -7,36 +7,28 @@
 The engine starts here.
 
 ```js
-import { verifyWebGLSupport } from "./sckorpioEngine/canvas/utils.js";
 import { title } from "./sckorpioEngine/canvas/title.js";
-import { Scene } from "./projects/projectFIFA26/scene.js";
 
-var initSckorpioWebEngine = async function () {
-    verifyWebGLSupport();
+const project = "./projects/testing1Basic";
+const { Scene } = await import(project + "/scene.js");
 
-    var scene = new Scene("projectFIFA26"); 
-    await scene.init(); 
-    await scene.initResources();
-    await scene.createScene();
-    scene.load();
-    scene.play();
+var setProject = async function () {
+    var scene = new Scene(project);
+    await scene.init();
 }
 
-initSckorpioWebEngine();
+setProject();
 ```
 
 ### What this does
 
-- imports the WebGL utility checker
 - imports the title overlay helper
-- imports the selected project scene
-- creates a scene instance
-- runs setup methods in order
-- starts the render loop
+- selects and dynamically imports the configured project scene
+- creates a scene instance and initializes the engine core
 
 ### Important detail
 
-The startup is asynchronous because shader and texture loading happen before the scene can be fully rendered.
+The startup is asynchronous because the project scene is dynamically imported and engine initialization loads default shaders, textures, and materials. The current project is configured in `main.js` as `./projects/testing1Basic`. Resource loading, scene creation, GPU upload, and playback are separate lifecycle calls.
 
 ---
 
@@ -141,6 +133,11 @@ Projects now follow a consistent naming pattern:
 
 **Template:**
 - `templateProject/` - Template for creating new scenes
+
+**Runtime Project Selection:**
+- `main.js` selects the project directory through the `project` constant
+- Current default: `projects/testing1Basic/`
+- Previous/default showcase project: `sckorpioProject/`
 
 ### Renderer Structure
 
@@ -1633,16 +1630,13 @@ This is used to generate unique IDs for WebGL resources.
 
 A practical sequence looks like this:
 
-1. `main.js` starts the app.
-2. `verifyWebGLSupport()` ensures the browser has WebGL.
-3. a scene is created.
-4. `scene.init()` creates the renderer and camera.
-5. shader, texture, and material books are initialized.
-6. default helper entities are created.
-7. `scene.load()` pushes all entities to the renderer.
-8. `renderer.loadEntityDataToGPU()` uploads geometry.
-9. `scene.play()` starts `requestAnimationFrame()` loop.
-10. every frame the renderer binds resources and emits draw calls.
+1. `main.js` selects and dynamically imports the project scene.
+2. a scene is created with the selected project path.
+3. `scene.init()` creates the renderer, animation system, camera, and resource books.
+4. shader, texture, and material books are initialized.
+5. default helper entities are created.
+6. applications may then call `initResources()`, `createScene()`, `load()`, and `play()` to complete the render lifecycle.
+7. every frame the renderer binds resources and emits draw calls after playback begins.
 
 ---
 
