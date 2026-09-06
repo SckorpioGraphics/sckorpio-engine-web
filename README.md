@@ -1,4 +1,4 @@
-# SckorpioWebEngine(Legacy)
+# SckorpioWebEngine
 
 <img width="3002" height="1690" alt="Screenshot 2026-06-16 at 1 30 07 AM" src="https://github.com/user-attachments/assets/510b5163-ecdd-4eed-b6c2-948e6cce3948" />
 <img width="2998" height="1698" alt="Screenshot 2026-06-16 at 1 30 58 AM" src="https://github.com/user-attachments/assets/d6807ab2-6654-48d6-a661-7c1fd4a29e90" />
@@ -39,7 +39,7 @@ SckorpioWebEngine follows a layered architecture:
               ↓
 ┌─────────────────────────────────────┐
 │         Scene Management            │
-│    (Scene, SckorpioScene classes)  │
+│       (SckorpioScene class)         │
 └─────────────────────────────────────┘
               ↓
 ┌─────────────────────────────────────┐
@@ -62,7 +62,7 @@ SckorpioWebEngine follows a layered architecture:
 
 ## Core Systems
 
-### 1. Canvas Management (`SckorpioEngine/canvas/`)
+### 1. Canvas Management (`sckorpioEngine/canvas/`)
 
 The canvas system manages multiple rendering surfaces:
 
@@ -90,12 +90,12 @@ The canvas system manages multiple rendering surfaces:
 
 ## Entity Component System (ECS)
 
-SckorpioWebEngine uses an ECS architecture where:
+SckorpioWebEngine uses a lightweight, ECS-inspired architecture where:
 - **Entities**: Game objects (Camera, Cube, Sphere, Grid, etc.)
-- **Components**: Data containers (Transform, Mesh, Render, Camera)
-- **Systems**: Logic processors (Renderer)
+- **Components**: Data containers (Transform, Mesh, Render, Camera, Animation)
+- **Systems**: Animation and rendering processors
 
-### Entity (`ecs/entity/entity.js`)
+### Entity (`sckorpioEngine/core/ecs/entity/entity.js`)
 
 Base class for all game objects. Contains:
 - `uid`: Unique identifier
@@ -103,7 +103,7 @@ Base class for all game objects. Contains:
 
 ### Components
 
-#### **TransformComponent** (`ecs/component/components/transformComponent.js`)
+#### **TransformComponent** (`sckorpioEngine/core/ecs/component/components/transformComponent.js`)
 Manages spatial transformation:
 - **Position**: 3D position (vec3)
 - **Scale**: 3D scale (vec3)
@@ -111,7 +111,7 @@ Manages spatial transformation:
 - **Model Matrix**: Calculated 4x4 transformation matrix
 - Uses `gl-matrix` library for matrix operations
 
-#### **MeshComponent** (`ecs/component/components/meshComponent.js`)
+#### **MeshComponent** (`sckorpioEngine/core/ecs/component/components/meshComponent.js`)
 Contains geometry data:
 - **Vertices Data**: Array of vertex positions/attributes
 - **Index Data**: Array of indices for indexed rendering
@@ -120,7 +120,7 @@ Contains geometry data:
 - **Visibility**: Controls whether mesh is rendered
 - **Texture UV**: UV coordinate range for texture mapping
 
-#### **RenderComponent** (`ecs/component/components/renderComponent.js`)
+#### **RenderComponent** (`sckorpioEngine/core/ecs/component/components/renderComponent.js`)
 Handles GPU-side rendering:
 - **Vertex Array Object (VAO)**: WebGL vertex array
 - **Vertex Buffer**: GPU buffer for vertex data
@@ -130,7 +130,7 @@ Handles GPU-side rendering:
 - **Draw Calls**: Executes `gl.drawElements()` or `gl.drawArrays()`
 - **MVP Matrices**: Sets Model-View-Projection matrices
 
-#### **CameraComponent** (`ecs/component/components/cameraComponent.js`)
+#### **CameraComponent** (`sckorpioEngine/core/ecs/component/components/cameraComponent.js`)
 Camera functionality:
 - **Camera Position**: 3D position vector
 - **Camera Front/Up**: Direction vectors
@@ -142,7 +142,12 @@ Camera functionality:
 
 ### Systems
 
-#### **Renderer** (`ecs/system/renderer.js`)
+#### **AnimationSystem** (`sckorpioEngine/core/ecs/system/animation/animationSystem.js`)
+- Advances active animation clips each frame
+- Applies evaluated position, rotation, and scale values to transform components
+- Supports looping, one-shot playback, and playback speed
+
+#### **WebGLRenderer** (`sckorpioEngine/renderer/webgl/webglRenderer.js`)
 Main rendering system:
 - **Entity List**: Maintains list of entities to render
 - **Camera Reference**: Holds reference to camera entity
@@ -155,7 +160,7 @@ Main rendering system:
 
 ## WebGL Infrastructure
 
-### Buffers (`webgl/buffer/`)
+### Buffers (`sckorpioEngine/renderer/webgl/buffer/`)
 
 #### **VertexBuffer** (`vertexBuffer.js`)
 - Creates and manages WebGL vertex buffers
@@ -180,7 +185,7 @@ Main rendering system:
 - Calculates stride automatically
 - Maps attributes to shader locations
 
-### Shaders (`webgl/shader/`)
+### Shaders (`sckorpioEngine/renderer/webgl/shader/`)
 
 #### **Shader** (`shader.js`)
 - **Shader Compilation**: Compiles vertex and fragment shaders
@@ -199,7 +204,7 @@ Main rendering system:
   - `uvVertex3D`: UV coordinate shader
 - **Shader Storage**: Map-based storage for shader lookup
 
-### Materials (`webgl/material/`)
+### Materials (`sckorpioEngine/renderer/webgl/material/`)
 
 #### **Material** (`material.js`)
 - **Shader Reference**: Links to a shader program
@@ -216,7 +221,7 @@ Main rendering system:
   - `wood`, `brick` (textured materials)
 - **Material Factory**: Methods to create custom materials
 
-### Textures (`webgl/texture/`)
+### Textures (`sckorpioEngine/renderer/webgl/texture/`)
 
 #### **Texture** (`texture.js`)
 - **Image Loading**: Asynchronously loads texture images
@@ -251,9 +256,9 @@ All books use the **Singleton Pattern** to ensure only one instance exists, prov
 
 ## Scene Management
 
-### Scene (`scene/scene.js`)
+### SckorpioScene (`sckorpioEngine/core/scene/sckorpioScene.js`)
 
-Base scene class that provides:
+The scene coordinator provides:
 - **Renderer Initialization**: Creates and configures the renderer
 - **Camera Setup**: Creates and positions the camera
 - **Resource Loading**: Initializes shaders, textures, and materials
@@ -261,10 +266,6 @@ Base scene class that provides:
 - **Entity Management**: Maintains lists of default and custom entities
 - **Render Loop**: Implements the main rendering loop using `requestAnimationFrame`
 - **Event Listeners**: Keyboard shortcuts for grid/axis visibility
-
-### SckorpioScene (`scene/sckorpioScene.js`)
-
-Extended scene class with additional features (similar to Scene but with different method names for material setting).
 
 ### Project Scenes (`projects/*/scene.js`)
 
@@ -278,26 +279,15 @@ User-defined scenes that extend `SckorpioScene`:
 ## Project Structure
 
 ```
-SckorpioEngine/
-├── index.html                 # Main HTML entry point
+.
+├── index.html                 # Browser bootstrap and canvases
 ├── main.js                    # Application entry point
-├── SckorpioEngine/                  # Core library code
-│   ├── canvas/               # Canvas and utility systems
-│   ├── ecs/                  # Entity Component System
-│   │   ├── component/        # Base component class
-│   │   ├── components/    # Specific components
-│   │   ├── entity/           # Base entity class
-│   │   ├── entities/       # Specific entities (Camera, Meshs)
-│   │   └── system/           # Systems (Renderer)
-│   ├── scene/                # Scene management
-│   ├── webgl/                # WebGL infrastructure
-│   │   ├── buffer/           # Buffer management
-│   │   ├── material/         # Material system
-│   │   ├── shader/           # Shader system
-│   │   └── texture/          # Texture system
-│   └── resources/            # Default resources
-│       ├── shaders/          # Shader source files
-│       └── textures/         # Default texture images
+├── sckorpioEngine/            # Core library
+│   ├── canvas/                # WebGL context and overlays
+│   ├── core/
+│   │   ├── ecs/                # Entities, components, and systems
+│   │   └── scene/              # SckorpioScene coordinator
+│   └── renderer/webgl/         # Buffers, shaders, materials, textures
 └── projects/                 # User projects
     └── [projectName]/
         ├── scene.js          # Project scene definition
@@ -316,12 +306,12 @@ SckorpioEngine/
 <canvas id="SckorpioEngine-webgl-surface"></canvas>
 ```
 
-2. **Initialize SckorpioWebEngine**:
+2. **Initialize a project scene**:
 ```javascript
-import { Scene } from "./projects/myProject/scene.js";
+import { Scene } from "./projects/projectFIFA26/scene.js";
 
 var initSckorpioWebEngine = async function () {
-    var scene = new Scene("myProject"); 
+    var scene = new Scene("projectFIFA26");
     await scene.init(); 
     await scene.initResources();
     await scene.createScene();
@@ -336,7 +326,7 @@ initSckorpioWebEngine();
 
 #### Cube
 ```javascript
-import { Cube } from "../../SckorpioEngine/ecs/entity/entities/mesh/primitives/cube.js";
+import { Cube } from "../../sckorpioEngine/core/ecs/entity/entities/mesh/primitives/cube.js";
 
 // Basic cube
 let cube = new Sckorpio.Cube({ mode: 'basic' });
@@ -355,7 +345,7 @@ texturedBox.setTexture("woodCarton");
 
 #### Sphere
 ```javascript
-import { Sphere } from "../../SckorpioEngine/ecs/entity/entities/mesh/primitives/sphere.js";
+import { Sphere } from "../../sckorpioEngine/core/ecs/entity/entities/mesh/primitives/sphere.js";
 
 let sphere = new Sckorpio.Sphere(0.5, 36, 36); // radius, latitudeBands, longitudeBands
 sphere.setPosition(-2.0, 0.5, 0.0);
@@ -364,7 +354,7 @@ sphere.setColor(0, 1, 1); // Cyan
 
 #### Grid
 ```javascript
-import { Grid } from "../../SckorpioEngine/ecs/entity/entities/mesh/primitives/grid.js";
+import { Grid } from "../../sckorpioEngine/core/ecs/entity/entities/mesh/primitives/grid.js";
 
 let grid = new Grid(100, 1.0); // gridCount, gridGap
 grid.setMaterial("basicGrey");
@@ -491,12 +481,10 @@ Requires a browser with WebGL 2.0 support:
 - Safari 15+
 - Edge 79+
 
----
-
 ## Architecture Benefits
 
 1. **Modularity**: Clear separation of concerns
-2. **Extensibility**: Easy to add new meshs, shaders, materials
+2. **Extensibility**: Easy to add new meshes, shaders, and materials
 3. **Performance**: Efficient resource management and rendering
 4. **Usability**: Simple API for common operations
 5. **Maintainability**: Well-organized code structure
@@ -509,7 +497,6 @@ Potential areas for expansion:
 - Lighting system (directional, point, spot lights)
 - Shadow mapping
 - Post-processing effects
-- Animation system
 - Physics integration
 - Model loading (OBJ, GLTF)
 - More primitive meshs (cylinder, plane, etc.)
