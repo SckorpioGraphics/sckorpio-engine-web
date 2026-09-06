@@ -1,10 +1,5 @@
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
-import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
-import { AnimationClip } from "../../sckorpioEngineWeb/core/ecs/system/animation/animationClip.js";
-import { AnimationTrack } from "../../sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js";
-
-
-class Scene extends SckorpioScene {
+import { Sckorpio } from "../../sckorpioEngine.js";
+class Scene extends Sckorpio.Scene {
 
     constructor(projectName) {
 
@@ -34,7 +29,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const positionCube =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -54,7 +49,7 @@ class Scene extends SckorpioScene {
 
 
         const positionTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "position",
                 "vec3"
             );
@@ -76,7 +71,7 @@ class Scene extends SckorpioScene {
 
 
         const positionClip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 "Position"
             );
 
@@ -101,7 +96,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const rotationCube =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -121,7 +116,7 @@ class Scene extends SckorpioScene {
 
 
         const rotationTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "rotation",
                 "vec3"
             );
@@ -143,7 +138,7 @@ class Scene extends SckorpioScene {
 
 
         const rotationClip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 "Rotation"
             );
 
@@ -168,7 +163,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const scaleCube =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -188,7 +183,7 @@ class Scene extends SckorpioScene {
 
 
         const scaleTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "scale",
                 "vec3"
             );
@@ -210,7 +205,7 @@ class Scene extends SckorpioScene {
 
 
         const scaleClip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 "Scale"
             );
 
@@ -235,7 +230,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const positionRotationCube =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -255,7 +250,7 @@ class Scene extends SckorpioScene {
 
 
         const positionRotationPositionTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "position",
                 "vec3"
             );
@@ -277,7 +272,7 @@ class Scene extends SckorpioScene {
 
 
         const positionRotationRotationTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "rotation",
                 "vec3"
             );
@@ -299,7 +294,7 @@ class Scene extends SckorpioScene {
 
 
         const positionRotationClip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 "PositionRotation"
             );
 
@@ -329,7 +324,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const positionScaleCube =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -349,7 +344,7 @@ class Scene extends SckorpioScene {
 
 
         const positionScalePositionTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "position",
                 "vec3"
             );
@@ -371,7 +366,7 @@ class Scene extends SckorpioScene {
 
 
         const positionScaleScaleTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "scale",
                 "vec3"
             );
@@ -393,7 +388,7 @@ class Scene extends SckorpioScene {
 
 
         const positionScaleClip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 "PositionScale"
             );
 
@@ -423,7 +418,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const rotationScaleCube =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -443,7 +438,7 @@ class Scene extends SckorpioScene {
 
 
         const rotationScaleRotationTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "rotation",
                 "vec3"
             );
@@ -465,7 +460,7 @@ class Scene extends SckorpioScene {
 
 
         const rotationScaleScaleTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "scale",
                 "vec3"
             );
@@ -487,7 +482,7 @@ class Scene extends SckorpioScene {
 
 
         const rotationScaleClip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 "RotationScale"
             );
 
@@ -517,7 +512,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const allCube =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -541,7 +536,7 @@ class Scene extends SckorpioScene {
         // -----------------------------------------------------
 
         const allPositionTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "position",
                 "vec3"
             );
@@ -567,7 +562,7 @@ class Scene extends SckorpioScene {
         // -----------------------------------------------------
 
         const allRotationTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "rotation",
                 "vec3"
             );
@@ -593,7 +588,7 @@ class Scene extends SckorpioScene {
         // -----------------------------------------------------
 
         const allScaleTrack =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "scale",
                 "vec3"
             );
@@ -619,7 +614,7 @@ class Scene extends SckorpioScene {
         // -----------------------------------------------------
 
         const allClip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 "PositionRotationScale"
             );
 

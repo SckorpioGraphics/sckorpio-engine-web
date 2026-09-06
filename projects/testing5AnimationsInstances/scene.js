@@ -1,9 +1,5 @@
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
-import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
-import { AnimationClip } from "../../sckorpioEngineWeb/core/ecs/system/animation/animationClip.js";
-import { AnimationTrack } from "../../sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js";
-
-class Scene extends SckorpioScene {
+import { Sckorpio } from "../../sckorpioEngine.js";
+class Scene extends Sckorpio.Scene {
 
     constructor(projectName) {
 
@@ -52,7 +48,7 @@ class Scene extends SckorpioScene {
     createPositionTrack(height = 3.0) {
 
         const track =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "position",
                 "vec3"
             );
@@ -83,7 +79,7 @@ class Scene extends SckorpioScene {
     createRotationTrack() {
 
         const track =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "rotation",
                 "vec3"
             );
@@ -114,7 +110,7 @@ class Scene extends SckorpioScene {
     createScaleTrack() {
 
         const track =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 "scale",
                 "vec3"
             );
@@ -149,7 +145,7 @@ class Scene extends SckorpioScene {
     ) {
 
         const cube =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -183,7 +179,7 @@ class Scene extends SckorpioScene {
 
         // Animation Clip
         const clip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 animationType
             );
 

@@ -1,10 +1,6 @@
-import { Cube } from "../../sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
-import { SckorpioScene } from "../../sckorpioEngineWeb/core/scene/sckorpioScene.js";
-import { AnimationClip } from "../../sckorpioEngineWeb/core/ecs/system/animation/animationClip.js";
-import { AnimationTrack } from "../../sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js";
+import { Sckorpio } from "../../sckorpioEngine.js";
 
-
-class Scene extends SckorpioScene {
+class Scene extends Sckorpio.Scene {
 
     constructor(projectName) {
         super();
@@ -26,7 +22,7 @@ class Scene extends SckorpioScene {
     createClip(property, values) {
 
         const track =
-            new AnimationTrack(
+            new Sckorpio.AnimationTrack(
                 property,
                 "vec3"
             );
@@ -49,7 +45,7 @@ class Scene extends SckorpioScene {
 
 
         const clip =
-            new AnimationClip(
+            new Sckorpio.AnimationClip(
                 property
             );
 
@@ -67,7 +63,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const red =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -139,7 +135,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const green =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -236,7 +232,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const blue =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
@@ -288,7 +284,7 @@ class Scene extends SckorpioScene {
         // =====================================================
 
         const yellow =
-            new Cube({
+            new Sckorpio.Cube({
                 mode: "basic"
             });
 
