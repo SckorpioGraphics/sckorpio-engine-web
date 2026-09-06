@@ -253,7 +253,7 @@ class Scene extends Sckorpio.Scene {
         engine.addChild(intake);
         this.entitiesList.push(intake);
 
-        const exhaust = new Sckorpio.Cyclinder({
+        const exhaust = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.22,
             height:0.88
@@ -266,7 +266,7 @@ class Scene extends Sckorpio.Scene {
         parent.addChild(exhaust);
         this.entitiesList.push(exhaust);
 
-        const mast = new Sckorpio.Cyclinder({
+        const mast = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.17,
             height:0.75
@@ -277,7 +277,7 @@ class Scene extends Sckorpio.Scene {
         parent.addChild(mast);
         this.entitiesList.push(mast);
 
-        const collar = new Sckorpio.Cyclinder({
+        const collar = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.30,
             height:0.18
@@ -392,7 +392,7 @@ class Scene extends Sckorpio.Scene {
 
         rotorPivot.animationComponent.setSpeed(2.0);
 
-        const hub = new Sckorpio.Cyclinder({
+        const hub = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.30,
             height:0.22
@@ -413,7 +413,7 @@ class Scene extends Sckorpio.Scene {
         rotorPivot.addChild(blade);
         this.entitiesList.push(blade);
 
-        const cap = new Sckorpio.Cyclinder({
+        const cap = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.16,
             height:0.03
@@ -452,7 +452,7 @@ class Scene extends Sckorpio.Scene {
 
         rotorPivot.animationComponent.setSpeed(2.0);
 
-        const hub = new Sckorpio.Cyclinder({
+        const hub = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.20,
             height:0.20

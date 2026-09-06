@@ -181,7 +181,7 @@ class Scene extends Sckorpio.Scene {
         parent.addChild(bumper);
         this.entitiesList.push(bumper);
 
-        const hook = new Sckorpio.Cyclinder({
+        const hook = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.15,
             height:0.25
@@ -313,7 +313,7 @@ class Scene extends Sckorpio.Scene {
         trackGroup.addChild(fender);
         this.entitiesList.push(fender);
 
-        const wheels = new Sckorpio.Cyclinder({
+        const wheels = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.50,
             height:0.36
@@ -335,7 +335,7 @@ class Scene extends Sckorpio.Scene {
         trackGroup.addChild(wheels);
         this.entitiesList.push(wheels);
 
-        const hubs = new Sckorpio.Cyclinder({
+        const hubs = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.23,
             height:0.40
@@ -355,7 +355,7 @@ class Scene extends Sckorpio.Scene {
         trackGroup.addChild(hubs);
         this.entitiesList.push(hubs);
 
-        const rollers = new Sckorpio.Cyclinder({
+        const rollers = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.20,
             height:0.38
@@ -412,7 +412,7 @@ class Scene extends Sckorpio.Scene {
             this.createClip("TurretScan",[turretRotation])
         );
 
-        const turretBase = new Sckorpio.Cyclinder({
+        const turretBase = new Sckorpio.Cylinder({
             mode:"basic",
             radius:1.4,
             height:0.40
@@ -462,7 +462,7 @@ class Scene extends Sckorpio.Scene {
         turretPivot.addChild(roof);
         this.entitiesList.push(roof);
 
-        const cupola = new Sckorpio.Cyclinder({
+        const cupola = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.42,
             height:0.30
@@ -474,7 +474,7 @@ class Scene extends Sckorpio.Scene {
         turretPivot.addChild(cupola);
         this.entitiesList.push(cupola);
 
-        const hatch = new Sckorpio.Cyclinder({
+        const hatch = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.30,
             height:0.07
@@ -534,7 +534,7 @@ class Scene extends Sckorpio.Scene {
         gunPivot.addChild(barrel);
         this.entitiesList.push(barrel);
 
-        const collar = new Sckorpio.Cyclinder({
+        const collar = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.30,
             height:0.34
@@ -574,7 +574,7 @@ class Scene extends Sckorpio.Scene {
     // =========================================================
 
     createSmokeLauncher(parent) {
-        const launcher = new Sckorpio.Cyclinder({
+        const launcher = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.12,
             height:0.36
@@ -593,7 +593,7 @@ class Scene extends Sckorpio.Scene {
     // =========================================================
 
     createAntenna(parent) {
-        const antenna = new Sckorpio.Cyclinder({
+        const antenna = new Sckorpio.Cylinder({
             mode:"basic",
             radius:0.025,
             height:1.80

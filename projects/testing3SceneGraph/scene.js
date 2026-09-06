@@ -58,19 +58,19 @@ class Scene extends Sckorpio.Scene{
         sphere.addInstance([0.0,0.0,2.0],[0,0,0],[1.0,1.0,2.0]);
         this.entitiesList.push(sphere);
 
-        // Cyclinder
-        let cyclinder = new Sckorpio.Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
-        cyclinder.setPosition(-5.0,5.0,-5.0);
-        cyclinder.setScale(1.0,1.0,1.0);
-        cyclinder.setRotation(90,0,0);
-        cyclinder.setColor(1,0,0);
+        // Cylinder
+        let cylinder = new Sckorpio.Cylinder({ mode: 'basic' , radius:0.5, height:1.0});
+        cylinder.setPosition(-5.0,5.0,-5.0);
+        cylinder.setScale(1.0,1.0,1.0);
+        cylinder.setRotation(90,0,0);
+        cylinder.setColor(1,0,0);
 
-        cyclinder.addInstance([-5.0,5.0,-5.0],[0,0,0],[1.0,1.0,1.0]);
-        cyclinder.addInstance([-5.0,5.0,5.0],[90,0,0],[1.0,1.0,1.0]);
-        this.entitiesList.push(cyclinder);
+        cylinder.addInstance([-5.0,5.0,-5.0],[0,0,0],[1.0,1.0,1.0]);
+        cylinder.addInstance([-5.0,5.0,5.0],[90,0,0],[1.0,1.0,1.0]);
+        this.entitiesList.push(cylinder);
 
-        //cyclinder.addChild(sphere);
-        sphere.setParent(cyclinder);
+        //cylinder.addChild(sphere);
+        sphere.setParent(cylinder);
 
         //#####################################################
 

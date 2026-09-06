@@ -202,7 +202,7 @@ class Scene extends Sckorpio.Scene {
 
 
         // trunk
-        let trunk = new Sckorpio.Cyclinder({ mode: 'basic' });
+        let trunk = new Sckorpio.Cylinder({ mode: 'basic' });
         trunk.setPosition(0.0, -2.0, 0.0);
         trunk.setScale(1.0, 8.0, 1.0);
         trunk.setColor(0.4, 0.2, 0.05);

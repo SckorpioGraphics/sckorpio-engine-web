@@ -98,7 +98,7 @@ entity/
     │       ├── cube.js
     │       ├── sphere.js
     │       ├── cone.js
-    │       ├── cyclinder.js
+    │       ├── cylinder.js
     │       ├── plane.js
     │       ├── grid.js
     │       └── star.js
@@ -685,14 +685,14 @@ When you set a parent-child relationship:
 ```js
 // Create a sphere and cylinder
 let sphere = new Sckorpio.Sphere({ mode: 'basic' , radius: 0.5});
-let cyclinder = new Sckorpio.Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
+let cylinder = new Sckorpio.Cylinder({ mode: 'basic' , radius:0.5, height:1.0});
 
 // Position the cylinder
-cyclinder.setPosition(-5.0, 5.0, -5.0);
+cylinder.setPosition(-5.0, 5.0, -5.0);
 
 // Make sphere a child of cylinder
 // Now sphere's world position = cylinder's world position + sphere's local position
-sphere.setParent(cyclinder);
+sphere.setParent(cylinder);
 sphere.setPosition(0, -2, 0);  // Position relative to cylinder
 ```
 

@@ -8,7 +8,7 @@ const defaultCyclinderOptions = {
     uvRange: [0, 0, 1, 1]
 };
 
-class Cyclinder extends Mesh{
+class Cylinder extends Mesh{
     constructor(options) {
         super();
         options = Object.assign({}, defaultCyclinderOptions, options);
@@ -115,4 +115,4 @@ class Cyclinder extends Mesh{
     }
 }
 
-export { Cyclinder };
+export { Cylinder };

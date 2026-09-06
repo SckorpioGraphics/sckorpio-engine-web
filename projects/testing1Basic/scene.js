@@ -54,12 +54,12 @@ class Scene extends Sckorpio.Scene{
         sphere.setColor(0,1,1);
         this.entitiesList.push(sphere);
 
-        // Cyclinder
-        let cyclinder = new Sckorpio.Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
-        cyclinder.setPosition(-4.0,0.0,0.0);
-        cyclinder.setScale(1.0,1.0,1.0);
-        cyclinder.setColor(1,0,0);
-        this.entitiesList.push(cyclinder);
+        // Cylinder
+        let cylinder = new Sckorpio.Cylinder({ mode: 'basic' , radius:0.5, height:1.0});
+        cylinder.setPosition(-4.0,0.0,0.0);
+        cylinder.setScale(1.0,1.0,1.0);
+        cylinder.setColor(1,0,0);
+        this.entitiesList.push(cylinder);
 
         // Cone
         let cone = new Sckorpio.Cone({ mode: 'basic' , radius:0.5, height:1.0});

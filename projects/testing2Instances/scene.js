@@ -24,15 +24,15 @@ class Scene extends Sckorpio.Scene{
 
     async sceneTestingInstanced(){
 
-        // Cyclinder
-        let cyclinder = new Sckorpio.Cyclinder({ mode: 'basic' , radius:0.5, height:1.0});
-        cyclinder.setPosition(vec3.fromValues(-6.0,0.0,0.0));
-        cyclinder.setScale(vec3.fromValues(1.0,1.0,1.0));
-        cyclinder.setColor(1,0,0);
-        cyclinder.addInstance([-6,0,3],[30,0,0],[1.0,1.0,1.0]);
-        cyclinder.addInstance([-6,0,5],[60,0,0],[1,0.3,1]);
-        cyclinder.addInstance([-6,0,7],[90,0,0],[0.3,2.0,0.3]);
-        this.entitiesList.push(cyclinder);
+        // Cylinder
+        let cylinder = new Sckorpio.Cylinder({ mode: 'basic' , radius:0.5, height:1.0});
+        cylinder.setPosition(vec3.fromValues(-6.0,0.0,0.0));
+        cylinder.setScale(vec3.fromValues(1.0,1.0,1.0));
+        cylinder.setColor(1,0,0);
+        cylinder.addInstance([-6,0,3],[30,0,0],[1.0,1.0,1.0]);
+        cylinder.addInstance([-6,0,5],[60,0,0],[1,0.3,1]);
+        cylinder.addInstance([-6,0,7],[90,0,0],[0.3,2.0,0.3]);
+        this.entitiesList.push(cylinder);
 
         // Cone
         let cone = new Sckorpio.Cone({ mode: 'basic' , radius:0.5, height:1.0});
@@ -190,11 +190,11 @@ class Scene extends Sckorpio.Scene{
         this.entitiesList.push(cone);
 
         // Base Cylinder
-        let cyclinder = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
-        cyclinder.setPosition(vec3.fromValues(-6.0, 0.0, 0.0));
-        cyclinder.setScale(vec3.fromValues(1.0, 1.0, 1.0));
-        cyclinder.setColor(1, 0, 0);
-        this.entitiesList.push(cyclinder);
+        let cylinder = new Sckorpio.Cylinder({ mode: 'basic', radius: 0.5, height: 1.0 });
+        cylinder.setPosition(vec3.fromValues(-6.0, 0.0, 0.0));
+        cylinder.setScale(vec3.fromValues(1.0, 1.0, 1.0));
+        cylinder.setColor(1, 0, 0);
+        this.entitiesList.push(cylinder);
 
 
         // --- SPHERE "INSTANCES" AS NEW ENTITIES ---
@@ -267,26 +267,26 @@ class Scene extends Sckorpio.Scene{
 
 
         // --- CYLINDER "INSTANCES" AS NEW ENTITIES ---
-        let cyclinderInst1 = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
-        cyclinderInst1.setPosition(vec3.fromValues(-6, 0, 3));
-        cyclinderInst1.setRotation(vec3.fromValues(30, 0, 0));
-        cyclinderInst1.setScale(vec3.fromValues(1, 1, 1));
-        cyclinderInst1.setColor(1, 0, 0);
-        this.entitiesList.push(cyclinderInst1);
+        let cylinderInst1 = new Sckorpio.Cylinder({ mode: 'basic', radius: 0.5, height: 1.0 });
+        cylinderInst1.setPosition(vec3.fromValues(-6, 0, 3));
+        cylinderInst1.setRotation(vec3.fromValues(30, 0, 0));
+        cylinderInst1.setScale(vec3.fromValues(1, 1, 1));
+        cylinderInst1.setColor(1, 0, 0);
+        this.entitiesList.push(cylinderInst1);
 
-        let cyclinderInst2 = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
-        cyclinderInst2.setPosition(vec3.fromValues(-6, 0, 5));
-        cyclinderInst2.setRotation(vec3.fromValues(60, 0, 0));
-        cyclinderInst2.setScale(vec3.fromValues(1, 1, 1));
-        cyclinderInst2.setColor(1, 0, 0);
-        this.entitiesList.push(cyclinderInst2);
+        let cylinderInst2 = new Sckorpio.Cylinder({ mode: 'basic', radius: 0.5, height: 1.0 });
+        cylinderInst2.setPosition(vec3.fromValues(-6, 0, 5));
+        cylinderInst2.setRotation(vec3.fromValues(60, 0, 0));
+        cylinderInst2.setScale(vec3.fromValues(1, 1, 1));
+        cylinderInst2.setColor(1, 0, 0);
+        this.entitiesList.push(cylinderInst2);
 
-        let cyclinderInst3 = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
-        cyclinderInst3.setPosition(vec3.fromValues(-6, 0, 7));
-        cyclinderInst3.setRotation(vec3.fromValues(90, 0, 0));
-        cyclinderInst3.setScale(vec3.fromValues(1, 1, 1));
-        cyclinderInst3.setColor(1, 0, 0);
-        this.entitiesList.push(cyclinderInst3);
+        let cylinderInst3 = new Sckorpio.Cylinder({ mode: 'basic', radius: 0.5, height: 1.0 });
+        cylinderInst3.setPosition(vec3.fromValues(-6, 0, 7));
+        cylinderInst3.setRotation(vec3.fromValues(90, 0, 0));
+        cylinderInst3.setScale(vec3.fromValues(1, 1, 1));
+        cylinderInst3.setColor(1, 0, 0);
+        this.entitiesList.push(cylinderInst3);
     }
 
     //-------------------

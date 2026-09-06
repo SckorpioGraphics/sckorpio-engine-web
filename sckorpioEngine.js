@@ -2,7 +2,7 @@ import { SckorpioScene } from "./sckorpioEngineWeb/core/scene/sckorpioScene.js";
 import { Cube } from "./sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cube.js";
 import { Sphere } from "./sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/sphere.js";
 import { Cone } from "./sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cone.js";
-import { Cyclinder } from "./sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cyclinder.js";
+import { Cylinder } from "./sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/cylinder.js";
 import { Star } from "./sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/star.js";
 import { Plane } from "./sckorpioEngineWeb/core/ecs/entity/entities/mesh/primitives/plane.js";
 import { Node } from "./sckorpioEngineWeb/core/ecs/entity/entities/node/node.js";
@@ -15,7 +15,7 @@ const Sckorpio = {
     Cube,
     Sphere,
     Cone,
-    Cyclinder,
+    Cylinder,
     Star,
     Plane,
     AnimationClip,

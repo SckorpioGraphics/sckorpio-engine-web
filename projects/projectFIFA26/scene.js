@@ -109,7 +109,7 @@ class Scene extends Sckorpio.Scene {
     }
 
     buildGoalPosts() {
-        let postPole = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
+        let postPole = new Sckorpio.Cylinder({ mode: 'basic', radius: 0.5, height: 1.0 });
         postPole.setPosition(-45.0, 0.0, 0.0);
         postPole.setColor(0.8, 0.8, 0.8);
         
@@ -140,7 +140,7 @@ class Scene extends Sckorpio.Scene {
 
     buildStadiumScreen() {
         // Shifting coordinates safely past the exterior wing grandstand layer (from X=-55 out to X=-82)
-        let screenSupport = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.6, height: 25.0 });
+        let screenSupport = new Sckorpio.Cylinder({ mode: 'basic', radius: 0.6, height: 25.0 });
         screenSupport.setColor(0.4, 0.4, 0.4);
         screenSupport.addInstance([-82.0, 0.0, 0.0], [0, 90, 0], [1.0, 1.0, 1.0]); 
         this.entitiesList.push(screenSupport);
@@ -186,7 +186,7 @@ class Scene extends Sckorpio.Scene {
     }
 
     buildGrandstandRoof() {
-        let roofPillar = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.4, height: 18.0 }); 
+        let roofPillar = new Sckorpio.Cylinder({ mode: 'basic', radius: 0.4, height: 18.0 }); 
         roofPillar.setColor(0.4, 0.4, 0.4);
         roofPillar.addInstance([-60.0, 0.0, 60.0], [0, 0, 0], [1, 1, 1]); 
         roofPillar.addInstance([  -7.0, 0.0, 60.0], [0, 0, 0], [1, 1, 1]);
@@ -320,7 +320,7 @@ class Scene extends Sckorpio.Scene {
     }
 
     buildFloodlights() {
-        let floodLightPole = new Sckorpio.Cyclinder({ mode: 'basic', radius: 1.0, height: 30.0, radialSegments: 5 });
+        let floodLightPole = new Sckorpio.Cylinder({ mode: 'basic', radius: 1.0, height: 30.0, radialSegments: 5 });
         floodLightPole.setColor(0.5, 0.5, 0.5);
         floodLightPole.addInstance([-75, 0,  55], [0, 0, 0], [1, 1, 1]);
         floodLightPole.addInstance([ 75, 0,  55], [0, 0, 0], [1, 1, 1]);
@@ -467,10 +467,10 @@ class Scene extends Sckorpio.Scene {
         sphere.setColor(0, 1, 1);
         this.entitiesList.push(sphere);
 
-        let cyclinder = new Sckorpio.Cyclinder({ mode: 'basic', radius: 0.5, height: 1.0 });
-        cyclinder.setPosition(-4.0, 0.0, 0.0);
-        cyclinder.setColor(1, 0, 0);
-        this.entitiesList.push(cyclinder);
+        let cylinder = new Sckorpio.Cylinder({ mode: 'basic', radius: 0.5, height: 1.0 });
+        cylinder.setPosition(-4.0, 0.0, 0.0);
+        cylinder.setColor(1, 0, 0);
+        this.entitiesList.push(cylinder);
 
         let cone = new Sckorpio.Cone({ mode: 'basic', radius: 0.5, height: 1.0 });
         cone.setPosition(-2.0, 0.0, 0.0);
