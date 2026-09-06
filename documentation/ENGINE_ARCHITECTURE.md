@@ -28,7 +28,7 @@ This is the runtime shell of the engine. The main scene class coordinates the wh
 - adds entities to the render/update lists
 - starts the frame loop
 
-The primary class here is the scene object in [sckorpioEngineWeb/core/scene/sckorpioScene.js](../sckorpioEngineWeb/core/scene/sckorpioScene.js).
+The primary class here is the scene object in [SckorpioEngine/core/scene/sckorpioScene.js](../SckorpioEngine/core/scene/sckorpioScene.js).
 
 ### Layer 2: ECS-style entity and component model
 The engine uses an ECS-inspired structure, but it is intentionally lightweight and flexible rather than strict.
@@ -40,9 +40,9 @@ The engine uses an ECS-inspired structure, but it is intentionally lightweight a
 
 The core pieces live in:
 
-- [sckorpioEngineWeb/core/ecs/entity](../sckorpioEngineWeb/core/ecs/entity)
-- [sckorpioEngineWeb/core/ecs/component](../sckorpioEngineWeb/core/ecs/component)
-- [sckorpioEngineWeb/core/ecs/system](../sckorpioEngineWeb/core/ecs/system)
+- [SckorpioEngine/core/ecs/entity](../SckorpioEngine/core/ecs/entity)
+- [SckorpioEngine/core/ecs/component](../SckorpioEngine/core/ecs/component)
+- [SckorpioEngine/core/ecs/system](../SckorpioEngine/core/ecs/system)
 
 ### Layer 3: Scene graph and transform system
 The engine has a real hierarchical transform model. Nodes can parent to other nodes, and the transform system propagates world transforms down the hierarchy. This is what makes composite meshes and grouped structures possible.
@@ -121,7 +121,7 @@ The engine is built around a very lightweight ECS approach.
 
 ### Base entity
 
-The base entity in [sckorpioEngineWeb/core/ecs/entity/entity.js](../sckorpioEngineWeb/core/ecs/entity/entity.js) is intentionally minimal:
+The base entity in [SckorpioEngine/core/ecs/entity/entity.js](../SckorpioEngine/core/ecs/entity/entity.js) is intentionally minimal:
 
 - unique id
 - list of attached components
@@ -130,7 +130,7 @@ This gives every world object a common identity and a container for component da
 
 ### Base component
 
-The base component in [sckorpioEngineWeb/core/ecs/component/component.js](../sckorpioEngineWeb/core/ecs/component/component.js) is also intentionally simple, with a shared `uid` field. The real logic is implemented in derived components.
+The base component in [SckorpioEngine/core/ecs/component/component.js](../SckorpioEngine/core/ecs/component/component.js) is also intentionally simple, with a shared `uid` field. The real logic is implemented in derived components.
 
 ### Core component responsibilities
 
@@ -160,7 +160,7 @@ The scene graph is one of the core architectural features of the engine.
 
 ### Node as the hierarchy primitive
 
-The hierarchy root is the `Node` class in [sckorpioEngineWeb/core/ecs/entity/entities/node/node.js](../sckorpioEngineWeb/core/ecs/entity/entities/node/node.js).
+The hierarchy root is the `Node` class in [SckorpioEngine/core/ecs/entity/entities/node/node.js](../SckorpioEngine/core/ecs/entity/entities/node/node.js).
 
 A node can:
 
@@ -191,7 +191,7 @@ This is the engine’s structural backbone for complex scenes.
 
 The transform layer is the most important data flow in the engine.
 
-The `TransformComponent` in [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](../sckorpioEngineWeb/core/ecs/component/components/transformComponent.js) stores:
+The `TransformComponent` in [SckorpioEngine/core/ecs/component/components/transformComponent.js](../SckorpioEngine/core/ecs/component/components/transformComponent.js) stores:
 
 - local position, rotation, scale
 - current animation-driven transforms
@@ -226,7 +226,7 @@ That step ensures the GPU sees consistent transforms before any draw call is iss
 
 ### Mesh entity
 
-The mesh class in [sckorpioEngineWeb/core/ecs/entity/entities/mesh/mesh.js](../sckorpioEngineWeb/core/ecs/entity/entities/mesh/mesh.js) adds the concrete visual behavior expected by the engine:
+The mesh class in [SckorpioEngine/core/ecs/entity/entities/mesh/mesh.js](../SckorpioEngine/core/ecs/entity/entities/mesh/mesh.js) adds the concrete visual behavior expected by the engine:
 
 - mesh component
 - visibility toggling
@@ -237,7 +237,7 @@ The mesh class in [sckorpioEngineWeb/core/ecs/entity/entities/mesh/mesh.js](../s
 
 ### Mesh component
 
-The `MeshComponent` in [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](../sckorpioEngineWeb/core/ecs/component/components/meshComponent.js) is the CPU-side data container for a mesh. It stores:
+The `MeshComponent` in [SckorpioEngine/core/ecs/component/components/meshComponent.js](../SckorpioEngine/core/ecs/component/components/meshComponent.js) is the CPU-side data container for a mesh. It stores:
 
 - vertex data
 - index data
@@ -252,7 +252,7 @@ The most important method here is `loadGPUData(transformComponent)`. This is the
 
 ### Render component
 
-The `RenderComponent` in [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](../sckorpioEngineWeb/core/ecs/component/components/renderComponent.js) is the bridge between the engine and WebGL. It owns:
+The `RenderComponent` in [SckorpioEngine/core/ecs/component/components/renderComponent.js](../SckorpioEngine/core/ecs/component/components/renderComponent.js) is the bridge between the engine and WebGL. It owns:
 
 - VertexArray
 - VertexBuffer
@@ -270,7 +270,7 @@ This component is where the engine finally binds a shader, texture, and uniforms
 
 The camera is implemented as an entity with a camera component, not as a global singleton. This is a good match for the engine’s ECS-like composition model.
 
-The camera component in [sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js](../sckorpioEngineWeb/core/ecs/component/components/cameraComponent.js) owns:
+The camera component in [SckorpioEngine/core/ecs/component/components/cameraComponent.js](../SckorpioEngine/core/ecs/component/components/cameraComponent.js) owns:
 
 - camera position
 - front/up vectors
@@ -296,11 +296,11 @@ The animation system is a separate subsystem built around keyframes and tracks.
 
 ### Classes involved
 
-- [sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js](../sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js)
-- [sckorpioEngineWeb/core/ecs/system/animation/animationClip.js](../sckorpioEngineWeb/core/ecs/system/animation/animationClip.js)
-- [sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js](../sckorpioEngineWeb/core/ecs/system/animation/animationTrack.js)
-- [sckorpioEngineWeb/core/ecs/system/animation/keyFrame.js](../sckorpioEngineWeb/core/ecs/system/animation/keyFrame.js)
-- [sckorpioEngineWeb/core/ecs/system/animation/interpolators.js](../sckorpioEngineWeb/core/ecs/system/animation/interpolators.js)
+- [SckorpioEngine/core/ecs/system/animation/animationSystem.js](../SckorpioEngine/core/ecs/system/animation/animationSystem.js)
+- [SckorpioEngine/core/ecs/system/animation/animationClip.js](../SckorpioEngine/core/ecs/system/animation/animationClip.js)
+- [SckorpioEngine/core/ecs/system/animation/animationTrack.js](../SckorpioEngine/core/ecs/system/animation/animationTrack.js)
+- [SckorpioEngine/core/ecs/system/animation/keyFrame.js](../SckorpioEngine/core/ecs/system/animation/keyFrame.js)
+- [SckorpioEngine/core/ecs/system/animation/interpolators.js](../SckorpioEngine/core/ecs/system/animation/interpolators.js)
 
 ### Runtime model
 
@@ -326,7 +326,7 @@ The engine centralizes its GPU resources in singleton resource books.
 
 ### Shader book
 
-[shaderBook.js](../sckorpioEngineWeb/renderer/webgl/shader/shaderBook.js) loads and stores built-in shaders such as:
+[shaderBook.js](../SckorpioEngine/renderer/webgl/shader/shaderBook.js) loads and stores built-in shaders such as:
 
 - basic
 - basic3D
@@ -336,11 +336,11 @@ The engine centralizes its GPU resources in singleton resource books.
 
 ### Material book
 
-[materialBook.js](../sckorpioEngineWeb/renderer/webgl/material/materialBook.js) creates the engine’s named materials and attaches a shader to each one.
+[materialBook.js](../SckorpioEngine/renderer/webgl/material/materialBook.js) creates the engine’s named materials and attaches a shader to each one.
 
 ### Texture book
 
-[textureBook.js](../sckorpioEngineWeb/renderer/webgl/texture/textureBook.js) manages the asset pool used by materials and meshes.
+[textureBook.js](../SckorpioEngine/renderer/webgl/texture/textureBook.js) manages the asset pool used by materials and meshes.
 
 ### Architectural impact
 
@@ -356,7 +356,7 @@ This is one of the engine’s clearest architectural design patterns.
 
 ## 12. Renderer pipeline and draw loop
 
-The actual render loop is in [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](../sckorpioEngineWeb/renderer/webgl/webglRenderer.js).
+The actual render loop is in [SckorpioEngine/renderer/webgl/webglRenderer.js](../SckorpioEngine/renderer/webgl/webglRenderer.js).
 
 ### What the renderer does every frame
 
@@ -478,13 +478,13 @@ The animation system, camera, and resource books all fit into this same model: d
 
 To understand the engine in the right order, read these in sequence:
 
-1. [sckorpioEngineWeb/core/scene/sckorpioScene.js](../sckorpioEngineWeb/core/scene/sckorpioScene.js)
-2. [sckorpioEngineWeb/core/ecs/entity/entities/node/node.js](../sckorpioEngineWeb/core/ecs/entity/entities/node/node.js)
-3. [sckorpioEngineWeb/core/ecs/component/components/transformComponent.js](../sckorpioEngineWeb/core/ecs/component/components/transformComponent.js)
-4. [sckorpioEngineWeb/core/ecs/component/components/meshComponent.js](../sckorpioEngineWeb/core/ecs/component/components/meshComponent.js)
-5. [sckorpioEngineWeb/core/ecs/component/components/renderComponent.js](../sckorpioEngineWeb/core/ecs/component/components/renderComponent.js)
-6. [sckorpioEngineWeb/renderer/webgl/webglRenderer.js](../sckorpioEngineWeb/renderer/webgl/webglRenderer.js)
-7. [sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js](../sckorpioEngineWeb/core/ecs/system/animation/animationSystem.js)
-8. [sckorpioEngineWeb/renderer/webgl/material/materialBook.js](../sckorpioEngineWeb/renderer/webgl/material/materialBook.js)
+1. [SckorpioEngine/core/scene/sckorpioScene.js](../SckorpioEngine/core/scene/sckorpioScene.js)
+2. [SckorpioEngine/core/ecs/entity/entities/node/node.js](../SckorpioEngine/core/ecs/entity/entities/node/node.js)
+3. [SckorpioEngine/core/ecs/component/components/transformComponent.js](../SckorpioEngine/core/ecs/component/components/transformComponent.js)
+4. [SckorpioEngine/core/ecs/component/components/meshComponent.js](../SckorpioEngine/core/ecs/component/components/meshComponent.js)
+5. [SckorpioEngine/core/ecs/component/components/renderComponent.js](../SckorpioEngine/core/ecs/component/components/renderComponent.js)
+6. [SckorpioEngine/renderer/webgl/webglRenderer.js](../SckorpioEngine/renderer/webgl/webglRenderer.js)
+7. [SckorpioEngine/core/ecs/system/animation/animationSystem.js](../SckorpioEngine/core/ecs/system/animation/animationSystem.js)
+8. [SckorpioEngine/renderer/webgl/material/materialBook.js](../SckorpioEngine/renderer/webgl/material/materialBook.js)
 
 This order follows the actual architecture rather than the project folder layout.

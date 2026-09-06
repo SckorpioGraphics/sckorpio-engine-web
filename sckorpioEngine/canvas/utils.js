@@ -29,7 +29,7 @@ export function getWebGLResourceID() {
 }
 
 export function getWebGLContext() {
-  var canvas = document.getElementById("sckorpioEngineWeb-webgl-surface");
+  var canvas = document.getElementById("SckorpioEngine-webgl-surface");
   var gl = canvas.getContext("webgl2");
   return gl;
 }
@@ -37,22 +37,22 @@ export function getWebGLContext() {
 export let gl = getWebGLContext();
 
 export function getWebGLCanvas() {
-  var canvas = document.getElementById("sckorpioEngineWeb-webgl-surface");
+  var canvas = document.getElementById("SckorpioEngine-webgl-surface");
   return canvas;
 }
 
 export function getWebGLCanvasWidth() {
-  var canvas = document.getElementById("sckorpioEngineWeb-webgl-surface");
+  var canvas = document.getElementById("SckorpioEngine-webgl-surface");
   return canvas.width;
 }
 
 export function getWebGLCanvasHeight() {
-  var canvas = document.getElementById("sckorpioEngineWeb-webgl-surface");
+  var canvas = document.getElementById("SckorpioEngine-webgl-surface");
   return canvas.height;
 }
 
 export function getWebGLCanvasRatio() {
-  var canvas = document.getElementById("sckorpioEngineWeb-webgl-surface");
+  var canvas = document.getElementById("SckorpioEngine-webgl-surface");
   return canvas.width / canvas.height;
 }
 
@@ -61,12 +61,12 @@ Title
 */
 
 export function getTitleCanvas() {
-  var canvas = document.getElementById("sckorpioEngineWeb-2d-title-surface");
+  var canvas = document.getElementById("SckorpioEngine-2d-title-surface");
   return canvas;
 }
 
 export function getTitleContext() {
-  var canvas = document.getElementById("sckorpioEngineWeb-2d-title-surface");
+  var canvas = document.getElementById("SckorpioEngine-2d-title-surface");
   if (!canvas) {
     console.error("Canvas element not found.");
     return null;
@@ -83,7 +83,7 @@ Logger
 */
 
 export function getLoggerCanvas() {
-  var canvas = document.getElementById("sckorpioEngineWeb-2d-logger-surface");
+  var canvas = document.getElementById("SckorpioEngine-2d-logger-surface");
 
   if (canvas) {
     if (canvas.width !== 260 || canvas.height !== 210) {
@@ -91,13 +91,13 @@ export function getLoggerCanvas() {
       canvas.height = 210;  // Matches height: 210px
     }
   } else {
-    console.error("Logger canvas element 'sckorpioEngineWeb-2d-logger-surface' not found.");
+    console.error("Logger canvas element 'SckorpioEngine-2d-logger-surface' not found.");
   }
   return canvas;
 }
 
 export function getLoggerContext() {
-  var canvas = document.getElementById("sckorpioEngineWeb-2d-logger-surface");
+  var canvas = document.getElementById("SckorpioEngine-2d-logger-surface");
   if (!canvas) {
     console.error("Canvas element not found.");
     return null;

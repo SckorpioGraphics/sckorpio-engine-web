@@ -1,13 +1,13 @@
-import { verifyWebGLSupport } from "./sckorpioEngineWeb/canvas/utils.js";
-import { title } from "./sckorpioEngineWeb/canvas/title.js";
-import { Scene } from "./projects/testing1Basic/scene.js";
+import { verifyWebGLSupport } from "./sckorpioEngine/canvas/utils.js";
+import { title } from "./sckorpioEngine/canvas/title.js";
+import { Scene } from "./projects/projectFIFA26/scene.js";
 
 var initSckorpioWebEngine = async function () {
     //Verify WebGL Support
     verifyWebGLSupport();
 
     // Initialize the scene
-    var scene = new Scene("testing1Basic"); 
+    var scene = new Scene("projectFIFA26"); 
     await scene.init(); 
     await scene.initResources();
     await scene.createScene();

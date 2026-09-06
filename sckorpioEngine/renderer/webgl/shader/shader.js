@@ -21,7 +21,7 @@ class Shader {
   async generate(shaderName) {
     this.shaderProgram = null;
     this.shaderName = shaderName;
-    this.shaderFilePath = "sckorpioEngineWeb/renderer/webgl/resources/shaders/" + shaderName + ".txt";
+    this.shaderFilePath = "SckorpioEngine/renderer/webgl/resources/shaders/" + shaderName + ".txt";
 
     const source = await this.parseShader(this.shaderFilePath);
 
