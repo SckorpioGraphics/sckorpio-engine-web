@@ -1,5 +1,5 @@
 //######## PROJECT ####################
-const project = "./projects/testing1Basic";
+const project = "./sckorpioProject";
 //#####################################
 // Default: project = "./sckorpioProject";
 
